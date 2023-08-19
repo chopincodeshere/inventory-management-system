@@ -15,6 +15,20 @@ export class ProductsComponent {
   selectedProducts: Product[] = [];
   isLoading: boolean = true;
 
+  uom_options = [
+    { key: 'Pcs', uom: 'Pieces' },
+    { key: 'Kgs', uom: 'Kilograms' },
+    { key: 'gs', uom: 'Grams' },
+    { key: 'Mtrs', uom: 'Meters' },
+    { key: 'Ctn', uom: 'Cartons' },
+    { key: 'Lbs', uom: 'Pounds' },
+    { key: 'Gal', uom: 'Gallons' },
+    { key: 'SqFt', uom: 'Square Feet' },
+    { key: 'Doz', uom: 'Dozens' },
+  ];
+
+  clonedProducts: { [s: string]: Product } = {};
+
   constructor(
     private productService: ProductService,
     private messageService: MessageService
@@ -52,6 +66,26 @@ export class ProductsComponent {
         this.showError(error.message);
       }
     );
+  }
+
+  onRowEditInit(product: Product) {
+    this.clonedProducts[product._id as string] = { ...product };
+  }
+
+  onRowEditSave(product: Product) {
+    this.productService.updateProduct(product._id, product).subscribe(
+      (response) => {
+        this.showSuccess('Product has been updated successfully.');
+      },
+      (error: HttpErrorResponse) => {
+        this.showError(error.status + ' ' + error.message);
+      }
+    );
+  }
+
+  onRowEditCancel(product: Product, index: number) {
+    this.products[index] = this.clonedProducts[product._id as string];
+    delete this.clonedProducts[product._id as string];
   }
 
   deleteRecord() {

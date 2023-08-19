@@ -64,11 +64,31 @@ const getProduct = async (req, res) => {
   }
 };
 
-const updateProduct = (req, res) => {};
+const updateProduct = async (req, res) => {
+  try {
+    const { id: productId } = req.params;
+    const product = await Product.findOneAndUpdate(
+      { _id: productId },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const deleteProduct = async (req, res) => {
   try {
-    const { id: productId } = req.params; // Corrected object destructuring
+    const { id: productId } = req.params;
     const product = await Product.findOneAndDelete({ _id: productId });
 
     if (!product) {
@@ -80,7 +100,6 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 module.exports = {
   getAllProducts,
