@@ -1,0 +1,109 @@
+<p-toast></p-toast>
+<div class="card">
+  <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{'height': '4px'}"></p-progressBar>
+  <p-table
+  [value]="products!"
+  dataKey="_id"
+  [tableStyle]="{ 'min-width': '60rem', 'border-radius': '12px' }"
+  [paginator]="true"
+  [selectionMode]="'single'"
+  [(selection)]="selectedProducts"
+  [rows]="rows"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[5, 10, 25, 50]"
+  >
+  <ng-template pTemplate="header">
+    <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+
+        <th class="delete-cell">
+          <i type="button" class="pi pi-trash delete-btn" (click)="deleteRecord()" style="color: red;"></i>
+        </th>
+        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>HSN Code</th>
+        <th pSortableColumn="quantity">
+          Quantity <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="price">
+          Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th>Barcode</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product let-expanded="expanded">
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+      </td>
+        <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            [pRowToggler]="product"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
+        </td>
+        <td>{{ product._id }}</td>
+        <td>{{ product.name }}</td>
+        <td>
+          {{ product.hsnCode }}
+        </td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+          <img
+            [src]="'data:image/png;base64,' + product.barcode"
+            alt="Barcode"
+            width="100"
+          />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-expandedProduct>
+      <tr>
+        <td colspan="8">
+          <div class="p-3">
+            <p-table [value]="[expandedProduct]" dataKey="id">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="manufacturer">
+                    Manufacturer <p-sortIcon field="manufacturer"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="productCode">
+                    Product Code <p-sortIcon field="productCode"></p-sortIcon>
+                  </th>
+                  <th>Tax</th>
+                  <th pSortableColumn="uom">
+                    UOM <p-sortIcon field="uom"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-detailProduct>
+                <tr>
+                  <td>{{ detailProduct.manufacturer }}</td>
+                  <td>{{ detailProduct.productCode }}</td>
+                  <td>{{ detailProduct.tax }}</td>
+                  <td>{{ detailProduct.uom }}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="4">
+                    There are no details for this product yet.
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
