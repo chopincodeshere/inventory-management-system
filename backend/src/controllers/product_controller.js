@@ -4,6 +4,7 @@ const Product = require("../models/product");
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({});
+
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -101,10 +102,51 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getProductByQuery = async (req, res) => {
+  try {
+    const { keywords } = req.query;
+
+    if (!keywords) {
+      const products = await Product.find({});
+
+      res.status(200).json(products);
+      return;
+    }
+
+    const keywordArray = keywords.split(",").map((keyword) => keyword.trim());
+
+    // Create an array of regex patterns for each keyword
+    const regexPatterns = keywordArray.map(
+      (keyword) => new RegExp(keyword, "i")
+    );
+
+    // Use the $or operator to search across multiple fields
+    const products = await Product.find({
+      $or: [
+        { name: { $in: regexPatterns } },
+        { productCode: { $in: regexPatterns } },
+        { uom: { $in: regexPatterns } },
+        { hsnCode: { $in: regexPatterns } },
+        { productType: { $in: regexPatterns } },
+        { attributes: { $in: regexPatterns } },
+        { batchNumber: { $in: regexPatterns } },
+        { manufacturer: { $in: regexPatterns } },
+        { "taxCategory.tax": { $in: regexPatterns } },
+      ],
+    });
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getAllProducts,
   createProduct,
   getProduct,
   updateProduct,
   deleteProduct,
+  getProductByQuery,
 };

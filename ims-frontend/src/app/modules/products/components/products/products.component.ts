@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Product } from 'src/app/core/models/product';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ProductService } from 'src/app/services/product-service/product.service';
 
 @Component({
@@ -29,13 +30,31 @@ export class ProductsComponent {
 
   clonedProducts: { [s: string]: Product } = {};
 
+  searchQuery: string = '';
+
+  private searchTerms = new Subject<string>();
+
   constructor(
     private productService: ProductService,
     private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
-    this.loadProducts(); // Load your products data here
+    this.loadProducts();
+
+    this.searchTerms
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term) => this.productService.searchProducts(term))
+      )
+      .subscribe((results) => {
+        this.products = results;
+      });
+  }
+
+  search() {
+    this.searchTerms.next(this.searchQuery);
   }
 
   showSuccess(message: string) {
@@ -89,16 +108,20 @@ export class ProductsComponent {
   }
 
   deleteRecord() {
-    this.selectedProducts.forEach((element) => {
-      this.productService.deleteProduct(element._id).subscribe(
-        (response) => {
-          this.showSuccess('Item has been deleted successfully.');
-          this.loadProducts();
-        },
-        (error: HttpErrorResponse) => {
-          this.showError(error.status + '' + error.message);
-        }
-      );
-    });
+    try {
+      this.selectedProducts.forEach((element) => {
+        this.productService.deleteProduct(element._id).subscribe(
+          (response) => {
+            this.loadProducts();
+          },
+          (error: HttpErrorResponse) => {
+            this.showError(error.status + '' + error.message);
+          }
+        );
+        this.showSuccess('Item has been deleted successfully.');
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 }

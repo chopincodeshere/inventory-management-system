@@ -1,0 +1,22 @@
+
+<div class="card flex justify-content-center">
+    <p-card header="Add Client">
+        <form
+      [formGroup]="clientForm!"
+      class="product-form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="p-field">
+
+      </div>
+      <div class="add-button">
+        <p-button
+          type="submit"
+          pRipple
+          label="Submit"
+          [style]="{ width: '10rem' }"
+        ></p-button>
+      </div>
+    </form>
+    </p-card>
+</div>

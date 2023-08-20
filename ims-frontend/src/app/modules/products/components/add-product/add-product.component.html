@@ -1,7 +1,11 @@
 <p-toast></p-toast>
 <div class="card p-fluid flex justify-content-center">
   <p-card header="Add Product" [style]="{ 'border-radius': '12px' }">
-    <form [formGroup]="productForm!" class="product-form" (ngSubmit)="onSubmit()">
+    <form
+      [formGroup]="productForm!"
+      class="product-form"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="p-field">
         <label for="name">Product Name</label>
         <input
@@ -10,6 +14,10 @@
           id="name"
           pInputText
           formControlName="name"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('name'),
+            'ng-dirty': productForm.get('name')?.dirty
+          }"
         />
       </div>
       <div class="p-field">
@@ -20,6 +28,10 @@
           id="productCode"
           pInputText
           formControlName="productCode"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('productCode'),
+            'ng-dirty': productForm.get('productCode')?.dirty
+          }"
         />
       </div>
       <div class="p-field">
@@ -30,11 +42,23 @@
           id="productType"
           pInputText
           formControlName="productType"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('productType'),
+            'ng-dirty': productForm.get('productType')?.dirty
+          }"
         />
       </div>
       <div class="p-field">
         <label for="uom">Unit of Measurement (UOM)</label>
-        <p-dropdown formControlName="uom" [options]="uom_options" optionLabel="uom"></p-dropdown>
+        <p-dropdown
+          formControlName="uom"
+          [options]="uom_options"
+          optionLabel="uom"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('uom'),
+            'ng-dirty': productForm.get('uom')?.dirty
+          }"
+        ></p-dropdown>
       </div>
       <div class="p-field">
         <label for="taxCategory">Tax Category</label>
@@ -42,7 +66,10 @@
           formControlName="taxCategory"
           [options]="tax_options"
           optionLabel="tax"
-          [style]="{'width': '16.2rem'}"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('tax'),
+            'ng-dirty': productForm.get('tax')?.dirty
+          }"
         ></p-dropdown>
       </div>
       <div class="p-field">
@@ -53,6 +80,10 @@
           id="hsnCode"
           pInputText
           formControlName="hsnCode"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('hsnCode'),
+            'ng-dirty': productForm.get('hsnCode')?.dirty
+          }"
         />
       </div>
       <div class="p-field">
@@ -63,6 +94,12 @@
           [minFractionDigits]="2"
           [maxFractionDigits]="5"
           formControlName="price"
+          currency="INR"
+          currencySymbol="₹"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('price'),
+            'ng-dirty': productForm.get('price')?.dirty
+          }"
         ></p-inputNumber>
       </div>
       <div class="p-field">
@@ -70,6 +107,10 @@
         <p-inputNumber
           inputId="integeronly"
           formControlName="quantity"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('quantity'),
+            'ng-dirty': productForm.get('quantity')?.dirty
+          }"
         ></p-inputNumber>
       </div>
       <div class="p-field">
@@ -79,6 +120,10 @@
           class="p-inputtext"
           pInputTextarea
           formControlName="description"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('description'),
+            'ng-dirty': productForm.get('description')?.dirty
+          }"
         ></textarea>
       </div>
       <div class="p-field">
@@ -100,6 +145,10 @@
           id="attributes"
           pInputText
           formControlName="attributes"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('attributes'),
+            'ng-dirty': productForm.get('attributes')?.dirty
+          }"
         />
       </div>
       <div class="p-field">
@@ -110,6 +159,10 @@
           id="batchNumber"
           pInputText
           formControlName="batchNumber"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('batchNumber'),
+            'ng-dirty': productForm.get('batchNumber')?.dirty
+          }"
         />
       </div>
       <div class="p-field">
@@ -120,38 +173,20 @@
           id="manufacturer"
           pInputText
           formControlName="manufacturer"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('manufacturer'),
+            'ng-dirty': productForm.get('manufacturer')?.dirty
+          }"
         />
       </div>
       <div class="add-button">
         <p-button
           type="submit"
+          pRipple
           label="Add"
           [style]="{ width: '10rem' }"
         ></p-button>
       </div>
     </form>
-  </p-card>
-
-  <p-card header="Product Details" [style]="{ 'border-radius': '12px' }">
-    <div class="product-details">
-      <!-- Display the submitted product details here -->
-      <!-- Example: -->
-      <p>Product Name: {{ productForm!.value.name }}</p>
-      <p>Product Code/ID: {{ productForm!.value.productCode }}</p>
-      <p>Product Type: {{ productForm!.value.productType }}</p>
-      <p>Unit of Measurement (UOM): {{ productForm!.value.uom }}</p>
-      <p>Tax Category: {{ productForm!.value.taxCategory }}</p>
-      <p>HSN/SAC Code: {{ productForm!.value.hsnCode }}</p>
-      <p>Price: {{ productForm!.value.price }}</p>
-      <p>Quantity: {{ productForm!.value.quantity }}</p>
-      <p>Description/Notes: {{ productForm!.value.description }}</p>
-      <p>Image: {{ productForm!.value.image }}</p>
-      <p>Attributes: {{ productForm!.value.attributes }}</p>
-      <p>Batch/Lot Number: {{ productForm!.value.batchNumber }}</p>
-      <p>Barcode/QR Code: {{ productForm!.value.barcode }}</p>
-      <p>
-        Manufacturer/Supplier Details: {{ productForm!.value.manufacturer }}
-      </p>
-    </div>
   </p-card>
 </div>

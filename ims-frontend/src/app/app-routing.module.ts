@@ -11,6 +11,13 @@ const routes: Routes = [
         (mod) => mod.ProductsModule
       ),
   },
+  {
+    path: 'clients',
+    loadChildren: () =>
+      import('./modules/clients/clients.module').then(
+        (mod) => mod.ClientsModule
+      ),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

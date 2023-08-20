@@ -4,7 +4,7 @@ import { MenuItem } from 'primeng/api';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
   items: MenuItem[] | undefined;
@@ -13,20 +13,45 @@ export class NavbarComponent {
     this.items = [
       {
         label: 'Home',
-        icon: 'pi pi-fw pi-home',
-        routerLink: '/'
+        items: [
+          {
+            label: 'Dashboard',
+            icon: 'pi pi-fw pi-home',
+            routerLink: '/',
+          },
+        ],
       },
       {
-        label: 'Add item',
+        label: 'Product',
         icon: 'pi pi-fw pi-plus',
-        routerLink: '/products/add-product'
+        items: [
+          {
+            label: 'Add item',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: '/products/add-product',
+          },
+          {
+            label: 'All items',
+            icon: 'pi pi-list',
+            routerLink: '/products/all-products',
+          },
+        ],
       },
       {
-        label: 'All items',
-        icon: 'pi pi-list',
-        routerLink: '/products/all-products'
-      }
+        label: 'Clients/Companies',
+        items: [
+          {
+            label: 'Add client/company',
+            icon: 'pi pi-fw pi-user-plus',
+            routerLink: '/clients/add-client',
+          },
+          {
+            label: 'All clients',
+            icon: 'pi pi-users',
+            routerLink: '/clients/all-clients',
+          },
+        ],
+      },
     ];
   }
-  
 }

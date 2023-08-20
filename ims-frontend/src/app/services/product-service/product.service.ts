@@ -24,4 +24,8 @@ export class ProductService {
   public updateProduct(id: string, product: Product): Observable<Product> {
     return this.http.patch<Product>(`/api/v1/products/${id}`, product);
   }
+
+  public searchProducts(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`/api/v1/products/search?keywords=${query}`);
+  }
 }

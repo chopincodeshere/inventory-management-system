@@ -114,12 +114,16 @@ export class AddProductComponent {
     );
   }
 
+  isControlInvalidAndDirty(controlName: string): boolean | undefined {
+    const control = this.productForm.get(controlName);
+    return control?.invalid && control?.dirty;
+  }
+
   onSubmit() {
     if (this.productForm.valid) {
       this.productService.addProduct(this.productForm!.value).subscribe(
         (res) => {
           this.showSuccess('Item added successfully!');
-          
         },
         (error: HttpErrorResponse) => {
           this.showError(error.message);
@@ -127,9 +131,11 @@ export class AddProductComponent {
       );
     } else {
       // Mark all form controls as touched to show validation errors
-      Object.keys(this.productForm.controls).forEach(controlName => {
+      Object.keys(this.productForm.controls).forEach((controlName) => {
         this.productForm.get(controlName)?.markAsTouched();
       });
+
+      this.showError('Invalid fields');
     }
   }
 }
