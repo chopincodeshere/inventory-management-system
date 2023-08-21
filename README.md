@@ -73,5 +73,3 @@
    - API Documentation (Endpoints, Request/Response Examples)
    - Project Setup and Installation Guide
    - User Guide for System Usage
-
-Remember that you can start with the core modules and gradually add more features as you progress. The key is to prioritize the functionality that aligns with your project goals and target users.# inventory-management-system

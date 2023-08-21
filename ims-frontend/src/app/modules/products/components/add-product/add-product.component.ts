@@ -129,6 +129,8 @@ export class AddProductComponent {
           this.showError(error.message);
         }
       );
+
+      this.productForm.reset();
     } else {
       // Mark all form controls as touched to show validation errors
       Object.keys(this.productForm.controls).forEach((controlName) => {

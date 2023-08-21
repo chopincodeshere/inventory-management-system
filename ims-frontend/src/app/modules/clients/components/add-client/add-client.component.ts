@@ -1,5 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { Client } from 'src/app/core/models/client';
+import { ClientService } from 'src/app/services/client-service/client.service';
 
 @Component({
   selector: 'app-add-client',
@@ -9,48 +13,72 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddClientComponent {
   clientForm: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    this.clientForm = formBuilder.group({
-      companyName: ['', Validators.required], // Company Name (Required)
-      mailingName: [''], // Mailing Name
-      address: ['', Validators.required], // Address (Required)
-      country: ['', Validators.required], // Country (Required)
-      state: ['', Validators.required], // State (Required)
-      pinCode: ['', Validators.required], // Pin Code (Required)
-      telephone: ['', Validators.required], // Telephone (Required)
-      email: ['', [Validators.required, Validators.email]], // Email (Required and must be a valid email)
-      financialYearFrom: ['', Validators.required], // Financial Year From (Required)
-      booksBeginningFrom: ['', Validators.required], // Books Beginning From (Required)
-      securityControl: formBuilder.group({
-        password: ['', Validators.required], // Password (Required)
-        confirmPassword: ['', Validators.required], // Confirm Password (Required)
-      }),
-      currencySymbol: ['', Validators.required], // Currency Symbol (Required)
-      currencyName: ['', Validators.required], // Formal Name of Currency (Required)
-      decimalPlaces: ['', Validators.required], // Decimal Places (Required)
-      isGSTApplicable: ['', Validators.required], // Is GST Applicable (Required)
-      stateOfRegistration: ['', Validators.required], // State of Registration (Required)
-      statutoryInformation: formBuilder.group({
-        taxRegistrationNumber: ['', Validators.required], // Tax Registration Number (Required)
-        panNumber: ['', Validators.required], // PAN Number (Required)
-        // Add more statutory information fields and validators as needed
-      }),
-      dataPath: ['', Validators.required], // Data Path (Required)
-      maintain: ['', Validators.required], // Maintain (Required)
-      tdsDetails: formBuilder.group({
-        tdsRegistrationNumber: ['', Validators.required], // TDS Registration Number (Required)
-        tdsAmount: ['', Validators.required],
-      }),
-      exciseDetails: formBuilder.group({
-        exciseRegistrationNumber: ['', Validators.required], // Excise Registration Number (Required)
-        exciseAmount: ['', Validators.required],
-      }),
-      payrollDetails: formBuilder.group({
-        employeeName: ['', Validators.required], // Employee Name (Required)
-        employeeID: ['', Validators.required],
+  constructor(
+    private formBuilder: FormBuilder,
+    private messageService: MessageService,
+    private clientService: ClientService
+  ) {
+    this.clientForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      mailingName: [''],
+      address: ['', Validators.required],
+      country: ['', Validators.required],
+      state: ['', Validators.required],
+      pincode: ['', Validators.required],
+      phoneNo: ['', Validators.required],
+      mobileNo: ['', Validators.required],
+      financialYearFrom: ['', Validators.required],
+      booksBeginningFrom: ['', Validators.required],
+      tallyVaultPassword: [''],
+      baseCurrencyInformation: this.formBuilder.group({
+        baseCurrencySymbol: ['', Validators.required],
+        formalName: ['', Validators.required],
+        decimalPlaces: ['', Validators.required],
+        symbolForDecimal: ['', Validators.required],
+        symbolForThousands: ['', Validators.required],
       }),
     });
   }
 
-  onSubmit() {}
+  showSuccess(message: string) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: message,
+    });
+  }
+
+  showError(message: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message,
+    });
+  }
+
+  isControlInvalidAndDirty(controlName: string): boolean | undefined {
+    const control = this.clientForm.get(controlName);
+    return control?.invalid && control?.dirty;
+  }
+
+  onSubmit() {
+    if (this.clientForm.valid) {
+      this.clientService.addClient(this.clientForm.value).subscribe(
+        (response: any) => {
+          this.showSuccess(response.message);
+        },
+        (error: HttpErrorResponse) => {
+          this.showError(error.status + ' ' + error.message);
+        }
+      );
+
+      this.clientForm.reset();
+    } else {
+      Object.keys(this.clientForm.controls).forEach((controlName) => {
+        this.clientForm.get(controlName)?.markAsTouched();
+      });
+
+      this.showError('Invalid fields');
+    }
+  }
 }

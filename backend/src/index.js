@@ -1,12 +1,13 @@
 const express = require("express");
 const app = express();
-const products = require("./routes/products");
+const products = require("./routes/products_routes");
+const clients = require("./routes/clients_routes");
 const connectDB = require("./config/database");
 
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
-const DB = process.env.DB_NAME
+const DB = process.env.DB_NAME;
 
 // Middleware for parsing JSON and urlencoded form data.
 app.use(express.json());
@@ -17,6 +18,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/products", products);
+
+app.use("/api/v1/clients", clients);
 
 const startServer = async () => {
   try {

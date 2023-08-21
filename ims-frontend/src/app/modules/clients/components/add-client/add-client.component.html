@@ -1,14 +1,186 @@
-
+<p-toast></p-toast>
 <div class="card flex justify-content-center">
-    <p-card header="Add Client">
-        <form
-      [formGroup]="clientForm!"
-      class="product-form"
-      (ngSubmit)="onSubmit()"
-    >
+  <p-card header="Add Client">
+    <form [formGroup]="clientForm!" class="client-form" (ngSubmit)="onSubmit()">
       <div class="p-field">
-
+        <label for="address">Name</label>
+        <input
+          id="name"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          formControlName="name"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('name'),
+            'ng-dirty': clientForm.get('name')?.dirty
+          }"
+        />
       </div>
+
+      <div class="p-field">
+        <label for="address">Mailing Name</label>
+        <input
+          id="mailingName"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          formControlName="mailingName"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('mailingName'),
+            'ng-dirty': clientForm.get('mailingName')?.dirty
+          }"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="address">Address</label>
+        <input
+          id="address"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          formControlName="address"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('address'),
+            'ng-dirty': clientForm.get('address')?.dirty
+          }"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="country">Country</label>
+        <input
+          id="country"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          formControlName="country"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="state">State</label>
+        <input
+          id="state"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          formControlName="state"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="pincode">Pincode</label>
+        <input
+          id="pincode"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          formControlName="pincode"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="phoneNo">Phone No.</label>
+        <input
+          id="phoneNo"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          formControlName="phoneNo"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="mobileNo">Mobile Number:</label>
+        <input
+          id="mobileNo"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          formControlName="mobileNo"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="financialYearFrom">Financial Year From:</label>
+        <p-calendar
+          id="financialYearFrom"
+          formControlName="financialYearFrom"
+        ></p-calendar>
+      </div>
+
+      <div class="p-field">
+        <label for="booksBeginningFrom">Books Beginning From:</label>
+        <p-calendar
+          id="booksBeginningFrom"
+          formControlName="booksBeginningFrom"
+        ></p-calendar>
+      </div>
+
+      <div formGroupName="baseCurrencyInformation">
+        <div class="p-field">
+          <label for="baseCurrencySymbol">Base Currency Symbol:</label>
+          <input
+            id="baseCurrencySymbol"
+            type="text"
+            pInputText
+            class="p-inputtext"
+            formControlName="baseCurrencySymbol"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="baseCurrencyFormalName">Base Currency Formal Name:</label>
+          <input
+            id="baseCurrencyFormalName"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="formalName"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="baseCurrencyDecimalPlaces"
+            >Base Currency Decimal Places:</label
+          >
+          <input
+            id="baseCurrencyDecimalPlaces"
+            class="p-inputtext"
+            type="number"
+            pInputText
+            formControlName="decimalPlaces"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="baseCurrencyDecimalSymbol"
+            >Base Currency Decimal Symbol:</label
+          >
+          <input
+            id="baseCurrencyDecimalSymbol"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="symbolForDecimal"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="baseCurrencyThousandSymbol"
+            >Base Currency Thousand Symbol:</label
+          >
+          <input
+            id="baseCurrencyThousandSymbol"
+            type="text"
+            pInputText
+            class="p-inputtext"
+            formControlName="symbolForThousands"
+          />
+        </div>
+      </div>
+
       <div class="add-button">
         <p-button
           type="submit"
@@ -18,5 +190,5 @@
         ></p-button>
       </div>
     </form>
-    </p-card>
+  </p-card>
 </div>
