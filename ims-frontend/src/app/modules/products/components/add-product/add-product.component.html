@@ -7,7 +7,10 @@
       (ngSubmit)="onSubmit()"
     >
       <div class="p-field">
-        <label for="name">Product Name</label>
+        <div>
+          <label for="name">Product Name</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           type="text"
           class="p-inputtext"
@@ -21,7 +24,10 @@
         />
       </div>
       <div class="p-field">
-        <label for="productCode">Product Code/ID</label>
+        <div>
+          <label for="productCode">Product Code/ID</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           type="text"
           class="p-inputtext"
@@ -35,7 +41,10 @@
         />
       </div>
       <div class="p-field">
-        <label for="productType">Product Type</label>
+        <div>
+          <label for="productType">Product Type</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           type="text"
           class="p-inputtext"
@@ -49,7 +58,10 @@
         />
       </div>
       <div class="p-field">
-        <label for="uom">Unit of Measurement (UOM)</label>
+        <div>
+          <label for="uom">Unit of Measurement (UOM)</label>
+          <span class="important-field">*</span>
+        </div>
         <p-dropdown
           formControlName="uom"
           [options]="uom_options"
@@ -61,7 +73,10 @@
         ></p-dropdown>
       </div>
       <div class="p-field">
-        <label for="taxCategory">Tax Category</label>
+        <div>
+          <label for="taxCategory">Tax Category</label>
+          <span class="important-field">*</span>
+        </div>
         <p-dropdown
           formControlName="taxCategory"
           [options]="tax_options"
@@ -73,7 +88,10 @@
         ></p-dropdown>
       </div>
       <div class="p-field">
-        <label for="hsnCode">HSN/SAC Code</label>
+        <div>
+          <label for="hsnCode">HSN/SAC Code</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           type="text"
           class="p-inputtext"
@@ -87,7 +105,10 @@
         />
       </div>
       <div class="p-field">
-        <label for="price">Price</label>
+        <div>
+          <label for="price">Price</label>
+          <span class="important-field">*</span>
+        </div>
         <p-inputNumber
           inputId="integeronly"
           mode="decimal"
@@ -103,7 +124,10 @@
         ></p-inputNumber>
       </div>
       <div class="p-field">
-        <label for="quantity">Quantity</label>
+        <div>
+          <label for="quantity">Quantity</label>
+          <span class="important-field">*</span>
+        </div>
         <p-inputNumber
           inputId="integeronly"
           formControlName="quantity"
@@ -166,7 +190,10 @@
         />
       </div>
       <div class="p-field">
-        <label for="manufacturer">Manufacturer/Supplier Details</label>
+        <div>
+          <label for="manufacturer">Manufacturer/Supplier Details</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           type="text"
           class="p-inputtext"

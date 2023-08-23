@@ -9,3 +9,10 @@
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 1rem;
 }
+
+.important-field {
+    color: red;
+    font-weight: bold;
+    font-size: larger;
+    margin: 3px;
+}

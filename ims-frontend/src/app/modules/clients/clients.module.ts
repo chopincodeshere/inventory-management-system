@@ -11,16 +11,21 @@ import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ClientService } from 'src/app/services/client-service/client.service';
 import { ToastModule } from 'primeng/toast';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { TableModule } from 'primeng/table';
+import { ClientComponent } from './components/client/client.component';
 
 @NgModule({
-  declarations: [AddClientComponent, AllClientsComponent],
+  declarations: [AddClientComponent, AllClientsComponent, ClientComponent],
   imports: [
     CommonModule,
     ClientsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     CalendarModule,
+    TableModule,
     ToastModule,
+    ProgressBarModule,
     CardModule,
     ButtonModule,
   ],

@@ -17,4 +17,5 @@ export interface Client {
     symbolForDecimal: string;
     symbolForThousands: string;
   };
+  totalSales: number
 }

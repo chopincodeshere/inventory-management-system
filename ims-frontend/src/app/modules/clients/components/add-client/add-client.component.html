@@ -3,7 +3,10 @@
   <p-card header="Add Client">
     <form [formGroup]="clientForm!" class="client-form" (ngSubmit)="onSubmit()">
       <div class="p-field">
-        <label for="address">Name</label>
+        <div>
+          <label for="address">Name</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="name"
           type="text"
@@ -33,7 +36,10 @@
       </div>
 
       <div class="p-field">
-        <label for="address">Address</label>
+        <div>
+          <label for="address">Address</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="address"
           type="text"
@@ -48,7 +54,10 @@
       </div>
 
       <div class="p-field">
-        <label for="country">Country</label>
+        <div>
+          <label for="country">Country</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="country"
           class="p-inputtext"
@@ -59,7 +68,10 @@
       </div>
 
       <div class="p-field">
-        <label for="state">State</label>
+        <div>
+          <label for="state">State</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="state"
           class="p-inputtext"
@@ -70,7 +82,10 @@
       </div>
 
       <div class="p-field">
-        <label for="pincode">Pincode</label>
+        <div>
+          <label for="pincode">Pincode</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="pincode"
           class="p-inputtext"
@@ -81,7 +96,10 @@
       </div>
 
       <div class="p-field">
-        <label for="phoneNo">Phone No.</label>
+        <div>
+          <label for="phoneNo">Phone No.</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="phoneNo"
           class="p-inputtext"
@@ -92,7 +110,10 @@
       </div>
 
       <div class="p-field">
-        <label for="mobileNo">Mobile Number:</label>
+        <div>
+          <label for="mobileNo">Mobile Number:</label>
+          <span class="important-field">*</span>
+        </div>
         <input
           id="mobileNo"
           class="p-inputtext"
@@ -103,7 +124,10 @@
       </div>
 
       <div class="p-field">
-        <label for="financialYearFrom">Financial Year From:</label>
+        <div>
+          <label for="financialYearFrom">Financial Year From:</label>
+          <span class="important-field">*</span>
+        </div>
         <p-calendar
           id="financialYearFrom"
           formControlName="financialYearFrom"
@@ -111,7 +135,10 @@
       </div>
 
       <div class="p-field">
-        <label for="booksBeginningFrom">Books Beginning From:</label>
+        <div>
+          <label for="booksBeginningFrom">Books Beginning From:</label>
+          <span class="important-field">*</span>
+        </div>
         <p-calendar
           id="booksBeginningFrom"
           formControlName="booksBeginningFrom"
@@ -120,7 +147,10 @@
 
       <div formGroupName="baseCurrencyInformation">
         <div class="p-field">
-          <label for="baseCurrencySymbol">Base Currency Symbol:</label>
+          <div>
+            <label for="baseCurrencySymbol">Base Currency Symbol:</label>
+            <span class="important-field">*</span>
+          </div>
           <input
             id="baseCurrencySymbol"
             type="text"
@@ -131,7 +161,12 @@
         </div>
 
         <div class="p-field">
-          <label for="baseCurrencyFormalName">Base Currency Formal Name:</label>
+          <div>
+            <label for="baseCurrencyFormalName"
+              >Base Currency Formal Name:</label
+            >
+            <span class="important-field">*</span>
+          </div>
           <input
             id="baseCurrencyFormalName"
             type="text"
@@ -142,9 +177,12 @@
         </div>
 
         <div class="p-field">
-          <label for="baseCurrencyDecimalPlaces"
-            >Base Currency Decimal Places:</label
-          >
+          <div>
+            <label for="baseCurrencyDecimalPlaces"
+              >Base Currency Decimal Places:</label
+            >
+            <span class="important-field">*</span>
+          </div>
           <input
             id="baseCurrencyDecimalPlaces"
             class="p-inputtext"
@@ -155,9 +193,12 @@
         </div>
 
         <div class="p-field">
-          <label for="baseCurrencyDecimalSymbol"
-            >Base Currency Decimal Symbol:</label
-          >
+          <div>
+            <label for="baseCurrencyDecimalSymbol"
+              >Base Currency Decimal Symbol:</label
+            >
+            <span class="important-field">*</span>
+          </div>
           <input
             id="baseCurrencyDecimalSymbol"
             type="text"
@@ -168,9 +209,12 @@
         </div>
 
         <div class="p-field">
-          <label for="baseCurrencyThousandSymbol"
-            >Base Currency Thousand Symbol:</label
-          >
+          <div>
+            <label for="baseCurrencyThousandSymbol"
+              >Base Currency Thousand Symbol:</label
+            >
+            <span class="important-field">*</span>
+          </div>
           <input
             id="baseCurrencyThousandSymbol"
             type="text"

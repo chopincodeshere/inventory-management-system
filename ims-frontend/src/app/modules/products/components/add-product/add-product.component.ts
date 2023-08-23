@@ -75,7 +75,7 @@ export class AddProductComponent {
       image: [''],
       attributes: [''],
       batchNumber: [''],
-      manufacturer: [''],
+      manufacturer: ['', Validators.required],
     });
   }
 

@@ -1,0 +1,13 @@
+.client-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.client-field {
+    display: flex;
+    align-items: center;
+}
+
+.yearly {
+    width: 500px;
+}
