@@ -8,6 +8,7 @@ require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
 const DB = process.env.DB_NAME;
+const CONNECTION_URL = process.env.MONGO_URI;
 
 // Middleware for parsing JSON and urlencoded form data.
 app.use(express.json());
@@ -23,7 +24,7 @@ app.use("/api/v1/clients", clients);
 
 const startServer = async () => {
   try {
-    await connectDB(process.env.MONGO_URI, DB);
+    await connectDB(CONNECTION_URL, DB);
     app.listen(PORT, () => {
       console.log(`Server is listening on port ${PORT}`);
     });

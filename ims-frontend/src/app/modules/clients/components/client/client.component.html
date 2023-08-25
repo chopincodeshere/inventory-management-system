@@ -1,5 +1,5 @@
 <div class="card">
-  <p-card header="{{ client?.name }}" [style]="{ 'margin-bottom': '2rem' }">
+  <p-card header="{{ client?.name }}" [style]="{ 'margin-bottom': '1rem' }">
     <div class="client-details">
       <div class="client-field">
         <h4>Mailing name :</h4>
@@ -60,13 +60,22 @@
     </div>
   </p-card>
 
-  <p-card header="Sales">
-    <div class="client-sales">
-      <div class="yearly">
-        <canvas id="canvas"></canvas>
+  <div class="client-sales">
+    <p-card header="Yearly Sales"
+       [style]="{'margin-bottom': '1rem'}"><div class="yearly">
+        <canvas id="yearly_canvas"></canvas></div
+    ></p-card>
+
+    <p-card header="Monthly Sales" [style]="{'margin-bottom': '1rem'}">
+      <div class="monthly">
+        <canvas id="monthly_canvas"></canvas>
       </div>
-      <div class="monthly"></div>
-      <div class="weekly"></div>
-    </div>
-  </p-card>
+    </p-card>
+
+    <p-card header="Weekly Sales" [style]="{'margin-bottom': '1rem'}">
+      <div class="weekly">
+        <canvas id="weekly_canvas"></canvas>
+      </div>
+    </p-card>
+  </div>
 </div>

@@ -18,7 +18,9 @@ export class ClientComponent {
   client: Client;
   isLoading: boolean = false;
 
-  chart: any;
+  yearly_chart: any;
+  monthly_chart: any;
+  weekly_chart: any;
 
   years: Array<string> = ['2019', '2020', '2021', '2022', '2023'];
 
@@ -48,7 +50,9 @@ export class ClientComponent {
 
     this._id = this.route.snapshot.paramMap.get('id')!;
 
-    this.chart = new Chart('canvas', {
+    this.loadClient();
+
+    this.yearly_chart = new Chart('yearly_canvas', {
       type: 'line',
       data: {
         labels: this.years,
@@ -56,8 +60,8 @@ export class ClientComponent {
           {
             label: 'Sales',
             data: [10, 25, 20, 25, 40],
-            borderColor: 'blue',
-            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)', // Blue
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
           },
         ],
       },
@@ -72,8 +76,57 @@ export class ClientComponent {
         },
       },
     });
-
-    this.loadClient();
+    
+    this.monthly_chart = new Chart('monthly_canvas', {
+      type: 'line',
+      data: {
+        labels: this.years,
+        datasets: [
+          {
+            label: 'Sales',
+            data: [10, 25, 20, 25, 40],
+            borderColor: 'rgba(255, 99, 132, 1)', // Red
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Monthly sales',
+          },
+        },
+      },
+    });
+    
+    this.weekly_chart = new Chart('weekly_canvas', {
+      type: 'line',
+      data: {
+        labels: this.years,
+        datasets: [
+          {
+            label: 'Sales',
+            data: [10, 25, 20, 25, 40],
+            borderColor: 'rgba(75, 192, 192, 1)', // Teal
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Weekly sales',
+          },
+        },
+      },
+    });
+    
   }
 
   showError(message: string) {

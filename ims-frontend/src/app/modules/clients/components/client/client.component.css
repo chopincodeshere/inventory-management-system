@@ -8,6 +8,18 @@
     align-items: center;
 }
 
-.yearly {
-    width: 500px;
+.client-sales {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.yearly, .monthly, .weekly {
+   margin-right: 1rem;
+  
+}
+
+#yearly_canvas, #monthly_canvas, #weekly_canvas {
+    height: 30rem;
+    
 }

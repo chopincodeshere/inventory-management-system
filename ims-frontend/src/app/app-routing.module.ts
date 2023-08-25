@@ -18,6 +18,13 @@ const routes: Routes = [
         (mod) => mod.ClientsModule
       ),
   },
+  {
+    path: 'vouchers',
+    loadChildren: () =>
+      import('./modules/account-voucher/account-voucher.module').then(
+        (mod) => mod.AccountVoucherModule
+      ),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

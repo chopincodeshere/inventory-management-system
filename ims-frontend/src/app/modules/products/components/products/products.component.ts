@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Product } from 'src/app/core/models/product';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ProductService } from 'src/app/services/product-service/product.service';
@@ -36,7 +36,8 @@ export class ProductsComponent {
 
   constructor(
     private productService: ProductService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +56,24 @@ export class ProductsComponent {
 
   search() {
     this.searchTerms.next(this.searchQuery);
+  }
+
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteRecord();
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Rejected',
+          detail: 'No items were deleted',
+        });
+      },
+    });
   }
 
   showSuccess(message: string) {

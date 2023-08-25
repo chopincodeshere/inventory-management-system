@@ -52,6 +52,21 @@ export class NavbarComponent {
           },
         ],
       },
+      {
+        label: 'Bills',
+        items: [
+          {
+            label: 'Create Voucher',
+            icon: 'pi pi-file-edit',
+            routerLink: '/vouchers/create-voucher',
+          },
+          {
+            label: 'All vouchers',
+            icon: 'pi pi-file',
+            routerLink: '/vouchers/all-vouchers',
+          },
+        ],
+      },
     ];
   }
 }

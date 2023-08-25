@@ -11,13 +11,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RippleModule } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CheckboxModule } from 'primeng/checkbox';
 
 import { ProductsRoutingModule } from './products-routing.module';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ProductsComponent } from './components/products/products.component';
 
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProductService } from 'src/app/services/product-service/product.service';
 
 
@@ -41,8 +42,9 @@ import { ProductService } from 'src/app/services/product-service/product.service
     ToastModule,
     DropdownModule,
     FileUploadModule,
+    ConfirmPopupModule,
     InputNumberModule
   ],
-  providers: [ProductService, MessageService]
+  providers: [ProductService, MessageService, ConfirmationService]
 })
 export class ProductsModule { }
