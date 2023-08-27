@@ -4,8 +4,16 @@
 }
 
 .client-field {
-    display: flex;
+    display: grid;
     align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.client-field > p {
+    border-bottom: 1px solid #000;
+    font-style: italic;
 }
 
 .client-sales {
@@ -14,12 +22,16 @@
     justify-content: center;
 }
 
-.yearly, .monthly, .weekly {
-   margin-right: 1rem;
-  
+.yearly,
+.monthly,
+.weekly {
+    margin-right: 1rem;
+
 }
 
-#yearly_canvas, #monthly_canvas, #weekly_canvas {
+#yearly_canvas,
+#monthly_canvas,
+#weekly_canvas {
     height: 30rem;
-    
+
 }

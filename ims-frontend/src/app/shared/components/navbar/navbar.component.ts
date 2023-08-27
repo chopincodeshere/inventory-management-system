@@ -22,7 +22,7 @@ export class NavbarComponent {
         ],
       },
       {
-        label: 'Product',
+        label: 'Products',
         icon: 'pi pi-fw pi-plus',
         items: [
           {
@@ -53,18 +53,14 @@ export class NavbarComponent {
         ],
       },
       {
-        label: 'Bills',
+        label: 'Orders',
         items: [
           {
-            label: 'Create Voucher',
-            icon: 'pi pi-file-edit',
-            routerLink: '/vouchers/create-voucher',
+            label: 'All orders',
+            icon: 'pi pi-shopping-cart',
+            routerLink: '/orders/',
           },
-          {
-            label: 'All vouchers',
-            icon: 'pi pi-file',
-            routerLink: '/vouchers/all-vouchers',
-          },
+          
         ],
       },
     ];

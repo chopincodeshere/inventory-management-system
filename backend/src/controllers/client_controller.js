@@ -3,7 +3,6 @@ const Client = require("../models/client");
 const getAllClients = async (req, res) => {
   try {
     const clients = await Client.find();
-
     res.status(200).json(clients);
   } catch (error) {
     res.status(500).json({ message: error });
@@ -25,7 +24,42 @@ const getClient = async (req, res) => {
   }
 };
 
-const getClientByQuery = async (req, res) => {};
+const getClientByQuery = async (req, res) => {
+  try {
+    const { keywords } = req.query;
+
+    if (!keywords) {
+      const clients = await Client.find({});
+
+      res.status(200).json(clients);
+      return;
+    }
+
+    const keywordArray = keywords.split(",").map((keyword) => keyword.trim());
+
+    // Create an array of regex patterns for each keyword
+    const regexPatterns = keywordArray.map(
+      (keyword) => new RegExp(keyword, "i")
+    );
+
+    const clients = await Client.find({
+      $or: [
+        { name: { $in: regexPatterns } },
+        { mailingName: { $in: regexPatterns } },
+        { address: { $in: regexPatterns } },
+        { country: { $in: regexPatterns } },
+        { state: { $in: regexPatterns } },
+        { pincode: { $in: regexPatterns } },
+        { phoneNo: { $in: regexPatterns } },
+        { mobileNo: { $in: regexPatterns } },
+      ],
+    });
+
+    res.status(200).json(clients);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 const addClient = async (req, res) => {
   const clientData = req.body;
@@ -39,9 +73,42 @@ const addClient = async (req, res) => {
   }
 };
 
-const updateClient = async (req, res) => {};
+const updateClient = async (req, res) => {
+  try {
+    const { id: clientId } = req.params;
+    const client = await Client.findOneAndUpdate(
+      { _id: clientId },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
-const deleteClient = async (req, res) => {};
+    if (!client) {
+      return res.status(404).json({ message: "Client not found." });
+    }
+
+    res.status(201).json({client, message: "Client Updated successfully"});
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteClient = async (req, res) => {
+  try {
+    const { id: clientId } = req.params;
+    const client = await Client.findOneAndDelete({ _id: clientId });
+
+    if (!client) {
+      return res.status(404).json({ message: "Client not found." });
+    }
+
+    res.status(200).json({ message: "Client has been removed successfully." });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getAllClients,

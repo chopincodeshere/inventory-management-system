@@ -24,4 +24,19 @@ export class ClientService {
     const url = `${this.baseUrl}/clients/`;
     return this.http.post<Client>(url, client);
   }
+
+  public updateClient(client: Client, id: string): Observable<Client> {
+    const url = `${this.baseUrl}/clients/${id}/`;
+    return this.http.patch<Client>(url, client);
+  }
+
+  public searchClient(query: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.baseUrl}/clients/search?keywords=${query}`
+    );
+  }
+
+  public deleteClient(id: string): Observable<Client> {
+    return this.http.delete<Client>(`${this.baseUrl}/clients/${id}`);
+  }
 }

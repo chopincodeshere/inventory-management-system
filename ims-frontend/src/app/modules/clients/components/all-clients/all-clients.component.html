@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
 <div class="card">
   <p-progressBar
     *ngIf="isLoading"
@@ -24,6 +25,15 @@
     <ng-template pTemplate="caption">
       <div class="search-bar">
         <h3 class="m-0">Manage Clients</h3>
+        <button
+        type="button"
+        pButton
+        pRipple
+        (click)="confirm($event)"
+        class="p-button-outlined p-button-danger"
+      >
+        <span class="pi pi-trash delete-icon"></span>Delete
+      </button>
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
           <input
@@ -67,6 +77,7 @@
         <th pResizableColumn pSortableColumn="mobileNo">
           Mobile Number <p-sortIcon field="mobileNo"></p-sortIcon>
         </th>
+        <th pResizableColumn>Actions</th>
         <th [style]="{ width: '20%' }"></th>
       </tr>
     </ng-template>
@@ -116,9 +127,15 @@
             style="width: 7rem"
           >
             <p-button
-              icon="pi pi-chevron-right"
-              styleClass="p-button-rounded p-button-outlined"
+              icon="pi pi-info-circle"
+              styleClass="p-button-rounded p-button-text"
               (onClick)="showClient(client._id)"
+            ></p-button>
+
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-rounded p-button-warning p-button-text"
+              (onClick)="editClient(client)"
             ></p-button>
           </div>
         </td>

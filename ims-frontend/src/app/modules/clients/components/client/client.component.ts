@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Client } from 'src/app/core/models/client';
 import { ClientService } from 'src/app/services/client-service/client.service';
@@ -42,6 +42,7 @@ export class ClientComponent {
   constructor(
     private clientService: ClientService,
     private route: ActivatedRoute,
+    private router: Router,
     private messageService: MessageService
   ) {}
 
@@ -135,6 +136,10 @@ export class ClientComponent {
       summary: 'Error',
       detail: message,
     });
+  }
+
+  navigateBack() {
+    this.router.navigateByUrl(`/clients/all-clients`)
   }
 
   loadClient() {

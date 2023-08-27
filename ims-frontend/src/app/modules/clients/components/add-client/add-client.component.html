@@ -40,17 +40,18 @@
           <label for="address">Address</label>
           <span class="important-field">*</span>
         </div>
-        <input
+        <textarea
           id="address"
-          type="text"
+          rows="5"
+          cols="30"
           class="p-inputtext"
-          pInputText
+          pInputTextarea
           formControlName="address"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('address'),
             'ng-dirty': clientForm.get('address')?.dirty
           }"
-        />
+        ></textarea>
       </div>
 
       <div class="p-field">

@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 
 router.route("/").get(getAllClients).post(addClient);
+router.get("/search", getClientByQuery);
 router.route("/:id").get(getClient).patch(updateClient).delete(deleteClient);
-router.route("/search").get(getClientByQuery);
 
 module.exports = router;

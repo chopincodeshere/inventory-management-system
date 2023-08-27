@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const products = require("./routes/products_routes");
 const clients = require("./routes/clients_routes");
+const orders = require("./routes/orders_routes");
 const connectDB = require("./config/database");
 
 require("dotenv").config();
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1/products", products);
 
 app.use("/api/v1/clients", clients);
+
+app.use("/api/v1/orders", orders);
 
 const startServer = async () => {
   try {

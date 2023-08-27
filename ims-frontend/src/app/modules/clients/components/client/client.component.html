@@ -1,78 +1,87 @@
 <div class="card">
   <p-card header="{{ client?.name }}" [style]="{ 'margin-bottom': '1rem' }">
+    <p-button
+      icon="pi pi-arrow-left"
+      label="Back"
+      styleClass="p-button-rounded p-button-text"
+      (onClick)="navigateBack()"
+    ></p-button>
+
     <div class="client-details">
       <div class="client-field">
         <h4>Mailing name :</h4>
-        {{ client?.mailingName }}
+        <p>{{ client?.mailingName }}</p>
       </div>
 
       <div class="client-field">
         <h4>Address :</h4>
-        {{ client?.address }}
+        <p>{{ client?.address }}</p>
       </div>
 
       <div class="client-field">
         <h4>Country :</h4>
-        {{ client?.country }}
+        <p>{{ client?.country }}</p>
       </div>
 
       <div class="client-field">
         <h4>State :</h4>
-        {{ client?.state }}
+        <p>{{ client?.state }}</p>
       </div>
 
       <div class="client-field">
         <h4>Pincode :</h4>
-        {{ client?.pincode }}
+        <p>{{ client?.pincode }}</p>
       </div>
 
       <div class="client-field">
         <h4>Phone number :</h4>
-        {{ client?.phoneNo }}
+        <p>{{ client?.phoneNo }}</p>
       </div>
 
       <div class="client-field">
         <h4>Mobile number :</h4>
-        {{ client?.mobileNo }}
+        <p>{{ client?.mobileNo }}</p>
       </div>
 
       <div class="client-field">
         <h4>Address :</h4>
-        {{ client?.address }}
+        <p>{{ client?.address }}</p>
       </div>
 
       <div class="client-field">
         <h4>Financial year starting from :</h4>
-        {{ client?.financialYearFrom | date : "yyyy-MM-dd" }}
+        <p>{{ client?.financialYearFrom | date : "yyyy-MM-dd" }}</p>
       </div>
 
       <div class="client-field">
         <h4>Books beginning from :</h4>
-        {{ client?.booksBeginningFrom | date : "yyyy-MM-dd" }}
+        <p>{{ client?.booksBeginningFrom | date : "yyyy-MM-dd" }}</p>
       </div>
 
       <div class="client-field">
         <h4>Total sales :</h4>
-        {{ client?.baseCurrencyInformation.baseCurrencySymbol }}&nbsp;{{
-          client?.totalSales
-        }}
+        <p>
+          {{ client?.baseCurrencyInformation.baseCurrencySymbol }}&nbsp;{{
+            client?.totalSales
+          }}
+        </p>
       </div>
     </div>
   </p-card>
 
   <div class="client-sales">
-    <p-card header="Yearly Sales"
-       [style]="{'margin-bottom': '1rem'}"><div class="yearly">
+    <p-card header="Yearly Sales" [style]="{ 'margin-bottom': '1rem' }"
+      ><div class="yearly">
         <canvas id="yearly_canvas"></canvas></div
     ></p-card>
 
-    <p-card header="Monthly Sales" [style]="{'margin-bottom': '1rem'}">
+    <p-card header="Monthly Sales" [style]="{ 'margin-bottom': '1rem' }">
       <div class="monthly">
         <canvas id="monthly_canvas"></canvas>
       </div>
     </p-card>
 
-    <p-card header="Weekly Sales" [style]="{'margin-bottom': '1rem'}">
+    <p-card header="Weekly Sales" [style]="{ 'margin-bottom': '1rem' }">
       <div class="weekly">
         <canvas id="weekly_canvas"></canvas>
       </div>

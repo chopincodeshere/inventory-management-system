@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { Subject } from 'rxjs';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Client } from 'src/app/core/models/client';
 import { ClientService } from 'src/app/services/client-service/client.service';
 
@@ -17,15 +17,26 @@ export class AllClientsComponent {
   clients: Client[] = []; // Initialize with your actual product data
   rows: number | undefined; // Number of rows per page
   selectedClients: Client[] = [];
-
+  
   constructor(
     private messageService: MessageService,
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit() {
     this.loadClients();
+
+    this.searchTerms
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term) => this.clientService.searchClient(term))
+      )
+      .subscribe((results) => {
+        this.clients = results;
+      });
   }
 
   clonedProducts: { [s: string]: Client } = {};
@@ -70,24 +81,47 @@ export class AllClientsComponent {
   }
 
   showClient(id: number) {
-    this.router.navigateByUrl(`/clients/all-clients/${id}`)
+    this.router.navigateByUrl(`/clients/all-clients/${id}`);
+  }
+
+  editClient(client: Client) {
+
+    this.router.navigateByUrl(`/clients/all-clients/${client._id}/edit`)
   }
 
   deleteRecord() {
-    // try {
-    //   this.selectedClients.forEach((element) => {
-    //     this.productService.deleteProduct(element._id).subscribe(
-    //       (response) => {
-    //         this.loadProducts();
-    //       },
-    //       (error: HttpErrorResponse) => {
-    //         this.showError(error.status + '' + error.message);
-    //       }
-    //     );
-    //     this.showSuccess('Item has been deleted successfully.');
-    //   });
-    // } catch (error) {
-    //   throw error;
-    // }
+    try {
+      this.selectedClients.forEach((element) => {
+        this.clientService.deleteClient(element._id).subscribe(
+          (response) => {
+            this.loadClients();
+          },
+          (error: HttpErrorResponse) => {
+            this.showError(error.status + '' + error.message);
+          }
+        );
+        this.showSuccess('Item has been deleted successfully.');
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  confirm(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to proceed?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteRecord();
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Rejected',
+          detail: 'No items were deleted',
+        });
+      },
+    });
   }
 }

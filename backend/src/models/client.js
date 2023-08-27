@@ -36,7 +36,7 @@ const clientSchema = new mongoose.Schema({
     type: Date,
     require: [true, "Must provide a date for start of financial year"],
   },
-  booksBeginFrom: {
+  booksBeginningFrom: {
     type: Date,
     require: [true, "Must provide a date for start of financial records"],
   },

@@ -19,11 +19,9 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'vouchers',
+    path: 'orders',
     loadChildren: () =>
-      import('./modules/account-voucher/account-voucher.module').then(
-        (mod) => mod.AccountVoucherModule
-      ),
+      import('./modules/orders/orders.module').then((mod) => mod.OrdersModule),
   },
 ];
 @NgModule({
