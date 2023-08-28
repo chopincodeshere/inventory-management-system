@@ -39,4 +39,12 @@ export class ClientService {
   public deleteClient(id: string): Observable<Client> {
     return this.http.delete<Client>(`${this.baseUrl}/clients/${id}`);
   }
+
+  public fetchCustomerNameSuggestions(query: string): Observable<string[]> {
+    if (!query) {
+      return this.http.get<string[]>(`${this.baseUrl}/clients/autocomplete`);
+    }
+
+    return this.http.get<string[]>(`${this.baseUrl}/clients/autocomplete?query=${query}`);
+  }
 }

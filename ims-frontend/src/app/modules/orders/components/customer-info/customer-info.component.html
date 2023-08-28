@@ -1,0 +1,83 @@
+<form class="customer-info=form" [formGroup]="customerInfo">
+  <div class="p-field">
+    <div>
+      <label for="name">Customer Name</label>
+      <span class="important-field">*</span>
+    </div>
+    <p-autoComplete
+      formControlName="customerName"
+      class="p-autocomplete"
+      [suggestions]="customerNameSuggestions"
+      (completeMethod)="search($event)"
+    ></p-autoComplete>
+  </div>
+  <div class="p-field">
+    <div>
+      <label for="phone">Phone</label>
+    </div>
+    <input
+      type="tel"
+      id="customerPhone"
+      formControlName="customerPhone"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="email">Email</label>
+    </div>
+    <input
+      type="email"
+      id="customerEmail"
+      formControlName="customerEmail"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="address">Address</label>
+    </div>
+    <textarea
+      id="customerAddress"
+      formControlName="customerAddress"
+      class="p-inputtext"
+    ></textarea>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="accountNumber">Account Number</label>
+    </div>
+    <input
+      type="text"
+      id="customerAccountNumber"
+      formControlName="customerAccountNumber"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="accountNumber">GST Number</label>
+    </div>
+    <input
+      type="text"
+      id="customerGST"
+      formControlName="customerGST"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="specialInstructions">Special Instructions or Notes</label>
+    </div>
+    <textarea
+      id="specialInstructions"
+      formControlName="notes"
+      class="p-inputtext"
+    ></textarea>
+  </div>
+</form>

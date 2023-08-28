@@ -17,7 +17,13 @@ export class AllClientsComponent {
   clients: Client[] = []; // Initialize with your actual product data
   rows: number | undefined; // Number of rows per page
   selectedClients: Client[] = [];
-  
+
+  clonedProducts: { [s: string]: Client } = {};
+
+  searchQuery: string = '';
+
+  private searchTerms = new Subject<string>();
+
   constructor(
     private messageService: MessageService,
     private clientService: ClientService,
@@ -38,12 +44,6 @@ export class AllClientsComponent {
         this.clients = results;
       });
   }
-
-  clonedProducts: { [s: string]: Client } = {};
-
-  searchQuery: string = '';
-
-  private searchTerms = new Subject<string>();
 
   search() {
     this.searchTerms.next(this.searchQuery);
@@ -85,8 +85,7 @@ export class AllClientsComponent {
   }
 
   editClient(client: Client) {
-
-    this.router.navigateByUrl(`/clients/all-clients/${client._id}/edit`)
+    this.router.navigateByUrl(`/clients/all-clients/${client._id}/edit`);
   }
 
   deleteRecord() {

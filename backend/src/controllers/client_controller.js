@@ -61,6 +61,28 @@ const getClientByQuery = async (req, res) => {
   }
 };
 
+const getClientByName = async (req, res) => {
+  try {
+    const query = req.query.query;
+    if (!query) {
+      // If no query provided, return all client names
+      const clientNames = await Client.find({}, "name");
+      return res.status(200).json(clientNames);
+    }
+
+    // Filter clients based on the query
+    const matchingClients = await Client.find(
+      { name: { $regex: query, $options: "i" } },
+      "name"
+    );
+    const matchingNames = matchingClients.map((client) => client.name);
+
+    res.status(200).json(matchingNames);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const addClient = async (req, res) => {
   const clientData = req.body;
   try {
@@ -76,20 +98,16 @@ const addClient = async (req, res) => {
 const updateClient = async (req, res) => {
   try {
     const { id: clientId } = req.params;
-    const client = await Client.findOneAndUpdate(
-      { _id: clientId },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const client = await Client.findOneAndUpdate({ _id: clientId }, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!client) {
       return res.status(404).json({ message: "Client not found." });
     }
 
-    res.status(201).json({client, message: "Client Updated successfully"});
+    res.status(201).json({ client, message: "Client Updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -117,4 +135,5 @@ module.exports = {
   addClient,
   updateClient,
   deleteClient,
+  getClientByName,
 };
