@@ -7,6 +7,8 @@ import { StepsModule } from 'primeng/steps';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { PanelMenuModule } from 'primeng/panelmenu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -28,6 +30,8 @@ import { BillingComponent } from './components/billing/billing.component';
     ChipModule,
     StepsModule,
     DropdownModule,
+    PanelMenuModule,
+    TabMenuModule,
     TableModule,
     AutoCompleteModule,
     ButtonModule,

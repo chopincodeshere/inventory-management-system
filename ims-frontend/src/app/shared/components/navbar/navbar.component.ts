@@ -57,7 +57,7 @@ export class NavbarComponent {
         items: [
           {
             label: 'Create order',
-            icon: 'pi pi-plus',
+            icon: 'pi pi-cart-plus',
             routerLink: '/orders/create-order',
           },
           {
