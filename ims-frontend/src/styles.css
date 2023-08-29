@@ -8,3 +8,18 @@ body {
     background-color: #eff3f8;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
+
+.p-field {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 1rem;
+    gap: 5rem;
+    align-items: center;
+}
+
+.important-field {
+    color: #E0115F;
+    font-weight: bold;
+    font-size: larger;
+    margin: 3px;
+}

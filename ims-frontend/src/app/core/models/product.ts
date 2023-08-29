@@ -14,5 +14,6 @@ export interface Product {
     batchNumber: string;
     barcode?: string;
     manufacturer: string;
+    stockFlag: string;
   }
    

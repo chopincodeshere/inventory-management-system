@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { OrderService } from 'src/app/services/order-service/order.service';
@@ -32,7 +32,7 @@ export class CreateOrderComponent {
         routerLink: 'product-info',
       },
       {
-        label: 'Payment',
+        label: 'Payment Information',
         routerLink: 'payment-info',
       },
       {
@@ -40,11 +40,15 @@ export class CreateOrderComponent {
         routerLink: 'billing',
       },
     ];
+
+    this.activeIndex = Number(localStorage.getItem('activeIndex'));
   }
 
   onActiveIndexChange(event: number) {
     this.activeIndex = event;
-}
+
+    localStorage.setItem('activeIndex', this.activeIndex.toString());
+  }
 
   onSubmit() {}
 }

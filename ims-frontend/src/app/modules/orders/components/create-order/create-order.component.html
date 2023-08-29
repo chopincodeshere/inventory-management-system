@@ -2,7 +2,7 @@
   <p-card>
     <p-steps
       [model]="items"
-      [readonly]="true"
+      [readonly]="false"
       [activeIndex]="activeIndex"
       (activeIndexChange)="onActiveIndexChange($event)"
     ></p-steps>
@@ -11,5 +11,4 @@
   <p-card [header]="items[activeIndex].label">
     <router-outlet></router-outlet>
   </p-card>
-  
 </div>

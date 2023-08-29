@@ -2,8 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 import { StepsModule } from 'primeng/steps';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DropdownModule } from 'primeng/dropdown';
+import { ChipModule } from 'primeng/chip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -22,9 +25,12 @@ import { BillingComponent } from './components/billing/billing.component';
     OrdersRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ChipModule,
     StepsModule,
+    DropdownModule,
     TableModule,
     AutoCompleteModule,
+    ButtonModule,
     CardModule,
   ],
 })

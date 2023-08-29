@@ -27,6 +27,8 @@ export class AddClientComponent {
       pincode: ['', Validators.required],
       phoneNo: ['', Validators.required],
       mobileNo: ['', Validators.required],
+      gstNumber: ['', Validators.required],
+      accountNumber: ['', Validators.required],
       financialYearFrom: ['', Validators.required],
       booksBeginningFrom: ['', Validators.required],
       tallyVaultPassword: [''],

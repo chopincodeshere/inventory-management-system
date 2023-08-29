@@ -1,1 +1,100 @@
-<p>product-info works!</p>
+<form class="product-info-form" [formGroup]="productInfo" (ngSubmit)="onSubmit()">
+  <div class="p-field">
+    <div>
+      <label for="name">Product Name</label>
+      <span class="important-field">*</span>
+    </div>
+    <p-autoComplete
+      formControlName="productName"
+      class="p-autocomplete"
+      [suggestions]="productSuggestions"
+      (completeMethod)="search($event)"
+    ></p-autoComplete>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="productId">Product ID</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="text"
+      id="productId"
+      pInputText
+      formControlName="productId"
+      class="p-inputtext"
+    />
+  </div>
+
+  <!-- Quantity -->
+  <div class="p-field">
+    <div>
+      <label for="quantity">Product Quantity</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="number"
+      id="quantity"
+      pInputNumber
+      formControlName="quantity"
+      class="p-inputtext"
+    />
+  </div>
+
+  <!-- Price -->
+  <div class="p-field">
+    <div>
+      <label for="price">Product Price</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="number"
+      id="price"
+      pInputNumber
+      formControlName="price"
+      class="p-inputtext"
+    />
+  </div>
+
+  <!-- Description -->
+  <div class="p-field">
+    <div>
+      <label for="description">Product Description</label>
+    </div>
+    <textarea
+      id="description"
+      pInputText
+      formControlName="description"
+      class="p-inputtext"
+    ></textarea>
+  </div>
+
+  <!-- Category -->
+  <div class="p-field">
+    <div>
+      <label for="category">HSN Code</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="text"
+      id="hsnCode"
+      pInputText
+      formControlName="hsnCode"
+      class="p-inputtext"
+    />
+  </div>
+
+  <p-button
+    type="button"
+    label="Back"
+    styleClass="p-button-secondary p-button-text"
+    (onClick)="navigateBack()"
+  ></p-button>
+
+  <p-button
+    label="Next"
+    styleClass="p-button-outlined"
+    type="submit"
+    [disabled]="productInfo.invalid"
+  ></p-button>
+</form>

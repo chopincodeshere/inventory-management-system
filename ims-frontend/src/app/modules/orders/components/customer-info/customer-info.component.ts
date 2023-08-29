@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Client } from 'src/app/core/models/client';
 import { ClientService } from 'src/app/services/client-service/client.service';
@@ -25,8 +26,6 @@ export class CustomerInfoComponent {
 
   customers: Client[] | undefined;
 
-  selectedCustomer = new FormControl();
-
   customerNameSuggestions: string[] | undefined;
 
   private searchTerms = new Subject<string>();
@@ -34,6 +33,7 @@ export class CustomerInfoComponent {
   constructor(
     private formBuilder: FormBuilder,
     private orderService: OrderService,
+    private router: Router,
     private clientService: ClientService
   ) {
     this.customerInfo = this.formBuilder.group({
@@ -43,17 +43,17 @@ export class CustomerInfoComponent {
       customerAddress: ['', Validators.required],
       customerAccountNumber: ['', Validators.required],
       customerGST: ['', Validators.required],
-      notes: ['', Validators.required],
+      notes: '',
     });
   }
 
   ngOnInit() {
     this.searchTerms
       .pipe(
-        debounceTime(300), // Adjust the debounce time (e.g., 500ms)
+        debounceTime(300),
         distinctUntilChanged(),
         switchMap((term: string) =>
-          term.length >= 3
+          term.length >= 1
             ? this.clientService.fetchCustomerNameSuggestions(term)
             : []
         )
@@ -66,5 +66,13 @@ export class CustomerInfoComponent {
   search(event: any): void {
     const query = event.query;
     this.searchTerms.next(query);
+  }
+
+  onSubmit() {
+    localStorage.setItem(
+      'activeIndex',
+      JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
+    );
+    this.router.navigateByUrl('/orders/create-order/product-info');
   }
 }

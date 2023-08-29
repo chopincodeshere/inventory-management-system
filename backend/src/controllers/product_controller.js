@@ -65,6 +65,28 @@ const getProduct = async (req, res) => {
   }
 };
 
+const getProductByName = async (req, res) => {
+  try {
+    const query = req.query.query;
+    if (!query) {
+      // If no query provided, return all client names
+      const productNames = await Product.find({}, "name");
+      return res.status(200).json(productNames);
+    }
+
+    // Filter clients based on the query
+    const matchingProducts = await Product.find(
+      { name: { $regex: query, $options: "i" } },
+      "name"
+    );
+    const matchingNames = matchingProducts.map((product) => product.name);
+
+    res.status(200).json(matchingNames);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const updateProduct = async (req, res) => {
   try {
     const { id: productId } = req.params;
@@ -148,4 +170,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getProductByQuery,
+  getProductByName
 };

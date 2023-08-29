@@ -28,4 +28,10 @@ export class ProductService {
   public searchProducts(query: string): Observable<any[]> {
     return this.http.get<any[]>(`/api/v1/products/search?keywords=${query}`);
   }
+
+  public fetchProductSuggestions(query: string): Observable<string[]> {
+    return this.http.get<string[]>(
+      `/api/v1/products/autocomplete?query=${query}`
+    );
+  }
 }

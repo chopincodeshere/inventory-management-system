@@ -121,6 +121,15 @@ export class AddProductComponent {
 
   onSubmit() {
     if (this.productForm.valid) {
+      if(this.productForm.value.quantity < 10) {
+        this.productForm.patchValue({
+          stockFlag: "Low stock"
+        })
+      } else if(this.productForm.value.quantity === 0) {
+        this.productForm.patchValue({
+          stockFlag: "Out of stock"
+        })
+      }
       this.productService.addProduct(this.productForm!.value).subscribe(
         (res) => {
           this.showSuccess('Item added successfully!');
