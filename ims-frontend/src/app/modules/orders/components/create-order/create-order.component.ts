@@ -32,10 +32,6 @@ export class CreateOrderComponent {
         routerLink: 'product-info',
       },
       {
-        label: 'Payment Information',
-        routerLink: 'payment-info',
-      },
-      {
         label: 'Billing',
         routerLink: 'billing',
       },

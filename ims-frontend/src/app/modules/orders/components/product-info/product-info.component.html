@@ -1,4 +1,4 @@
-<form class="product-info-form" [formGroup]="productInfo" (ngSubmit)="onSubmit()">
+<form class="product-info-form" [formGroup]="productInfo">
   <div class="p-field">
     <div>
       <label for="name">Product Name</label>
@@ -9,6 +9,7 @@
       class="p-autocomplete"
       [suggestions]="productSuggestions"
       (completeMethod)="search($event)"
+      (onSelect)="getProductDetails($event)"
     ></p-autoComplete>
   </div>
 
@@ -47,13 +48,16 @@
       <label for="price">Product Price</label>
       <span class="important-field">*</span>
     </div>
-    <input
-      type="number"
-      id="price"
-      pInputNumber
-      formControlName="price"
-      class="p-inputtext"
-    />
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">₹</span>
+      <input
+        type="number"
+        id="price"
+        pInputNumber
+        formControlName="price"
+        class="p-inputtext"
+      />
+    </div>
   </div>
 
   <!-- Description -->
@@ -92,9 +96,38 @@
   ></p-button>
 
   <p-button
-    label="Next"
+    label="Add"
     styleClass="p-button-outlined"
-    type="submit"
-    [disabled]="productInfo.invalid"
+    (onClick)="onSubmit()"
+    type="reset"
   ></p-button>
 </form>
+
+<div class="order-summary" *ngIf="orderList.length > 0">
+  <h2>Order Summary</h2>
+  <p-divider></p-divider>
+  <div class="order-content">
+    <p-table [value]="orderList" [tableStyle]="{ 'min-width': '65rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>{{ order.name }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.price }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <p-button
+    class="p-button-success"
+    label="Checkout"
+    [style]="{ 'margin-top': '1rem' }"
+  ></p-button>
+</div>

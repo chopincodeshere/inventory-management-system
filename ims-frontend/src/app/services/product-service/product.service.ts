@@ -34,4 +34,8 @@ export class ProductService {
       `/api/v1/products/autocomplete?query=${query}`
     );
   }
+
+  public fetchProductDetailsByName(query: string): Observable<Product> {
+    return this.http.get<Product>(`/api/v1/products/name?query=${query}`);
+  }
 }

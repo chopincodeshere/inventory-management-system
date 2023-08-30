@@ -7,8 +7,7 @@ import { StepsModule } from 'primeng/steps';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
-import { TabMenuModule } from 'primeng/tabmenu';
-import { PanelMenuModule } from 'primeng/panelmenu';
+import { DividerModule } from 'primeng/divider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -17,11 +16,17 @@ import { OrderDetailsComponent } from './components/order-details/order-details.
 import { CreateOrderComponent } from './components/create-order/create-order.component';
 import { CustomerInfoComponent } from './components/customer-info/customer-info.component';
 import { ProductInfoComponent } from './components/product-info/product-info.component';
-import { PaymentInfoComponent } from './components/payment-info/payment-info.component';
 import { BillingComponent } from './components/billing/billing.component';
 
 @NgModule({
-  declarations: [OrdersComponent, OrderDetailsComponent, CreateOrderComponent, CustomerInfoComponent, ProductInfoComponent, PaymentInfoComponent, BillingComponent],
+  declarations: [
+    OrdersComponent,
+    OrderDetailsComponent,
+    CreateOrderComponent,
+    CustomerInfoComponent,
+    ProductInfoComponent,
+    BillingComponent,
+  ],
   imports: [
     CommonModule,
     OrdersRoutingModule,
@@ -30,8 +35,7 @@ import { BillingComponent } from './components/billing/billing.component';
     ChipModule,
     StepsModule,
     DropdownModule,
-    PanelMenuModule,
-    TabMenuModule,
+    DividerModule,
     TableModule,
     AutoCompleteModule,
     ButtonModule,

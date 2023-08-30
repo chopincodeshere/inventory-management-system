@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +13,8 @@ import { ProductService } from 'src/app/services/product-service/product.service
 export class ProductInfoComponent {
   productInfo: FormGroup;
   productSuggestions: string[] | undefined;
+
+  orderList: any = [];
 
   goods_categories = [
     { id: 1, name: 'Electronics' },
@@ -76,11 +79,46 @@ export class ProductInfoComponent {
     );
   }
 
-  onSubmit() {
-    localStorage.setItem(
-      'activeIndex',
-      JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
+  getProductDetails(selectedItem: string) {
+    this.productService.fetchProductDetailsByName(selectedItem).subscribe(
+      (response) => {
+        this.productInfo.patchValue({
+          productId: response.productCode,
+          price: response.price,
+          hsnCode: response.hsnCode,
+          description: response.description,
+        });
+        console.log(this.productInfo.value);
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
     );
-    this.router.navigateByUrl('/orders/create-order/product-info');
+  }
+
+  onSubmit() {
+    // Check if the form is valid
+    if (this.productInfo.valid) {
+      // Create a copy of the form value
+      const product = { ...this.productInfo.value };
+
+      // Push the product into the orderList
+      this.orderList.push(product);
+
+      // Reset the form
+      this.productInfo.reset();
+
+      // Increment the activeIndex in localStorage
+      localStorage.setItem(
+        'activeIndex',
+        JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
+      );
+
+      // Navigate to the next page
+      this.router.navigateByUrl('/orders/create-order/product-info');
+    } else {
+      // If the form is not valid, mark all fields as touched
+      this.productInfo.markAllAsTouched();
+    }
   }
 }
