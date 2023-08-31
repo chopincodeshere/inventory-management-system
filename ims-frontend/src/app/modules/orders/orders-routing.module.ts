@@ -12,7 +12,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'customer-info', pathMatch: 'full' }, // Default to the first step
     { path: 'customer-info', component: CustomerInfoComponent },
     { path: 'product-info', component: ProductInfoComponent },
-    { path: 'billing', component: BillingComponent },
+    { path: 'billing-info', component: BillingComponent },
   ]},
   { path: 'show-orders', component: OrdersComponent },
   { path: 'order-details/:id', component: OrderDetailsComponent },

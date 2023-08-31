@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ProductService } from 'src/app/services/product-service/product.service';
 
@@ -13,6 +14,7 @@ import { ProductService } from 'src/app/services/product-service/product.service
 export class ProductInfoComponent {
   productInfo: FormGroup;
   productSuggestions: string[] | undefined;
+  total: number = 0;
 
   orderList: any = [];
 
@@ -31,7 +33,8 @@ export class ProductInfoComponent {
   constructor(
     private formBuilder: FormBuilder,
     private productService: ProductService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.productInfo = this.formBuilder.group({
       productName: ['', [Validators.required]],
@@ -79,6 +82,22 @@ export class ProductInfoComponent {
     );
   }
 
+  showSuccess(message: string) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: message,
+    });
+  }
+
+  showError(message: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message,
+    });
+  }
+
   getProductDetails(selectedItem: string) {
     this.productService.fetchProductDetailsByName(selectedItem).subscribe(
       (response) => {
@@ -88,37 +107,49 @@ export class ProductInfoComponent {
           hsnCode: response.hsnCode,
           description: response.description,
         });
-        console.log(this.productInfo.value);
       },
       (error: HttpErrorResponse) => {
-        console.log(error);
+        this.showError(error.status + ' ' + error.message);
       }
     );
   }
 
-  onSubmit() {
-    // Check if the form is valid
-    if (this.productInfo.valid) {
-      // Create a copy of the form value
-      const product = { ...this.productInfo.value };
+  getPrice(quantity: number, price: number): number {
+    return quantity * price;
+  }
 
-      // Push the product into the orderList
-      this.orderList.push(product);
-
-      // Reset the form
-      this.productInfo.reset();
-
-      // Increment the activeIndex in localStorage
-      localStorage.setItem(
-        'activeIndex',
-        JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
-      );
-
-      // Navigate to the next page
-      this.router.navigateByUrl('/orders/create-order/product-info');
-    } else {
-      // If the form is not valid, mark all fields as touched
-      this.productInfo.markAllAsTouched();
+  getTotal(): number {
+    let total = 0;
+  
+    for (const order of this.orderList) {
+      const itemTotal = this.getPrice(order.quantity, order.price);
+      total += itemTotal;
     }
+  
+    return total;
+  }
+  
+
+  checkQuantity(): boolean {
+    let result = this.productInfo.value.quantity > 0 ? false : true;
+
+    return result;
+  }
+
+  addItem() {
+    const product = { ...this.productInfo.value };
+    this.showSuccess('Product added to the checkout list.');
+    this.orderList.push(product);
+    this.productInfo.reset();
+  }
+
+  proceedToCheckout() {
+    // Increment the activeIndex in localStorage
+    localStorage.setItem(
+      'activeIndex',
+      JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
+    );
+
+    this.router.navigateByUrl('/orders/create-order/billing-info');
   }
 }

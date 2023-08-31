@@ -8,6 +8,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DropdownModule } from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -17,6 +18,7 @@ import { CreateOrderComponent } from './components/create-order/create-order.com
 import { CustomerInfoComponent } from './components/customer-info/customer-info.component';
 import { ProductInfoComponent } from './components/product-info/product-info.component';
 import { BillingComponent } from './components/billing/billing.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { BillingComponent } from './components/billing/billing.component';
     ReactiveFormsModule,
     ChipModule,
     StepsModule,
+    InputNumberModule,
     DropdownModule,
     DividerModule,
     TableModule,
@@ -41,5 +44,6 @@ import { BillingComponent } from './components/billing/billing.component';
     ButtonModule,
     CardModule,
   ],
+  providers: [MessageService]
 })
 export class OrdersModule {}

@@ -33,13 +33,10 @@
       <label for="quantity">Product Quantity</label>
       <span class="important-field">*</span>
     </div>
-    <input
-      type="number"
-      id="quantity"
-      pInputNumber
+    <p-inputNumber
+      inputId="integeronly"
       formControlName="quantity"
-      class="p-inputtext"
-    />
+    ></p-inputNumber>
   </div>
 
   <!-- Price -->
@@ -50,13 +47,10 @@
     </div>
     <div class="p-inputgroup">
       <span class="p-inputgroup-addon">₹</span>
-      <input
-        type="number"
-        id="price"
-        pInputNumber
+      <p-inputNumber
+        inputId="integeronly"
         formControlName="price"
-        class="p-inputtext"
-      />
+      ></p-inputNumber>
     </div>
   </div>
 
@@ -97,12 +91,14 @@
 
   <p-button
     label="Add"
+    [disabled]="checkQuantity()"
     styleClass="p-button-outlined"
-    (onClick)="onSubmit()"
-    type="reset"
+    (onClick)="addItem()"
+    type="button"
   ></p-button>
 </form>
 
+<!-- <div class="order-summary"> -->
 <div class="order-summary" *ngIf="orderList.length > 0">
   <h2>Order Summary</h2>
   <p-divider></p-divider>
@@ -117,10 +113,16 @@
       </ng-template>
       <ng-template pTemplate="body" let-order>
         <tr>
-          <td>{{ order.name }}</td>
+          <td>{{ order.productName }}</td>
           <td>{{ order.quantity }}</td>
-          <td>{{ order.price }}</td>
+          <td><span>₹</span> {{ getPrice(order.quantity, order.price) }}/-</td>
         </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+          <h3>Total</h3>
+          <span>₹{{ getTotal() }}/-</span>
+        </div>
       </ng-template>
     </p-table>
   </div>
@@ -128,6 +130,7 @@
   <p-button
     class="p-button-success"
     label="Checkout"
+    (onClick)="proceedToCheckout()"
     [style]="{ 'margin-top': '1rem' }"
   ></p-button>
 </div>

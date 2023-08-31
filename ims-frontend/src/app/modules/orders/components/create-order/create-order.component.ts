@@ -33,7 +33,7 @@ export class CreateOrderComponent {
       },
       {
         label: 'Billing',
-        routerLink: 'billing',
+        routerLink: 'billing-info',
       },
     ];
 

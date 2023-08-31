@@ -14,13 +14,26 @@ const getOrderById = async (req, res) => {};
 
 const addOrder = async (req, res) => {
   const orderData = req.body;
+
   try {
-    const newOrder = await Client.create(orderData);
-    return res
-      .status(201)
-      .json({ newOrder, message: "Order added successfully!" });
+    // Create a Razorpay order
+    const razorpayOrder = await razorpay.orders.create({
+      amount: orderData.price, // The order amount in paise (e.g., 1000 paise = ₹10)
+      currency: "INR", // Currency code (e.g., INR for Indian Rupees)
+      receipt: "order_receipt", // A unique order receipt ID
+    });
+
+    const newOrder = await Order.create(orderData);
+
+    return res.status(201).json({
+      razorpayOrderId: razorpayOrder._id,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+      message: "Razorpay order created successfully!",
+    });
   } catch (error) {
-    res.status(500).json({ message: error });
+    console.error("Razorpay Error:", error);
+    res.status(500).json({ message: "Error creating Razorpay order" });
   }
 };
 

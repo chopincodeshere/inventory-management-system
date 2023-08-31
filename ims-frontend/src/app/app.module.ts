@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { AvatarModule } from 'primeng/avatar';
 import { MenuModule } from 'primeng/menu';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    ButtonModule,
+    AvatarModule,
     CardModule,
     MenuModule
   ],
