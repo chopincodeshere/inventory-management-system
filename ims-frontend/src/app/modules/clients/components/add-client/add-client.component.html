@@ -37,6 +37,24 @@
 
       <div class="p-field">
         <div>
+          <label for="email">Email</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="email"
+          type="email"
+          class="p-inputtext"
+          pInputText
+          formControlName="email"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('name'),
+            'ng-dirty': clientForm.get('name')?.dirty
+          }"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
           <label for="address">Address</label>
           <span class="important-field">*</span>
         </div>

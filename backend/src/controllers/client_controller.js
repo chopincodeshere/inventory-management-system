@@ -61,7 +61,7 @@ const getClientByQuery = async (req, res) => {
   }
 };
 
-const getClientByName = async (req, res) => {
+const getClientsByName = async (req, res) => {
   try {
     const query = req.query.query;
     if (!query) {
@@ -78,6 +78,24 @@ const getClientByName = async (req, res) => {
     const matchingNames = matchingClients.map((client) => client.name);
 
     res.status(200).json(matchingNames);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const getClientByName = async (req, res) => {
+  try {
+    const query = req.query.query;
+    if (!query) {
+      // If no query provided, return all client names
+      const clientNames = await Client.find({}, "name");
+      return res.status(200).json(clientNames);
+    }
+
+    // Find products with the exact name
+    const matchingClient = await Client.findOne({ name: query });
+
+    res.status(200).json(matchingClient);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -135,5 +153,6 @@ module.exports = {
   addClient,
   updateClient,
   deleteClient,
-  getClientByName,
+  getClientsByName,
+  getClientByName
 };

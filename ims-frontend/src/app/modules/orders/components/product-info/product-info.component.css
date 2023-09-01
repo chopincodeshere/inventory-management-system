@@ -16,3 +16,26 @@
     grid-template-columns: repeat(2, 1fr);
     padding: 0 1rem;
 }
+
+.gst-details {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.input-radio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checkout-section {
+    display: flex;
+    width: fit-content;
+}
+
+.table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

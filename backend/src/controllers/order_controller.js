@@ -1,4 +1,12 @@
 const Order = require("../models/order");
+const Razorpay = require("razorpay");
+
+const ID = process.env.RAZORPAY_SECRET_ID;
+const KEY = process.env.RAZORPAY_API_KEY;
+var instance = new Razorpay({
+  key_id: ID,
+  key_secret: KEY,
+});
 
 const getAllOrders = async (req, res) => {
   try {
@@ -17,7 +25,7 @@ const addOrder = async (req, res) => {
 
   try {
     // Create a Razorpay order
-    const razorpayOrder = await razorpay.orders.create({
+    const razorpayOrder = await instance.orders.create({
       amount: orderData.price, // The order amount in paise (e.g., 1000 paise = ₹10)
       currency: "INR", // Currency code (e.g., INR for Indian Rupees)
       receipt: "order_receipt", // A unique order receipt ID

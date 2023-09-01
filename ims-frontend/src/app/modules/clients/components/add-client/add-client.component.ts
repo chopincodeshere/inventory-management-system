@@ -21,6 +21,7 @@ export class AddClientComponent {
     this.clientForm = this.formBuilder.group({
       name: ['', Validators.required],
       mailingName: [''],
+      email: ['', Validators.required],
       address: ['', Validators.required],
       country: ['', Validators.required],
       state: ['', Validators.required],

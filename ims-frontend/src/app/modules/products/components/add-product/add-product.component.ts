@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Product } from 'src/app/core/models/product';
 import { ProductService } from 'src/app/services/product-service/product.service';
 
 interface UploadEvent {
@@ -27,10 +26,14 @@ export class AddProductComponent {
     { key: 'cst_standard', tax: 'Central Sales Tax (CST) - Standard Rate' },
     { key: 'cst_reduced', tax: 'Central Sales Tax (CST) - Reduced Rate' },
     { key: 'cst_exempt', tax: 'Central Sales Tax (CST) - Exempt' },
-    { key: 'gst_5', tax: 'Goods and Services Tax (GST) - 5%' },
-    { key: 'gst_12', tax: 'Goods and Services Tax (GST) - 12%' },
-    { key: 'gst_18', tax: 'Goods and Services Tax (GST) - 18%' },
-    { key: 'gst_28', tax: 'Goods and Services Tax (GST) - 28%' },
+    { key: 'sgst_5', tax: 'Goods and Services Tax - State (SGST) - 5%' },
+    { key: 'sgst_12', tax: 'Goods and Services Tax - State (SGST) - 12%' },
+    { key: 'sgst_18', tax: 'Goods and Services Tax - State (SGST) - 18%' },
+    { key: 'sgst_28', tax: 'Goods and Services Tax - State (SGST) - 28%' },
+    { key: 'igst_5', tax: 'Goods and Services Tax - Integrated (IGST) - 5%' },
+    { key: 'igst_12', tax: 'Goods and Services Tax - Integrated (IGST) - 12%' },
+    { key: 'igst_18', tax: 'Goods and Services Tax - Integrated (IGST) - 18%' },
+    { key: 'igst_28', tax: 'Goods and Services Tax - Integrated (IGST) - 28%' },
     { key: 'service_standard', tax: 'Service Tax - Standard Rate' },
     { key: 'service_reduced', tax: 'Service Tax - Reduced Rate' },
     { key: 'service_exempt', tax: 'Service Tax - Exempt' },

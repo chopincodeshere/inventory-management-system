@@ -1,27 +1,21 @@
 export interface Order {
-  orderNumber: string;
-  orderDate: Date;
-  customerInfo: {
-    name: string;
-    address: string;
-    phoneNumber: string;
-    email: string;
-  };
-  products: ProductOrder[];
-  orderStatus: string;
-  shippingInfo: {
-    address: string;
-    method: string;
-    trackingNumber: string;
-  };
-  paymentInfo: {
-    method: string;
+  _id: string;
+  customerName: string;
+  date: Date;
+  status: string;
+  items: ProductOrder[];
+  shippingAddress: string;
+  billingAddress: string;
+  paymentDetails: {
+    credit: boolean;
+    cardNumber: string;
+    cardType: string;
+    expirationDate: Date;
   };
 }
 
 export interface ProductOrder {
-  productID: string;
-  productName: string;
+  productId: string;
   quantity: number;
   price: number;
 }

@@ -1,34 +1,24 @@
 const mongoose = require("mongoose");
 
 const productOrderSchema = new mongoose.Schema({
-  productID: String,
-  productName: String,
+  productId: String, // Change from productID to productId
   quantity: Number,
   price: Number,
 });
 
 const orderSchema = new mongoose.Schema({
-  orderNumber: { type: String, required: true, unique: true }, // A unique identifier for the order
-  orderDate: { type: Date, required: true }, // The date and time the order was placed
-  customerInfo: {
-    name: String, // Customer's name
-    address: String, // Customer's address
-    phoneNumber: String, // Customer's phone number
-    email: String, // Customer's email address
-  },
-  products: [productOrderSchema], // An array of product order items
-  orderStatus: String, // The current status of the order
-  shippingInfo: {
-    address: String, // Shipping address
-    method: String, // Shipping method
-    trackingNumber: String, // Tracking number
-  },
-  paymentInfo: {
-    method: String, // Payment method (e.g., credit card, PayPal)
-    // Additional payment-related fields can be added here
+  customerName: { type: String, required: true }, // Replace orderNumber with customerId
+  date: { type: Date, required: true }, // Replace orderDate with date
+  status: String,
+  items: [productOrderSchema], // Use the productOrderSchema
+  shippingAddress: String,
+  billingAddress: String,
+  paymentDetails: {
+    credit: Boolean,
+    cardNumber: String,
+    cardType: String,
+    expirationDate: Date,
   },
 });
 
-const OrderModel = mongoose.model("Order", orderSchema);
-
-module.exports = OrderModel;
+module.exports = mongoose.model("Order", orderSchema);

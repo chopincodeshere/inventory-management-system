@@ -9,6 +9,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -36,6 +37,7 @@ import { MessageService } from 'primeng/api';
     ReactiveFormsModule,
     ChipModule,
     StepsModule,
+    RadioButtonModule,
     InputNumberModule,
     DropdownModule,
     DividerModule,

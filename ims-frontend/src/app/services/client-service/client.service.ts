@@ -47,4 +47,8 @@ export class ClientService {
 
     return this.http.get<string[]>(`${this.baseUrl}/clients/autocomplete?query=${query}`);
   }
+
+  public getClientByName(query: string): Observable<Client> {
+    return this.http.get<Client>(`/api/v1/clients/name?query=${query}`);
+  }
 }

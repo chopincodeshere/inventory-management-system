@@ -8,6 +8,10 @@ const clientSchema = new mongoose.Schema({
   mailingName: {
     type: String,
   },
+  email: {
+    type: String,
+    required: [true, "Must provide an email"],
+  },
   address: {
     type: String,
     required: [true, "Must provide an address"],
@@ -22,23 +26,34 @@ const clientSchema = new mongoose.Schema({
   },
   pincode: {
     type: String,
-    require: [true, "Must provide a pincode"],
+    required: [true, "Must provide a pincode"],
   },
   phoneNo: {
     type: String,
-    require: [true, "Must provide a phone number"],
+    required: [true, "Must provide a phone number"],
   },
   mobileNo: {
     type: String,
-    require: [true, "Must provide a mobile number"],
+    required: [true, "Must provide a mobile number"],
+  },
+  gstNumber: {
+    type: String,
+    required: [true, "Must provide a GST number"],
+  },
+  accountNumber: {
+    type: String,
+    required: [true, "Must provide an account number"],
   },
   financialYearFrom: {
     type: Date,
-    require: [true, "Must provide a date for start of financial year"],
+    required: [true, "Must provide a date for the start of the financial year"],
   },
   booksBeginningFrom: {
     type: Date,
-    require: [true, "Must provide a date for start of financial records"],
+    required: [true, "Must provide a date for the start of financial records"],
+  },
+  tallyVaultPassword: {
+    type: String,
   },
   baseCurrencyInformation: {
     baseCurrencySymbol: {

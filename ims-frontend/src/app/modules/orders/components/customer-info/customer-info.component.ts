@@ -68,11 +68,26 @@ export class CustomerInfoComponent {
     this.searchTerms.next(query);
   }
 
+  getClientDetails(selectedItem: string) {
+    this.clientService.getClientByName(selectedItem).subscribe((response) => {
+      this.customerInfo.patchValue({
+        customerEmail: response.email,
+        customerPhone: response.phoneNo,
+        customerAddress: response.address,
+        customerAccountNumber: response.accountNumber,
+        customerGST: response.gstNumber,
+      });
+    });
+  }
+
   onSubmit() {
     localStorage.setItem(
       'activeIndex',
       JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
     );
+
+    localStorage.setItem('clientInfo', JSON.stringify(this.customerInfo.value));
+
     this.router.navigateByUrl('/orders/create-order/product-info');
   }
 }
