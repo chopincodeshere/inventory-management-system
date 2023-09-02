@@ -8,6 +8,8 @@ import { ClientService } from 'src/app/services/client-service/client.service';
 import { OrderService } from 'src/app/services/order-service/order.service';
 import { ProductService } from 'src/app/services/product-service/product.service';
 
+declare var Razorpay: any;
+
 @Component({
   selector: 'app-product-info',
   templateUrl: './product-info.component.html',
@@ -92,6 +94,7 @@ export class ProductInfoComponent {
       billingAddress: ['', Validators.required],
       paymentDetails: this.formBuilder.group({
         credit: [false],
+        amount: [],
       }),
     });
   }
@@ -253,6 +256,12 @@ export class ProductInfoComponent {
       total += itemTotal;
     }
 
+    this.orderForm.patchValue({
+      paymentDetails: {
+        amount: total,
+      },
+    });
+
     return total;
   }
 
@@ -266,6 +275,9 @@ export class ProductInfoComponent {
     const product = { ...this.productInfo.value };
     this.showSuccess('Product added to the checkout list.');
     this.orderList.push(product);
+    this.orderForm.patchValue({
+      items: this.orderList,
+    });
     this.productInfo.reset();
   }
 
@@ -287,6 +299,12 @@ export class ProductInfoComponent {
   }
 
   proceedToCheckout() {
+    let key: string;
+
+    this.orderService.getRazorApiKey().subscribe((response) => {
+      key = response.key;
+    });
+
     // Increment the activeIndex in localStorage
     localStorage.setItem(
       'activeIndex',
@@ -298,14 +316,44 @@ export class ProductInfoComponent {
       shippingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
       billingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
       date: new Date(),
-      status: "Pending" // Will be handled in order tracking
+      status: 'Pending', // Will be handled in order tracking
     });
 
-    this.orderService.addOrder(this.orderForm.value).subscribe((response) => {
-      this.showSuccess("Your order has been placed.");
-    }, (error: HttpErrorResponse) => {
-      this.showError("Order has not been placed")
-    })
+    this.orderService.addOrder(this.orderForm.value).subscribe(
+      (response) => {
+        console.log(response);
+
+        var options = {
+          key: key, // Enter the Key ID generated from the Dashboard
+          amount: '50000', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: 'INR',
+          name: 'Kalyan Traders',
+          description: 'Test Transaction',
+          order_id: response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          callback_url: 'http://localhost:5000/api/v1/payment-verification',
+          prefill: {
+            name: this.orderForm.value.customerName,
+            // email: this.orderForm.value.customerEmail,
+            // contact: this.orderForm.value.customerContact
+          },
+          notes: {
+            address: 'Razorpay Corporate Office',
+          },
+          theme: {
+            color: '#3399cc',
+          },
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        rzp1.open();
+
+        this.showSuccess('Your order has been placed.');
+      },
+      (error: HttpErrorResponse) => {
+        this.showError('Order has not been placed');
+      }
+    );
 
     this.router.navigateByUrl('/orders/create-order/billing-info');
   }

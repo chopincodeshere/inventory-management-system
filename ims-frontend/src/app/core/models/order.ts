@@ -1,21 +1,15 @@
+import { Product } from "./product";
+
 export interface Order {
   _id: string;
   customerName: string;
   date: Date;
   status: string;
-  items: ProductOrder[];
+  items: Product[];
   shippingAddress: string;
   billingAddress: string;
   paymentDetails: {
     credit: boolean;
-    cardNumber: string;
-    cardType: string;
-    expirationDate: Date;
+    amount: number
   };
-}
-
-export interface ProductOrder {
-  productId: string;
-  quantity: number;
-  price: number;
 }

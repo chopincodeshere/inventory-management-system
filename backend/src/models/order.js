@@ -15,9 +15,7 @@ const orderSchema = new mongoose.Schema({
   billingAddress: String,
   paymentDetails: {
     credit: Boolean,
-    cardNumber: String,
-    cardType: String,
-    expirationDate: Date,
+    amount: Number
   },
 });
 

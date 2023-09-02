@@ -6,7 +6,10 @@ const options = {
 };
 
 const connectDB = (url, dbName) => {
-  return mongoose.connect(`${url}/${dbName}`, options);
+  return mongoose
+    .connect(`${url}/${dbName}`, options)
+    .then(() => console.log("Connecton successful"))
+    .catch((error) => console.log(error));
 };
 
 module.exports = connectDB;
