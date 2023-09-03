@@ -15,7 +15,7 @@ export class OrderService {
     return this.http.get<Order[]>(`${this._url}/`);
   }
 
-  public addOrder(amount: number): Observable<any> {
+  public createOrder(amount: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -24,6 +24,6 @@ export class OrderService {
   }
 
   public getRazorApiKey(): Observable<any> {
-    return this.http.get<any>(`${this._url}/payment-verification`);
+    return this.http.get<any>(`${this._url}/key`);
   }
 }

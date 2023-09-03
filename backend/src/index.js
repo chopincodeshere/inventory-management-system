@@ -18,7 +18,7 @@ const CONNECTION_URL = process.env.MONGO_URI;
 // Middleware for parsing JSON and urlencoded form data.
 app.use(express.json());
 
-// app.use(cors);
+app.use(cors());
 
 // Routes
 app.get("/", (req, res) => {

@@ -278,6 +278,7 @@ export class ProductInfoComponent {
     this.orderForm.patchValue({
       items: this.orderList,
     });
+
     this.productInfo.reset();
   }
 
@@ -319,18 +320,19 @@ export class ProductInfoComponent {
       status: 'Pending', // Will be handled in order tracking
     });
 
-    this.orderService.addOrder(this.orderForm.value).subscribe(
-      (response) => {
-        console.log(response);
+    let total = this.getTotal();
 
+    this.orderService.createOrder(total).subscribe(
+      (response) => {
         var options = {
           key: key, // Enter the Key ID generated from the Dashboard
-          amount: '50000', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          amount: total * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
           currency: 'INR',
           name: 'Kalyan Traders',
           description: 'Test Transaction',
           order_id: response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-          callback_url: 'http://localhost:5000/api/v1/payment-verification',
+          callback_url:
+            'http://localhost:5000/api/v1/orders/payment-verification',
           prefill: {
             name: this.orderForm.value.customerName,
             // email: this.orderForm.value.customerEmail,
@@ -349,12 +351,11 @@ export class ProductInfoComponent {
         rzp1.open();
 
         this.showSuccess('Your order has been placed.');
+        // this.router.navigateByUrl('/orders/create-order/billing-info');
       },
       (error: HttpErrorResponse) => {
         this.showError('Order has not been placed');
       }
     );
-
-    this.router.navigateByUrl('/orders/create-order/billing-info');
   }
 }
