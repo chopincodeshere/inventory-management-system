@@ -15,12 +15,16 @@ export class OrderService {
     return this.http.get<Order[]>(`${this._url}/`);
   }
 
-  public createOrder(amount: number): Observable<any> {
+  public createOrder(amount: number, order: Order): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    return this.http.post<any>(`${this._url}`, { amount }, { headers });
+    return this.http.post<any>(
+      `${this._url}`,
+      { amount: amount, order: order },
+      { headers }
+    );
   }
 
   public getRazorApiKey(): Observable<any> {

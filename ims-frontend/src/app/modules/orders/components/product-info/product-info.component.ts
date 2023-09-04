@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
@@ -21,6 +21,7 @@ export class ProductInfoComponent {
   productSuggestions: string[] | undefined;
   total: number = 0;
   filteredTaxes: any[] = [];
+  isGst: boolean = false;
 
   orderList: any = [];
 
@@ -78,15 +79,19 @@ export class ProductInfoComponent {
       productId: [''],
       quantity: [1, [Validators.required, Validators.min(1)]],
       price: ['', [Validators.required, Validators.min(0)]],
+      gstDetails: ['', Validators.required],
+      discount: [''],
       description: [''],
       hsnCode: ['', Validators.required],
-      taxDetails: ['', Validators.required],
+      taxCategory: ['', Validators.required],
       taxAmount: ['', Validators.required],
       images: [''],
     });
 
     this.orderForm = this.formBuilder.group({
       customerName: ['', Validators.required],
+      customerEmail: ['', Validators.required],
+      customerContact: ['', Validators.required],
       date: ['', Validators.required],
       status: ['', Validators.required],
       items: this.formBuilder.array([]), // You may need to handle items separately
@@ -116,58 +121,75 @@ export class ProductInfoComponent {
   }
 
   isGSTIncluded() {
-    const taxDetailsValue = this.productInfo.get('taxDetails').value;
+    const taxDetailsValue = this.productInfo.get('taxCategory').value;
 
     switch (taxDetailsValue.key) {
       case 'sgst_5':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 5,
+          gstDetails: 'SGST',
         });
         break;
 
       case 'sgst_12':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 12,
+          gstDetails: 'SGST',
         });
         break;
 
       case 'sgst_18':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 18,
+          gstDetails: 'SGST',
         });
         break;
 
       case 'sgst_28':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 28,
+          gstDetails: 'SGST',
         });
         break;
 
       case 'igst_5':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 5,
+          gstDetails: 'IGST',
         });
         break;
 
       case 'igst_12':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 12,
+          gstDetails: 'IGST',
         });
         break;
 
       case 'igst_18':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 18,
+          gstDetails: 'IGST',
         });
         break;
 
       case 'igst_28':
+        this.isGst = true;
         this.productInfo.patchValue({
           taxAmount: 28,
+          gstDetails: 'IGST',
         });
         break;
 
       default:
+        this.isGst = false;
         break;
     }
   }
@@ -232,7 +254,7 @@ export class ProductInfoComponent {
           productId: response.productCode,
           price: response.price,
           hsnCode: response.hsnCode,
-          taxDetails: tax_option,
+          taxCategory: tax_option,
           description: response.description,
         });
 
@@ -246,6 +268,22 @@ export class ProductInfoComponent {
 
   getPrice(quantity: number, price: number): number {
     return quantity * price;
+  }
+
+  groupProductsByTaxCategory(): any {
+    let groupedProducts = {};
+
+    for (const order of this.orderList) {
+      const { taxCategory, taxAmount } = order;
+
+      if (!groupedProducts[taxCategory.key]) {
+        groupedProducts[taxCategory.key] = [];
+      }
+
+      groupedProducts[taxCategory.key].push({ ...order, taxAmount });
+    }
+
+    return groupedProducts;
   }
 
   getTotal(): number {
@@ -265,20 +303,70 @@ export class ProductInfoComponent {
     return total;
   }
 
+  getCGST() {
+    let groupedProducts = this.groupProductsByTaxCategory();
+    const taxTotals = {};
+
+    for (const category in groupedProducts) {
+      const productsInCategory = groupedProducts[category];
+      const totalTaxAmount = productsInCategory.reduce(
+        (total: number, product: { taxAmount: any }) =>
+          total + product.taxAmount / 2,
+        0
+      );
+
+      taxTotals[category] = totalTaxAmount;
+    }
+
+    return taxTotals;
+  }
+
+  getSGST() {
+    let groupedProducts = this.groupProductsByTaxCategory();
+    const taxTotals = {};
+
+    for (const category in groupedProducts) {
+      const productsInCategory = groupedProducts[category];
+      const totalTaxAmount = productsInCategory.reduce(
+        (total: number, product: { taxAmount: any }) =>
+          total + product.taxAmount / 2,
+        0
+      );
+
+      taxTotals[category] = totalTaxAmount;
+    }
+    console.log(taxTotals);
+    
+    return taxTotals;
+  }
+
+  getGrandTotal(): any {
+    // let grandTotal =
+    //   this.getCGST() +
+    //   this.getSGST() +
+    //   this.getTotal() -
+    //   (this.getTotal() * this.productInfo.value.discount) / 100;
+    // return grandTotal;
+  }
+
   checkQuantity(): boolean {
-    let result = this.productInfo.value.quantity > 0 ? false : true;
+    let result = !this.productInfo.valid;
 
     return result;
   }
 
   addItem() {
     const product = { ...this.productInfo.value };
-    this.showSuccess('Product added to the checkout list.');
+    this.showSuccess('Product added to the checkout list');
     this.orderList.push(product);
-    this.orderForm.patchValue({
-      items: this.orderList,
-    });
 
+    // Get a reference to the "items" FormArray
+    const itemsFormArray = this.orderForm.get('items') as FormArray;
+
+    // Add the product to the FormArray
+    itemsFormArray.push(this.formBuilder.group(product));
+
+    // Clear the productInfo form control
     this.productInfo.reset();
   }
 
@@ -306,14 +394,12 @@ export class ProductInfoComponent {
       key = response.key;
     });
 
-    // Increment the activeIndex in localStorage
-    localStorage.setItem(
-      'activeIndex',
-      JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
-    );
-
     this.orderForm.patchValue({
       customerName: JSON.parse(localStorage.getItem('clientInfo')).customerName,
+      customerEmail: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerEmail,
+      customerContact: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerPhone,
       shippingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
       billingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
       date: new Date(),
@@ -322,7 +408,7 @@ export class ProductInfoComponent {
 
     let total = this.getTotal();
 
-    this.orderService.createOrder(total).subscribe(
+    this.orderService.createOrder(total, this.orderForm.value).subscribe(
       (response) => {
         var options = {
           key: key, // Enter the Key ID generated from the Dashboard
@@ -331,12 +417,22 @@ export class ProductInfoComponent {
           name: 'Kalyan Traders',
           description: 'Test Transaction',
           order_id: response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-          callback_url:
-            'http://localhost:5000/api/v1/orders/payment-verification',
+          // callback_url:
+          //   'http://localhost:5000/api/v1/orders/payment-verification',
+          handler: (response: any) => {
+            this.showSuccess('Your order has been placed.');
+            this.router.navigateByUrl('/orders/create-order/billing-info');
+
+            // Increment the activeIndex in localStorage
+            localStorage.setItem(
+              'activeIndex',
+              JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
+            );
+          },
           prefill: {
             name: this.orderForm.value.customerName,
-            // email: this.orderForm.value.customerEmail,
-            // contact: this.orderForm.value.customerContact
+            email: this.orderForm.value.customerEmail,
+            contact: this.orderForm.value.customerContact,
           },
           notes: {
             address: 'Razorpay Corporate Office',
@@ -349,9 +445,6 @@ export class ProductInfoComponent {
         var rzp1 = new Razorpay(options);
 
         rzp1.open();
-
-        this.showSuccess('Your order has been placed.');
-        // this.router.navigateByUrl('/orders/create-order/billing-info');
       },
       (error: HttpErrorResponse) => {
         this.showError('Order has not been placed');

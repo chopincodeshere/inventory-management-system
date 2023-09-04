@@ -1,8 +1,10 @@
-import { Product } from "./product";
+import { Product } from './product';
 
 export interface Order {
   _id: string;
   customerName: string;
+  customerEmail: string;
+  customerContact: string;
   date: Date;
   status: string;
   items: Product[];
@@ -10,6 +12,6 @@ export interface Order {
   billingAddress: string;
   paymentDetails: {
     credit: boolean;
-    amount: number
+    amount: number;
   };
 }

@@ -60,7 +60,7 @@
       <span class="important-field">*</span>
     </div>
     <p-dropdown
-      formControlName="taxDetails"
+      formControlName="taxCategory"
       [options]="tax_options"
       optionLabel="tax"
       (ngModelChange)="isGSTIncluded()"
@@ -71,7 +71,7 @@
     ></p-dropdown>
   </div>
 
-  <!-- <div class="card flex justify-content-center p-field">
+  <div class="card flex justify-content-center p-field" *ngIf="isGst">
     <div>
       <label for="gstDetails">GST Type</label>
       <span class="important-field">*</span>
@@ -95,7 +95,7 @@
         <label for="igst" class="ml-2">IGST</label>
       </div>
     </div>
-  </div> -->
+  </div>
 
   <div class="p-field">
     <div>
@@ -106,6 +106,19 @@
       <p-inputNumber
         inputId="integeronly"
         formControlName="taxAmount"
+      ></p-inputNumber>
+      <span class="p-inputgroup-addon">%</span>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="discount">Discount</label>
+    </div>
+    <div class="p-inputgroup">
+      <p-inputNumber
+        inputId="integeronly"
+        formControlName="discount"
       ></p-inputNumber>
       <span class="p-inputgroup-addon">%</span>
     </div>
@@ -156,7 +169,8 @@
 </form>
 
 <!-- <div class="order-summary"> -->
-<div class="order-summary" *ngIf="orderList.length > 0">
+<!-- <div class="order-summary" *ngIf="orderList.length > 0"> -->
+<div class="order-summary">
   <h2>Order Summary</h2>
   <p-divider></p-divider>
   <div class="order-content">
@@ -178,7 +192,47 @@
       <ng-template pTemplate="summary">
         <div class="table-footer">
           <h3>Total</h3>
-          <span>₹{{ getTotal() }}/-</span>
+          <span class="billing-values">₹{{ getTotal() }}/-</span>
+
+          <div [ngSwitch]="getCGST()">
+            <div *ngSwitchCase="'sgst_5'">
+              <h3>CGST</h3>
+              <span class="billing-values">₹{{ getCGST()["sgst_5"] }}/-</span>
+            </div>
+            <div *ngSwitchCase="'sgst_12'">
+              <h3>CGST</h3>
+              <span class="billing-values">₹{{ getCGST()["sgst_12"] }}/-</span>
+            </div>
+            <div *ngSwitchCase="'sgst_18'">
+              <h3>CGST</h3>
+              <span class="billing-values">₹{{ getCGST()["sgst_18"] }}/-</span>
+            </div>
+            <div *ngSwitchCase="'sgst_28'">
+              <h3>CGST</h3>
+              <span class="billing-values">₹{{ getCGST()["sgst_28"] }}/-</span>
+            </div>
+            <div *ngSwitchDefault></div>
+          </div>
+
+          <div [ngSwitch]="getSGST()">
+            <div *ngSwitchCase="'sgst_5'">
+              <h3>SGST</h3>
+              <span class="billing-values">₹{{ getSGST()["sgst_5"] }}/-</span>
+            </div>
+            <div *ngSwitchCase="'sgst_12'">
+              <h3>SGST</h3>
+              <span class="billing-values">₹{{ getSGST()["sgst_12"] }}/-</span>
+            </div>
+            <div *ngSwitchCase="'sgst_18'">
+              <h3>SGST</h3>
+              <span class="billing-values">₹{{ getSGST()["sgst_18"] }}/-</span>
+            </div>
+            <div *ngSwitchCase="'sgst_28'">
+              <h3>SGST</h3>
+              <span class="billing-values">₹{{ getSGST()["sgst_28"] }}/-</span>
+            </div>
+            <div *ngSwitchDefault></div>
+          </div>
         </div>
       </ng-template>
     </p-table>

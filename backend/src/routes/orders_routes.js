@@ -14,9 +14,9 @@ const {
 const router = express.Router();
 
 router.route("/").get(getAllOrders).post(addOrder);
-router.route("/payment-verification").post(paymentVerification);
 router.route("/key").get(getRazorApiKey);
 router.route("/:id").get(getOrderById).patch(updateOrder).delete(deleteOrder);
 router.get("/search", searchOrderByQuery);
+router.post("/payment-verification", paymentVerification);
 
 module.exports = router;

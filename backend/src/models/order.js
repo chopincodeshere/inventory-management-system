@@ -7,7 +7,9 @@ const productOrderSchema = new mongoose.Schema({
 });
 
 const orderSchema = new mongoose.Schema({
-  customerName: { type: String, required: true }, // Replace orderNumber with customerId
+  customerName: { type: String, required: true }, 
+  customerEmail: { type: String, required: true },
+  customerContact: { type: String, required: true },
   date: { type: Date, required: true }, // Replace orderDate with date
   status: String,
   items: [productOrderSchema], // Use the productOrderSchema
