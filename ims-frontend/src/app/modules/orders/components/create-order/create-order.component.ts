@@ -30,6 +30,7 @@ export class CreateOrderComponent {
     ];
 
     this.activeIndex = Number(localStorage.getItem('activeIndex'));
+    
   }
 
   onActiveIndexChange(event: number) {

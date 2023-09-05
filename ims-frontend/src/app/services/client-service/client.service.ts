@@ -45,10 +45,17 @@ export class ClientService {
       return this.http.get<string[]>(`${this.baseUrl}/clients/autocomplete`);
     }
 
-    return this.http.get<string[]>(`${this.baseUrl}/clients/autocomplete?query=${query}`);
+    return this.http.get<string[]>(
+      `${this.baseUrl}/clients/autocomplete?query=${query}`
+    );
   }
 
   public getClientByName(query: string): Observable<Client> {
     return this.http.get<Client>(`/api/v1/clients/name?query=${query}`);
+  }
+
+  public addCreditAmount(id: string, creditDetails: any): Observable<Client> {
+    const url = `${this.baseUrl}clients/credit/${id}/`;
+    return this.http.patch<Client>(url, creditDetails);
   }
 }

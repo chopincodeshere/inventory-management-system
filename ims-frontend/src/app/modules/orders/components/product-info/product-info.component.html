@@ -169,8 +169,7 @@
 </form>
 
 <!-- <div class="order-summary"> -->
-<!-- <div class="order-summary" *ngIf="orderList.length > 0"> -->
-<div class="order-summary">
+<div class="order-summary" *ngIf="orderList.length > 0">
   <h2>Order Summary</h2>
   <p-divider></p-divider>
   <div class="order-content">
@@ -194,45 +193,28 @@
           <h3>Total</h3>
           <span class="billing-values">₹{{ getTotal() }}/-</span>
 
-          <div [ngSwitch]="getCGST()">
-            <div *ngSwitchCase="'sgst_5'">
+          <div class="gst-section" *ngFor="let taxValue of taxValuesArray">
+            <div>
               <h3>CGST</h3>
-              <span class="billing-values">₹{{ getCGST()["sgst_5"] }}/-</span>
+              <span class="billing-values">{{ taxValue.value }}%</span>
+              <span class="billing-values"
+                >₹{{ (getTotal() * getCGST()[taxValue.key]) / 100 }}/-</span
+              >
             </div>
-            <div *ngSwitchCase="'sgst_12'">
-              <h3>CGST</h3>
-              <span class="billing-values">₹{{ getCGST()["sgst_12"] }}/-</span>
-            </div>
-            <div *ngSwitchCase="'sgst_18'">
-              <h3>CGST</h3>
-              <span class="billing-values">₹{{ getCGST()["sgst_18"] }}/-</span>
-            </div>
-            <div *ngSwitchCase="'sgst_28'">
-              <h3>CGST</h3>
-              <span class="billing-values">₹{{ getCGST()["sgst_28"] }}/-</span>
-            </div>
-            <div *ngSwitchDefault></div>
           </div>
 
-          <div [ngSwitch]="getSGST()">
-            <div *ngSwitchCase="'sgst_5'">
+          <div class="gst-section" *ngFor="let taxValue of taxValuesArray">
+            <div>
               <h3>SGST</h3>
-              <span class="billing-values">₹{{ getSGST()["sgst_5"] }}/-</span>
+              <span class="billing-values">{{ taxValue.value }}%</span>
+              <span class="billing-values"
+                >₹{{ (getTotal() * getSGST()[taxValue.key]) / 100 }}/-</span
+              >
             </div>
-            <div *ngSwitchCase="'sgst_12'">
-              <h3>SGST</h3>
-              <span class="billing-values">₹{{ getSGST()["sgst_12"] }}/-</span>
-            </div>
-            <div *ngSwitchCase="'sgst_18'">
-              <h3>SGST</h3>
-              <span class="billing-values">₹{{ getSGST()["sgst_18"] }}/-</span>
-            </div>
-            <div *ngSwitchCase="'sgst_28'">
-              <h3>SGST</h3>
-              <span class="billing-values">₹{{ getSGST()["sgst_28"] }}/-</span>
-            </div>
-            <div *ngSwitchDefault></div>
           </div>
+
+          <h3>Grand Total</h3>
+          <span class="billing-values">₹{{ getGrandTotal() }}/-</span>
         </div>
       </ng-template>
     </p-table>
@@ -247,7 +229,7 @@
     ></p-button>
 
     <p-button
-      styleClass="p-button-info p-button-rounded p-button-text"
+      styleClass="p-button-info p-button-text"
       label="Credit Amount"
       (onClick)="addCredit()"
       [style]="{ 'margin-top': '1rem' }"

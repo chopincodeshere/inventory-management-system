@@ -131,6 +131,28 @@ const updateClient = async (req, res) => {
   }
 };
 
+const addCreditAmount = async (req, res) => {
+  try {
+    const { id: clientId } = req.params;
+
+    const client = await Client.findOneAndUpdate(
+      { _id: clientId },
+      { creditDetails: req.body },
+      {
+        new: true,
+      }
+    );
+
+    if (!client) {
+      return res.status(404).json({ message: "Client not found." });
+    }
+
+    res.status(201).json({ client, message: "Credit amount has been added" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const deleteClient = async (req, res) => {
   try {
     const { id: clientId } = req.params;
@@ -154,5 +176,6 @@ module.exports = {
   updateClient,
   deleteClient,
   getClientsByName,
-  getClientByName
+  getClientByName,
+  addCreditAmount,
 };

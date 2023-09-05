@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -14,6 +14,7 @@ declare var Razorpay: any;
   selector: 'app-product-info',
   templateUrl: './product-info.component.html',
   styleUrls: ['./product-info.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductInfoComponent {
   productInfo: FormGroup;
@@ -22,6 +23,8 @@ export class ProductInfoComponent {
   total: number = 0;
   filteredTaxes: any[] = [];
   isGst: boolean = false;
+  taxCategory: string;
+  taxValuesArray: any;
 
   orderList: any = [];
 
@@ -310,13 +313,20 @@ export class ProductInfoComponent {
     for (const category in groupedProducts) {
       const productsInCategory = groupedProducts[category];
       const totalTaxAmount = productsInCategory.reduce(
-        (total: number, product: { taxAmount: any }) =>
+        (total: number, product: { price: number; taxAmount: number }) =>
           total + product.taxAmount / 2,
         0
       );
 
-      taxTotals[category] = totalTaxAmount;
+      const averageTaxAmount = totalTaxAmount / productsInCategory.length;
+
+      taxTotals[category] = averageTaxAmount;
     }
+
+    this.taxValuesArray = Object.keys(taxTotals).map((key) => ({
+      key,
+      value: taxTotals[key],
+    }));
 
     return taxTotals;
   }
@@ -328,25 +338,26 @@ export class ProductInfoComponent {
     for (const category in groupedProducts) {
       const productsInCategory = groupedProducts[category];
       const totalTaxAmount = productsInCategory.reduce(
-        (total: number, product: { taxAmount: any }) =>
+        (total: number, product: { price: number; taxAmount: number }) =>
           total + product.taxAmount / 2,
         0
       );
 
-      taxTotals[category] = totalTaxAmount;
+      const averageTaxAmount = totalTaxAmount / productsInCategory.length;
+
+      taxTotals[category] = averageTaxAmount;
     }
-    console.log(taxTotals);
-    
+
     return taxTotals;
   }
 
   getGrandTotal(): any {
-    // let grandTotal =
-    //   this.getCGST() +
-    //   this.getSGST() +
-    //   this.getTotal() -
-    //   (this.getTotal() * this.productInfo.value.discount) / 100;
-    // return grandTotal;
+    let grandTotal =
+      (this.getCGST()[this.taxCategory] * this.getTotal()) / 100 +
+      (this.getSGST()[this.taxCategory] * this.getTotal()) / 100 +
+      this.getTotal() -
+      (this.getTotal() * this.productInfo.value.discount) / 100;
+    return grandTotal;
   }
 
   checkQuantity(): boolean {
@@ -366,18 +377,42 @@ export class ProductInfoComponent {
     // Add the product to the FormArray
     itemsFormArray.push(this.formBuilder.group(product));
 
+    this.taxCategory = this.productInfo.value.taxCategory.key;
+
     // Clear the productInfo form control
     this.productInfo.reset();
   }
 
   addCredit() {
+    let client_id: string;
+    let clientName: string = JSON.parse(
+      localStorage.getItem('clientInfo')
+    ).customerName;
+
+    let credit: any = {
+      amount: this.getTotal(),
+      items: this.orderList,
+    };
+
     this.orderForm.patchValue({
       paymentDetails: this.formBuilder.group({
         credit: [true],
       }),
     });
 
-    // Set client credit (Yet to write backend)
+    // Set client credit
+    this.clientService.getClientByName(clientName).subscribe((response) => {
+      client_id = response._id;
+
+      this.clientService.addCreditAmount(client_id, credit).subscribe(
+        (response) => {
+          this.showSuccess('Credit amount has been added.');
+        },
+        (error: HttpErrorResponse) => {
+          this.showError(error.status + 'Failed to add credit amount');
+        }
+      );
+    });
 
     localStorage.setItem(
       'activeIndex',

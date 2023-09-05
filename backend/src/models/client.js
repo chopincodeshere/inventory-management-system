@@ -44,6 +44,29 @@ const clientSchema = new mongoose.Schema({
     type: String,
     required: [true, "Must provide an account number"],
   },
+  creditDetails: {
+    type: {
+      total: Number,
+      items: [
+        {
+          productName: String,
+          productId: String,
+          quantity: Number,
+          price: Number,
+          gstDetails: String,
+          discount: Number,
+          description: String,
+          hsnCode: String,
+          taxCategory: {
+            key: String,
+            tax: String,
+          },
+          taxAmount: Number,
+          images: String,
+        },
+      ],
+    },
+  },
   financialYearFrom: {
     type: Date,
     required: [true, "Must provide a date for the start of the financial year"],

@@ -50,3 +50,10 @@
     display: flex;
     align-items: center;
 }
+
+.gst-section > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 78%;
+}
