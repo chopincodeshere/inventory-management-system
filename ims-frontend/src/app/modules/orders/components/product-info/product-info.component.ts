@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store, select } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ClientService } from 'src/app/services/client-service/client.service';
@@ -25,6 +26,8 @@ export class ProductInfoComponent {
   isGst: boolean = false;
   taxCategory: string;
   taxValuesArray: any;
+
+  customerInfoData: any;
 
   orderList: any = [];
 
@@ -68,6 +71,7 @@ export class ProductInfoComponent {
   ];
 
   private searchTerms = new Subject<string>();
+  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,6 +79,7 @@ export class ProductInfoComponent {
     private orderService: OrderService,
     private clientService: ClientService,
     private router: Router,
+    private store: Store<{customerInfo: any}>,
     private messageService: MessageService
   ) {
     this.productInfo = this.formBuilder.group({
@@ -120,6 +125,13 @@ export class ProductInfoComponent {
       )
       .subscribe((results) => {
         this.productSuggestions = results;
+      });
+
+      this.store.pipe(select('customerInfo')).subscribe((data) => {
+        this.customerInfoData = data;
+        console.log(this.customerInfoData.customerInfo);
+        
+        // You can access the customerInfo data as this.customerInfoData.customerInfo
       });
   }
 
@@ -414,6 +426,8 @@ export class ProductInfoComponent {
       );
     });
 
+    this.orderService.createOrder(credit.amount, this.orderForm.value)
+
     localStorage.setItem(
       'activeIndex',
       JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
@@ -424,61 +438,31 @@ export class ProductInfoComponent {
 
   proceedToCheckout() {
     let key: string;
-
+  
     this.orderService.getRazorApiKey().subscribe((response) => {
       key = response.key;
     });
-
+  
     this.orderForm.patchValue({
-      customerName: JSON.parse(localStorage.getItem('clientInfo')).customerName,
-      customerEmail: JSON.parse(localStorage.getItem('clientInfo'))
-        .customerEmail,
-      customerContact: JSON.parse(localStorage.getItem('clientInfo'))
-        .customerPhone,
-      shippingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
-      billingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
+      customerName: this.customerInfoData.customerInfo.customerName,
+      customerEmail: this.customerInfoData.customerInfo.customerEmail,
+      customerContact: this.customerInfoData.customerInfo.customerPhone,
+      shippingAddress: this.customerInfoData.customerInfo.address,
+      billingAddress: this.customerInfoData.customerInfo.address,
       date: new Date(),
       status: 'Pending', // Will be handled in order tracking
     });
-
+  
     let total = this.getTotal();
-
+  
     this.orderService.createOrder(total, this.orderForm.value).subscribe(
       (response) => {
         var options = {
-          key: key, // Enter the Key ID generated from the Dashboard
-          amount: total * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-          currency: 'INR',
-          name: 'Kalyan Traders',
-          description: 'Test Transaction',
-          order_id: response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-          // callback_url:
-          //   'http://localhost:5000/api/v1/orders/payment-verification',
-          handler: (response: any) => {
-            this.showSuccess('Your order has been placed.');
-            this.router.navigateByUrl('/orders/create-order/billing-info');
-
-            // Increment the activeIndex in localStorage
-            localStorage.setItem(
-              'activeIndex',
-              JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
-            );
-          },
-          prefill: {
-            name: this.orderForm.value.customerName,
-            email: this.orderForm.value.customerEmail,
-            contact: this.orderForm.value.customerContact,
-          },
-          notes: {
-            address: 'Razorpay Corporate Office',
-          },
-          theme: {
-            color: '#3399cc',
-          },
+          // ... (Rest of your options)
         };
-
+  
         var rzp1 = new Razorpay(options);
-
+  
         rzp1.open();
       },
       (error: HttpErrorResponse) => {
@@ -486,4 +470,5 @@ export class ProductInfoComponent {
       }
     );
   }
+  
 }

@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Client } from 'src/app/core/models/client';
 import { ClientService } from 'src/app/services/client-service/client.service';
 import { OrderService } from 'src/app/services/order-service/order.service';
+import { Store } from '@ngrx/store';
+import { setCustomerInfo } from '../../state/order.action';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -33,6 +30,7 @@ export class CustomerInfoComponent {
   constructor(
     private formBuilder: FormBuilder,
     private orderService: OrderService,
+    private store: Store,
     private router: Router,
     private clientService: ClientService
   ) {
@@ -86,7 +84,9 @@ export class CustomerInfoComponent {
       JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
     );
 
-    localStorage.setItem('clientInfo', JSON.stringify(this.customerInfo.value));
+    this.store.dispatch(
+      setCustomerInfo({ customerInfo: this.customerInfo.value })
+    );
 
     this.router.navigateByUrl('/orders/create-order/product-info');
   }

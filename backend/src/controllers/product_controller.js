@@ -114,6 +114,7 @@ const updateProduct = async (req, res) => {
       {
         new: true,
         runValidators: true,
+        overWrite: true,
       }
     );
 

@@ -24,6 +24,10 @@ const clientSchema = new mongoose.Schema({
     type: String,
     required: [true, "Must provide a state"],
   },
+  city: {
+    type: String,
+    required: [true, "Must provide a city"],
+  },
   pincode: {
     type: String,
     required: [true, "Must provide a pincode"],

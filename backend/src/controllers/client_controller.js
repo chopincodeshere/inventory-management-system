@@ -119,6 +119,7 @@ const updateClient = async (req, res) => {
     const client = await Client.findOneAndUpdate({ _id: clientId }, req.body, {
       new: true,
       runValidators: true,
+      overWrite: true
     });
 
     if (!client) {
