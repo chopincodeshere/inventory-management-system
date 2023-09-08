@@ -6,7 +6,6 @@ import { Client } from 'src/app/core/models/client';
 import { ClientService } from 'src/app/services/client-service/client.service';
 import { OrderService } from 'src/app/services/order-service/order.service';
 import { Store } from '@ngrx/store';
-import { setCustomerInfo } from '../../state/order.action';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -84,9 +83,7 @@ export class CustomerInfoComponent {
       JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
     );
 
-    this.store.dispatch(
-      setCustomerInfo({ customerInfo: this.customerInfo.value })
-    );
+    localStorage.setItem('clientInfo', JSON.stringify(this.customerInfo.value))
 
     this.router.navigateByUrl('/orders/create-order/product-info');
   }

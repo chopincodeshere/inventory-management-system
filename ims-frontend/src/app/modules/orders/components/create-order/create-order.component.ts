@@ -60,8 +60,6 @@ export class CreateOrderComponent {
   }
 
   onActiveIndexChange(event: number) {
-    console.log(event);
-    
     localStorage.setItem('activeIndex', this.activeIndex.toString());
   }
 }

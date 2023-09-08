@@ -8,6 +8,7 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { ClientService } from 'src/app/services/client-service/client.service';
 import { OrderService } from 'src/app/services/order-service/order.service';
 import { ProductService } from 'src/app/services/product-service/product.service';
+import { setInvoice } from '../../state/order.action';
 
 declare var Razorpay: any;
 
@@ -71,7 +72,6 @@ export class ProductInfoComponent {
   ];
 
   private searchTerms = new Subject<string>();
-  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -79,7 +79,7 @@ export class ProductInfoComponent {
     private orderService: OrderService,
     private clientService: ClientService,
     private router: Router,
-    private store: Store<{customerInfo: any}>,
+    private store: Store<{ customerInfo: any; productInfo: any }>,
     private messageService: MessageService
   ) {
     this.productInfo = this.formBuilder.group({
@@ -127,12 +127,9 @@ export class ProductInfoComponent {
         this.productSuggestions = results;
       });
 
-      this.store.pipe(select('customerInfo')).subscribe((data) => {
-        this.customerInfoData = data;
-        console.log(this.customerInfoData.customerInfo);
-        
-        // You can access the customerInfo data as this.customerInfoData.customerInfo
-      });
+    this.store.pipe(select('customerInfo')).subscribe((data) => {
+      this.customerInfoData = data;
+    });
   }
 
   isGSTIncluded() {
@@ -407,9 +404,19 @@ export class ProductInfoComponent {
     };
 
     this.orderForm.patchValue({
-      paymentDetails: this.formBuilder.group({
-        credit: [true],
-      }),
+      customerName: JSON.parse(localStorage.getItem('clientInfo')).customerName,
+      customerEmail: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerEmail,
+      customerContact: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerPhone,
+      shippingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
+      billingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
+      date: new Date(),
+      status: 'Pending',
+    });
+
+    this.orderForm.get('paymentDetails').patchValue({
+      credit: true,
     });
 
     // Set client credit
@@ -426,7 +433,11 @@ export class ProductInfoComponent {
       );
     });
 
-    this.orderService.createOrder(credit.amount, this.orderForm.value)
+    this.orderService
+      .createOrder(credit.amount, this.orderForm.value)
+      .subscribe((response) => {
+        this.store.dispatch(setInvoice({ invoice: response.invoice }));
+      });
 
     localStorage.setItem(
       'activeIndex',
@@ -438,31 +449,51 @@ export class ProductInfoComponent {
 
   proceedToCheckout() {
     let key: string;
-  
+
     this.orderService.getRazorApiKey().subscribe((response) => {
       key = response.key;
     });
-  
+
     this.orderForm.patchValue({
-      customerName: this.customerInfoData.customerInfo.customerName,
-      customerEmail: this.customerInfoData.customerInfo.customerEmail,
-      customerContact: this.customerInfoData.customerInfo.customerPhone,
-      shippingAddress: this.customerInfoData.customerInfo.address,
-      billingAddress: this.customerInfoData.customerInfo.address,
+      customerName: JSON.parse(localStorage.getItem('clientInfo')).customerName,
+      customerEmail: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerEmail,
+      customerContact: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerPhone,
+      shippingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
+      billingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
       date: new Date(),
       status: 'Pending', // Will be handled in order tracking
     });
-  
+
     let total = this.getTotal();
-  
+
     this.orderService.createOrder(total, this.orderForm.value).subscribe(
       (response) => {
         var options = {
-          // ... (Rest of your options)
+          key: key, // Enter the Key ID generated from the Dashboard
+          amount: this.getGrandTotal() * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          currency: 'INR',
+          name: 'Kalyan Traders',
+          description: 'Test Transaction',
+          image: 'https://example.com/your_logo',
+          order_id: response._id,
+          handler: function (response: any) {
+            this.showSuccess('Payment Successfull');
+            this.store.dispatch(setInvoice({ invoice: response.invoice }));
+          },
+          prefill: {
+            name: this.orderForm.value.customerName,
+            email: this.orderForm.value.customerEmail,
+            contact: this.orderForm.value.customerContact,
+          },
+          theme: {
+            color: '#3399cc',
+          },
         };
-  
+
         var rzp1 = new Razorpay(options);
-  
+
         rzp1.open();
       },
       (error: HttpErrorResponse) => {
@@ -470,5 +501,4 @@ export class ProductInfoComponent {
       }
     );
   }
-  
 }

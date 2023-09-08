@@ -11,6 +11,7 @@ import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -22,7 +23,7 @@ import { ProductInfoComponent } from './components/product-info/product-info.com
 import { BillingComponent } from './components/billing/billing.component';
 import { MessageService } from 'primeng/api';
 import { StoreModule } from '@ngrx/store';
-import { customerInfoReducer } from './state/order.reducer';
+import { invoiceReducer } from './state/order.reducer';
 
 @NgModule({
   declarations: [
@@ -43,13 +44,14 @@ import { customerInfoReducer } from './state/order.reducer';
     RadioButtonModule,
     InputNumberModule,
     DropdownModule,
+    ProgressSpinnerModule,
     DividerModule,
     TableModule,
     AutoCompleteModule,
     ImageModule,
     ButtonModule,
     CardModule,
-    StoreModule.forFeature('customerInfo', customerInfoReducer),
+    StoreModule.forFeature('invoice', invoiceReducer),
   ],
   providers: [MessageService],
 })

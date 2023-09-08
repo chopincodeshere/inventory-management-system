@@ -1,3 +1,3 @@
 import { createAction, props } from "@ngrx/store";
 
-export const setCustomerInfo = createAction('setCustomerInfo', props<{ customerInfo: any }>());
+export const setInvoice = createAction('setInvoice', props<{ invoice: any }>());

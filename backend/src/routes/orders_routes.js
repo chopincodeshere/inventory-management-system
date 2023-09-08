@@ -3,7 +3,7 @@ const express = require("express");
 const {
   getAllOrders,
   getOrderById,
-  addOrder,
+  createOrder,
   updateOrder,
   deleteOrder,
   searchOrderByQuery,
@@ -13,7 +13,7 @@ const {
 
 const router = express.Router();
 
-router.route("/").get(getAllOrders).post(addOrder);
+router.route("/").get(getAllOrders).post(createOrder);
 router.route("/key").get(getRazorApiKey);
 router.route("/:id").get(getOrderById).patch(updateOrder).delete(deleteOrder);
 router.get("/search", searchOrderByQuery);

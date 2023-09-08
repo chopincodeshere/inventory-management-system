@@ -1,17 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialState } from './order.state';
-import { setCustomerInfo } from './order.action';
+import { setInvoice } from './order.action';
 
-const _customerInfoReducer = createReducer(
+const _invoiceReducer = createReducer(
   initialState,
-  on(setCustomerInfo, (state, payload) => {
+  on(setInvoice, (state, payload) => {
     return {
       ...state,
-      customerInfo: payload.customerInfo, // Use payload.customerInfo directly
+      invoice: payload.invoice, // Use payload.customerInfo directly
     };
   })
 );
 
-export function customerInfoReducer(state: any, action: any) {
-  return _customerInfoReducer(state, action);
+export function invoiceReducer(state: any, action: any) {
+  return _invoiceReducer(state, action);
 }
