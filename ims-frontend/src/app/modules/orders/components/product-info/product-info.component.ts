@@ -28,6 +28,8 @@ export class ProductInfoComponent {
   taxCategory: string;
   taxValuesArray: any;
 
+  isLoading: boolean = false;
+
   customerInfoData: any;
 
   orderList: any = [];
@@ -393,6 +395,7 @@ export class ProductInfoComponent {
   }
 
   addCredit() {
+    this.isLoading = true;
     let client_id: string;
     let clientName: string = JSON.parse(
       localStorage.getItem('clientInfo')
@@ -433,21 +436,21 @@ export class ProductInfoComponent {
       );
     });
 
-    this.orderService
-      .createOrder(credit.amount, this.orderForm.value)
-      .subscribe((response) => {
-        this.store.dispatch(setInvoice({ invoice: response.invoice }));
-      });
-
     localStorage.setItem(
       'activeIndex',
       JSON.stringify(Number(localStorage.getItem('activeIndex')) + 1)
     );
 
-    this.router.navigateByUrl('/orders/create-order/billing-info');
+    this.orderService
+      .createOrder(credit.amount, this.orderForm.value)
+      .subscribe((response) => {
+        this.store.dispatch(setInvoice({ invoice: response.invoice }));
+        this.router.navigateByUrl('/orders/create-order/billing-info');
+      });
   }
 
   proceedToCheckout() {
+    this.isLoading = true;
     let key: string;
 
     this.orderService.getRazorApiKey().subscribe((response) => {
@@ -495,6 +498,9 @@ export class ProductInfoComponent {
         var rzp1 = new Razorpay(options);
 
         rzp1.open();
+
+        this.store.dispatch(setInvoice({ invoice: response.invoice }));
+        this.router.navigateByUrl('/orders/create-order/billing-info');
       },
       (error: HttpErrorResponse) => {
         this.showError('Order has not been placed');

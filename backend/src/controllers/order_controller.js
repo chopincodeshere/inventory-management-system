@@ -36,10 +36,7 @@ const createOrder = async (req, res) => {
       //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
     },
     images: {
-      // The logo on top of your invoice
       logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
-      // The invoice background
-      background: "https://public.easyinvoice.cloud/img/watermark-draft.jpg",
     },
     sender: {
       company: "Kalyan Traders",
@@ -65,10 +62,16 @@ const createOrder = async (req, res) => {
         .toISOString()
         .slice(0, 10),
     },
-    products: order.items,
+    products: order.items.map((item) => ({
+      quantity: item.quantity,
+      description: item.description,
+      "tax-rate": item.gstDetails,
+      price: item.price,
+    })),
     "bottom-notice": "Kindly pay your invoice within 30 days.",
     settings: {
       currency: "INR",
+      "tax-notation": "GST",
     },
   };
 

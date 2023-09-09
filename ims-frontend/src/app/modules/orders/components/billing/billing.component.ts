@@ -8,17 +8,27 @@ import { Store, select } from '@ngrx/store';
 })
 export class BillingComponent {
   invoice: any;
-  fetched: boolean = false;
+  isGenerating: boolean = false;
+  isError: boolean = false;
+  pdfSrc: string;
 
-
-  constructor(
-    private store: Store<{ invoice: string }>
-  ) {}
+  constructor(private store: Store<{ invoice: string }>) {}
 
   ngOnInit() {
     this.store.pipe(select('invoice')).subscribe((data) => {
       this.invoice = data;
-      this.fetched = true;
+
+      const byteCharacters = atob(this.invoice.invoice);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      this.pdfSrc = link.href;
     });
   }
 
@@ -37,9 +47,14 @@ export class BillingComponent {
     link.href = window.URL.createObjectURL(blob);
     link.download = fileName;
     link.click();
+    this.pdfSrc = link.href;
   }
 
   generateInvoice() {
-    this.downloadPdfFromBase64(this.invoice.invoice, 'Invoice');
+    if (this.invoice) {
+      this.downloadPdfFromBase64(this.invoice.invoice, 'Invoice');
+    } else {
+      this.isError = true;
+    }
   }
 }

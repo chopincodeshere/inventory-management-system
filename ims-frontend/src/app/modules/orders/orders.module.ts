@@ -24,6 +24,7 @@ import { BillingComponent } from './components/billing/billing.component';
 import { MessageService } from 'primeng/api';
 import { StoreModule } from '@ngrx/store';
 import { invoiceReducer } from './state/order.reducer';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { invoiceReducer } from './state/order.reducer';
     ProgressSpinnerModule,
     DividerModule,
     TableModule,
+    PdfViewerModule,
     AutoCompleteModule,
     ImageModule,
     ButtonModule,

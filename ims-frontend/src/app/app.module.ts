@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
+import { AnimateModule } from 'primeng/animate';
 import { MenuModule } from 'primeng/menu';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { StoreModule } from '@ngrx/store';
     ButtonModule,
     AvatarModule,
     CardModule,
+    AnimateModule,
     MenuModule,
     StoreModule.forRoot({})
   ],

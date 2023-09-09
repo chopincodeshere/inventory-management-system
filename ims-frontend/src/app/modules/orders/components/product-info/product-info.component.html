@@ -226,6 +226,7 @@
       label="Checkout"
       (onClick)="proceedToCheckout()"
       [style]="{ 'margin-top': '1rem' }"
+      [loading]="isLoading && orderForm.get('paymentDetails').value.credit"
     ></p-button>
 
     <p-button
@@ -233,6 +234,7 @@
       label="Credit Amount"
       (onClick)="addCredit()"
       [style]="{ 'margin-top': '1rem' }"
+      [loading]="isLoading && orderForm.get('paymentDetails').value.credit"
     ></p-button>
   </div>
 </div>
