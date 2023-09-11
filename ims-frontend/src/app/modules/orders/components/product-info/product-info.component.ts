@@ -286,6 +286,7 @@ export class ProductInfoComponent {
 
   groupProductsByTaxCategory(): any {
     let groupedProducts = {};
+    const taxTotals = {};
 
     for (const order of this.orderList) {
       const { taxCategory, taxAmount } = order;
@@ -297,7 +298,23 @@ export class ProductInfoComponent {
       groupedProducts[taxCategory.key].push({ ...order, taxAmount });
     }
 
-    return groupedProducts;
+    for (const category in groupedProducts) {
+      const productsInCategory = groupedProducts[category];
+      const totalTaxAmount = productsInCategory.reduce(
+        (total: number, product: { price: number; taxAmount: number }) =>
+          total + product.taxAmount / 2,
+        0
+      );
+
+      const averageTaxAmount = totalTaxAmount / productsInCategory.length;
+
+      taxTotals[category] = averageTaxAmount;
+    }
+
+    this.taxValuesArray = Object.keys(taxTotals).map((key) => ({
+      key,
+      value: taxTotals[key],
+    }));
   }
 
   getTotal(): number {
@@ -317,57 +334,56 @@ export class ProductInfoComponent {
     return total;
   }
 
-  getCGST() {
-    let groupedProducts = this.groupProductsByTaxCategory();
-    const taxTotals = {};
-
-    for (const category in groupedProducts) {
-      const productsInCategory = groupedProducts[category];
-      const totalTaxAmount = productsInCategory.reduce(
-        (total: number, product: { price: number; taxAmount: number }) =>
-          total + product.taxAmount / 2,
+  getCGST(taxCategory: string, taxValue: number): number {
+    const cgst = this.orderList
+      .filter(
+        (product: { taxCategory: { key: string } }) =>
+          product.taxCategory.key === taxCategory
+      )
+      .reduce(
+        (total: number, product: { price: number }) =>
+          total + (product.price * taxValue) / 100,
         0
       );
 
-      const averageTaxAmount = totalTaxAmount / productsInCategory.length;
-
-      taxTotals[category] = averageTaxAmount;
-    }
-
-    this.taxValuesArray = Object.keys(taxTotals).map((key) => ({
-      key,
-      value: taxTotals[key],
-    }));
-
-    return taxTotals;
+    return cgst;
   }
 
-  getSGST() {
-    let groupedProducts = this.groupProductsByTaxCategory();
-    const taxTotals = {};
-
-    for (const category in groupedProducts) {
-      const productsInCategory = groupedProducts[category];
-      const totalTaxAmount = productsInCategory.reduce(
-        (total: number, product: { price: number; taxAmount: number }) =>
-          total + product.taxAmount / 2,
+  getSGST(taxCategory: string, taxValue: number): number {
+    const sgst = this.orderList
+      .filter(
+        (product: { taxCategory: { key: string } }) =>
+          product.taxCategory.key === taxCategory
+      )
+      .reduce(
+        (total: number, product: { price: number }) =>
+          total + (product.price * taxValue) / 100,
         0
       );
 
-      const averageTaxAmount = totalTaxAmount / productsInCategory.length;
-
-      taxTotals[category] = averageTaxAmount;
-    }
-
-    return taxTotals;
+    return sgst;
   }
 
   getGrandTotal(): any {
-    let grandTotal =
-      (this.getCGST()[this.taxCategory] * this.getTotal()) / 100 +
-      (this.getSGST()[this.taxCategory] * this.getTotal()) / 100 +
-      this.getTotal() -
-      (this.getTotal() * this.productInfo.value.discount) / 100;
+    let grandTotal = 0;
+
+    for (const product of this.orderList) {
+      // Calculate the item total without tax
+      const itemTotalWithoutTax = this.getPrice(
+        product.quantity,
+        product.price
+      );
+
+      // Calculate the tax for the item
+      const itemTax = (itemTotalWithoutTax * product.taxAmount) / 100;
+
+      // Calculate the item total including tax
+      const itemTotalIncludingTax = itemTotalWithoutTax + itemTax;
+
+      // Add the item total including tax to the grand total
+      grandTotal += itemTotalIncludingTax * product.quantity;
+    }
+
     return grandTotal;
   }
 
@@ -389,6 +405,8 @@ export class ProductInfoComponent {
     itemsFormArray.push(this.formBuilder.group(product));
 
     this.taxCategory = this.productInfo.value.taxCategory.key;
+
+    this.groupProductsByTaxCategory();
 
     // Clear the productInfo form control
     this.productInfo.reset();

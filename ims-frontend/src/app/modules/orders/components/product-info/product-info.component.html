@@ -185,20 +185,27 @@
         <tr>
           <td>{{ order.productName }}</td>
           <td>{{ order.quantity }}</td>
-          <td><span>₹</span> {{ getPrice(order.quantity, order.price) }}/-</td>
+          <td>
+            {{
+              getPrice(order.quantity, order.price)
+                | currency : "INR" : "symbol"
+            }}/-
+          </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary">
         <div class="table-footer">
           <h3>Total</h3>
-          <span class="billing-values">₹{{ getTotal() }}/-</span>
+          <span class="billing-values"
+            >{{ getTotal() | currency : "INR" : "symbol" }}/-</span
+          >
 
           <div class="gst-section" *ngFor="let taxValue of taxValuesArray">
             <div>
               <h3>CGST</h3>
               <span class="billing-values">{{ taxValue.value }}%</span>
               <span class="billing-values"
-                >₹{{ (getTotal() * getCGST()[taxValue.key]) / 100 }}/-</span
+                >{{ getCGST(taxValue.key, taxValue.value) | currency : "INR" : "symbol" }}/-</span
               >
             </div>
           </div>
@@ -208,13 +215,15 @@
               <h3>SGST</h3>
               <span class="billing-values">{{ taxValue.value }}%</span>
               <span class="billing-values"
-                >₹{{ (getTotal() * getSGST()[taxValue.key]) / 100 }}/-</span
+                >{{ getSGST(taxValue.key, taxValue.value) | currency : "INR" : "symbol" }}/-</span
               >
             </div>
           </div>
 
           <h3>Grand Total</h3>
-          <span class="billing-values">₹{{ getGrandTotal() }}/-</span>
+          <span class="billing-values"
+            >{{ getGrandTotal() | currency : "INR" : "symbol" }}/-</span
+          >
         </div>
       </ng-template>
     </p-table>
