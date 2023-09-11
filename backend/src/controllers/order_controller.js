@@ -3,7 +3,7 @@ const instance = require("../config/paymentconfig");
 const easyinvoice = require("easyinvoice");
 const Client = require("../models/client");
 const crypto = require("crypto");
-const { v4: uuid } = require("uuid");
+const fs = require("fs");
 
 const getAllOrders = async (req, res) => {
   try {
@@ -36,7 +36,7 @@ const createOrder = async (req, res) => {
       //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
     },
     images: {
-      logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
+      logo: fs.readFileSync("D:\\MEAN Stack\\inventory-management-system\\backend\\src\\assets\\KayanTraders.png", "base64"),
     },
     sender: {
       company: "Kalyan Traders",
@@ -54,6 +54,7 @@ const createOrder = async (req, res) => {
       state: client.state,
       city: client.city,
       country: client.country,
+      "GST Number": client.gstNumber
     },
     information: {
       number: newOrder._id,
@@ -65,7 +66,7 @@ const createOrder = async (req, res) => {
     products: order.items.map((item) => ({
       quantity: item.quantity,
       description: item.description,
-      "tax-rate": item.gstDetails,
+      "tax-rate": item.taxAmount,
       price: item.price,
     })),
     "bottom-notice": "Kindly pay your invoice within 30 days.",
