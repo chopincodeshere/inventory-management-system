@@ -53,6 +53,10 @@ export class BillingComponent {
   generateInvoice() {
     if (this.invoice) {
       this.downloadPdfFromBase64(this.invoice.invoice, 'Invoice');
+
+      setTimeout(() => {
+        localStorage.clear();
+      }, 1000);
     } else {
       this.isError = true;
     }

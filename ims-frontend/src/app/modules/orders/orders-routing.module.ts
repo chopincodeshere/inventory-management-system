@@ -9,7 +9,7 @@ import { BillingComponent } from './components/billing/billing.component';
 
 const routes: Routes = [
   { path: 'create-order', component: CreateOrderComponent, children: [
-    { path: '', redirectTo: 'customer-info', pathMatch: 'full' }, // Default to the first step
+    { path: '', redirectTo: 'customer-info', pathMatch: 'full' }, 
     { path: 'customer-info', component: CustomerInfoComponent },
     { path: 'product-info', component: ProductInfoComponent },
     { path: 'billing-info', component: BillingComponent },

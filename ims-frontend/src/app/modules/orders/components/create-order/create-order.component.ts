@@ -51,7 +51,6 @@ export class CreateOrderComponent {
 
           default:
             this.activeIndex = 0;
-            this.router.navigateByUrl('/orders/create-order/customer-info');
             break;
         }
 
@@ -60,6 +59,7 @@ export class CreateOrderComponent {
   }
 
   onActiveIndexChange(event: number) {
+    this.activeIndex = event
     localStorage.setItem('activeIndex', this.activeIndex.toString());
   }
 }
