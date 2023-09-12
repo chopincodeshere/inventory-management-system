@@ -67,6 +67,7 @@ const clientSchema = new mongoose.Schema({
           },
           taxAmount: Number,
           images: String,
+          date: Date
         },
       ],
     },

@@ -4,6 +4,7 @@ const easyinvoice = require("easyinvoice");
 const Client = require("../models/client");
 const crypto = require("crypto");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const getAllOrders = async (req, res) => {
   try {
@@ -19,8 +20,9 @@ const getOrderById = async (req, res) => {};
 
 const createOrder = async (req, res) => {
   const { amount, order } = req.body;
+  const orderNumber = uuidv4();
 
-  const newOrder = await Order.create(order);
+  const newOrder = await Order.create({ ...order, orderNumber });
 
   const client = await Client.findOne({
     name: { $regex: new RegExp(order.customerName, "i") },
@@ -36,7 +38,10 @@ const createOrder = async (req, res) => {
       //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html
     },
     images: {
-      logo: fs.readFileSync("D:\\MEAN Stack\\inventory-management-system\\backend\\src\\assets\\KayanTraders.png", "base64"),
+      logo: fs.readFileSync(
+        "D:\\MEAN Stack\\inventory-management-system\\backend\\src\\assets\\KayanTraders.png",
+        "base64"
+      ),
     },
     sender: {
       company: "Kalyan Traders",
@@ -54,7 +59,7 @@ const createOrder = async (req, res) => {
       state: client.state,
       city: client.city,
       country: client.country,
-      "GST Number": client.gstNumber
+      "GST Number": client.gstNumber,
     },
     information: {
       number: newOrder._id,
@@ -95,6 +100,19 @@ const createOrder = async (req, res) => {
         });
       });
     } else {
+      // const updatedClient = await Client.findOneAndUpdate(
+      //   { _id: client._id },
+      //   {
+      //     ...client,
+      //     creditDetails: { ...items, total: (total += amount * 100) },
+      //   },
+      //   {
+      //     new: true,
+      //     runValidators: true,
+      //     overWrite: true,
+      //   }
+      // );
+
       easyinvoice.createInvoice(data, async function (result) {
         invoice = await result.pdf;
 

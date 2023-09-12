@@ -446,7 +446,7 @@ export class ProductInfoComponent {
 
       this.clientService.addCreditAmount(client_id, credit).subscribe(
         (response) => {
-          this.showSuccess('Credit amount has been added.');
+          this.showSuccess('Order has been placed.');
         },
         (error: HttpErrorResponse) => {
           this.showError(error.status + 'Failed to add credit amount');
@@ -516,6 +516,8 @@ export class ProductInfoComponent {
         var rzp1 = new Razorpay(options);
 
         rzp1.open();
+
+        this.showSuccess('Order has been placed.');
 
         this.store.dispatch(setInvoice({ invoice: response.invoice }));
         this.router.navigateByUrl('/orders/create-order/billing-info');

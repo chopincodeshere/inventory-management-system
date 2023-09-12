@@ -10,6 +10,7 @@ import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ToastModule } from 'primeng/toast';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,6 +49,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ProgressSpinnerModule,
     DividerModule,
     TableModule,
+    ToastModule,
     PdfViewerModule,
     AutoCompleteModule,
     ImageModule,
