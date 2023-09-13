@@ -191,7 +191,38 @@ const updateOrder = async (req, res) => {};
 
 const deleteOrder = async (req, res) => {};
 
-const searchOrderByQuery = async (req, res) => {};
+const searchOrderByQuery = async (req, res) => {
+  try {
+    const { keywords } = req.query;
+
+    if (!keywords) {
+      const orders = await Order.find({});
+
+      res.status(200).json(orders); // Updated to return orders
+      return;
+    }
+
+    const keywordArray = keywords.split(",").map((keyword) => keyword.trim());
+
+    // Create an array of regex patterns for each keyword
+    const regexPatterns = keywordArray.map(
+      (keyword) => new RegExp(keyword, "i")
+    );
+
+    const orders = await Order.find({
+      $or: [
+        { customerName: { $in: regexPatterns } }, // Updated field name
+        { customerEmail: { $in: regexPatterns } }, // Updated field name
+        { customerContact: { $in: regexPatterns } }, // Updated field name
+        { _id: { $in: keywordArray } }
+      ],
+    });
+
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 const getRazorApiKey = (req, res) => {
   try {
