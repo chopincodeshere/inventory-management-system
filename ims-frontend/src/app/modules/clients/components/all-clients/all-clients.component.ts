@@ -18,7 +18,7 @@ export class AllClientsComponent {
   rows: number | undefined; // Number of rows per page
   selectedClients: Client[] = [];
 
-  clonedProducts: { [s: string]: Client } = {};
+  clonedClients: { [s: string]: Client } = {};
 
   searchQuery: string = '';
 

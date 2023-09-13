@@ -100,18 +100,42 @@ const createOrder = async (req, res) => {
         });
       });
     } else {
-      // const updatedClient = await Client.findOneAndUpdate(
-      //   { _id: client._id },
-      //   {
-      //     ...client,
-      //     creditDetails: { ...items, total: (total += amount * 100) },
-      //   },
-      //   {
-      //     new: true,
-      //     runValidators: true,
-      //     overWrite: true,
-      //   }
-      // );
+      // Calculate the new total credit amount
+      try {
+        const updatedTotalCredit = client.creditDetails.total
+          ? client.creditDetails.total + amount
+          : amount;
+
+        // Create a new credit item
+        const creditItem = {
+          productName: "Credit Payment",
+          productId: "credit-payment",
+          quantity: 1,
+          price: amount * 100,
+          gstDetails: "NA",
+          discount: 0,
+          description: "Credit payment",
+          hsnCode: "NA",
+          taxCategory: {
+            key: "NA",
+            tax: "NA",
+          },
+          taxAmount: 0,
+          images: "NA",
+          date: new Date().toISOString().slice(0, 10),
+        };
+
+        // Push the new credit item to the client's creditDetails.items array
+        client.creditDetails.items.push(creditItem);
+
+        // Update the total credit amount and credit items
+        client.creditDetails.total = updatedTotalCredit;
+
+        // Save the updated client document
+        await client.save();
+      } catch (error) {
+        console.log(error);
+      }
 
       easyinvoice.createInvoice(data, async function (result) {
         invoice = await result.pdf;

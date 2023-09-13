@@ -25,6 +25,7 @@ export class AddClientComponent {
       address: ['', Validators.required],
       country: ['', Validators.required],
       state: ['', Validators.required],
+      city: ['', Validators.required],
       pincode: ['', Validators.required],
       phoneNo: ['', Validators.required],
       mobileNo: ['', Validators.required],

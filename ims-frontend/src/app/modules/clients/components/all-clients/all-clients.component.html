@@ -9,7 +9,6 @@
   <p-table
     [value]="clients"
     dataKey="_id"
-    [tableStyle]="{ 'min-width': '60rem', 'border-radius': '12px' }"
     [paginator]="true"
     [selectionMode]="'single'"
     [resizableColumns]="true"
@@ -25,15 +24,14 @@
     <ng-template pTemplate="caption">
       <div class="search-bar">
         <h3 class="m-0">Manage Clients</h3>
-        <button
-        type="button"
-        pButton
+        <p-button
+        label="Delete"
         pRipple
+        icon="pi pi-trash"
         (click)="confirm($event)"
-        class="p-button-outlined p-button-danger"
+        styleClass="p-button-outlined p-button-danger"
       >
-        <span class="pi pi-trash delete-icon"></span>Delete
-      </button>
+      </p-button>
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
           <input

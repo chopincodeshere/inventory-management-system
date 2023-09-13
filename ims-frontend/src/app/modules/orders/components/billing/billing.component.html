@@ -6,11 +6,10 @@
               style="width: 500px; height: 500px"
   ></pdf-viewer>
   </div>
-  <button
-    pButton
+  <p-button
     pRipple
     label="Generate Invoice"
-    [disabled]="isGenerating"
+    icon="pi pi-print"
     (click)="generateInvoice()"
-  ></button>
+  ></p-button>
 </div>

@@ -27,6 +27,12 @@ export class OrderService {
     );
   }
 
+  public searchOrder(query: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this._url}/orders/search?keywords=${query}`
+    );
+  }
+
   public getRazorApiKey(): Observable<any> {
     return this.http.get<any>(`${this._url}/key`);
   }
