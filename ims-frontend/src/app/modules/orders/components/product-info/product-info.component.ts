@@ -319,6 +319,7 @@ export class ProductInfoComponent {
 
   getTotal(): number {
     let total = 0;
+    let discount = this.productInfo.value.discount;
 
     for (const order of this.orderList) {
       const itemTotal = this.getPrice(order.quantity, order.price);
@@ -327,9 +328,11 @@ export class ProductInfoComponent {
 
     this.orderForm.patchValue({
       paymentDetails: {
-        amount: total,
+        discount: discount > 0 ? discount : 0,
       },
     });
+
+    total = discount > 0 ? total - (discount / 100) * total : total;
 
     return total;
   }
@@ -418,9 +421,10 @@ export class ProductInfoComponent {
     let clientName: string = JSON.parse(
       localStorage.getItem('clientInfo')
     ).customerName;
+    let totalAmount = this.getGrandTotal();
 
     let credit: any = {
-      amount: this.getTotal(),
+      amount: totalAmount,
       items: this.orderList,
     };
 
@@ -430,13 +434,16 @@ export class ProductInfoComponent {
         .customerEmail,
       customerContact: JSON.parse(localStorage.getItem('clientInfo'))
         .customerPhone,
-      shippingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
-      billingAddress: JSON.parse(localStorage.getItem('clientInfo')).address,
+      shippingAddress: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerAddress,
+      billingAddress: JSON.parse(localStorage.getItem('clientInfo'))
+        .customerAddress,
       date: new Date(),
       status: 'Pending',
     });
 
     this.orderForm.get('paymentDetails').patchValue({
+      amount: totalAmount,
       credit: true,
     });
 
@@ -460,7 +467,7 @@ export class ProductInfoComponent {
     );
 
     this.orderService
-      .createOrder(credit.amount, this.orderForm.value)
+      .createOrder(totalAmount, this.orderForm.value)
       .subscribe((response) => {
         this.store.dispatch(setInvoice({ invoice: response.invoice }));
         this.router.navigateByUrl('/orders/create-order/billing-info');
@@ -487,7 +494,7 @@ export class ProductInfoComponent {
       status: 'Pending', // Will be handled in order tracking
     });
 
-    let total = this.getTotal();
+    let total = this.getGrandTotal();
 
     this.orderService.createOrder(total, this.orderForm.value).subscribe(
       (response) => {

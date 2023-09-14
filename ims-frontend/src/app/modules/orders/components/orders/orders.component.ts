@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Order } from 'src/app/core/models/order';
 import { OrderService } from 'src/app/services/order-service/order.service';
@@ -15,7 +16,7 @@ export class OrdersComponent {
 
   private searchTerms = new Subject<string>();
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private router: Router) {}
 
   ngOnInit() {
     this.getOrders();
@@ -41,7 +42,9 @@ export class OrdersComponent {
     this.searchTerms.next(this.searchQuery);
   }
 
-  showOrder(id: number) {}
+  showOrder(id: number) {
+    this.router.navigateByUrl(`/orders/order-details/${id}`);
+  }
 
   editOrder(order: Order) {}
 

@@ -16,11 +16,25 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-const getOrderById = async (req, res) => {};
+const getOrderById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const order = await Order.findById(id);
+
+    if (!order) {
+      res.status(404).json({ message: `Order with id: ${id} not found` });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 const createOrder = async (req, res) => {
   const { amount, order } = req.body;
   const orderNumber = uuidv4();
+
 
   const newOrder = await Order.create({ ...order, orderNumber });
 
@@ -214,7 +228,7 @@ const searchOrderByQuery = async (req, res) => {
         { customerName: { $in: regexPatterns } }, // Updated field name
         { customerEmail: { $in: regexPatterns } }, // Updated field name
         { customerContact: { $in: regexPatterns } }, // Updated field name
-        { _id: { $in: keywordArray } }
+        { _id: { $in: keywordArray } },
       ],
     });
 

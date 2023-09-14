@@ -13,5 +13,6 @@ export interface Order {
   paymentDetails: {
     credit: boolean;
     amount: number;
+    discount?: number
   };
 }

@@ -11,9 +11,10 @@
     padding: 0 1rem;
 }
 
-.client-field > p {
+.client-field>p {
     border-bottom: 1px solid #000;
     font-style: italic;
+    text-align: center;
 }
 
 .client-sales {

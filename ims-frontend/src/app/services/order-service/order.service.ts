@@ -15,6 +15,10 @@ export class OrderService {
     return this.http.get<Order[]>(`${this._url}/`);
   }
 
+  public getOrderById(id: string): Observable<Order> {
+    return this.http.get<Order>(`${this._url}/${id}`);
+  }
+
   public createOrder(amount: number, order: Order): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -28,9 +32,7 @@ export class OrderService {
   }
 
   public searchOrder(query: string): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this._url}/search?keywords=${query}`
-    );
+    return this.http.get<any[]>(`${this._url}/search?keywords=${query}`);
   }
 
   public getRazorApiKey(): Observable<any> {
