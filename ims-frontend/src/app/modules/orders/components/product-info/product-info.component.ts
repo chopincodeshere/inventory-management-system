@@ -459,6 +459,15 @@ export class ProductInfoComponent {
           this.showError(error.status + 'Failed to add credit amount');
         }
       );
+
+      this.clientService.addTotalSales(client_id, this.getTotal(), totalAmount).subscribe(
+        (response) => {
+          this.showSuccess('Order has been placed.');
+        },
+        (error: HttpErrorResponse) => {
+          this.showError(error.status + 'Failed to add credit amount');
+        }
+      );
     });
 
     localStorage.setItem(

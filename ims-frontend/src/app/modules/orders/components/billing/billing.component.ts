@@ -1,5 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
+import { EmailService } from 'src/app/services/email-service/email.service';
 
 @Component({
   selector: 'app-billing',
@@ -11,8 +14,13 @@ export class BillingComponent {
   isGenerating: boolean = false;
   isError: boolean = false;
   pdfSrc: string;
+  reciepientEmail: string;
 
-  constructor(private store: Store<{ invoice: string }>) {}
+  constructor(
+    private store: Store<{ invoice: string }>,
+    private mailService: EmailService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
     this.store.pipe(select('invoice')).subscribe((data) => {
@@ -29,6 +37,26 @@ export class BillingComponent {
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       this.pdfSrc = link.href;
+    });
+
+    this.reciepientEmail = JSON.parse(
+      localStorage.getItem('clientInfo')
+    ).customerEmail;
+  }
+
+  showSuccess(message: string) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: message,
+    });
+  }
+
+  showError(message: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message,
     });
   }
 
@@ -60,5 +88,16 @@ export class BillingComponent {
     } else {
       this.isError = true;
     }
+  }
+
+  sendMail() {
+    this.mailService.sendMail('pateljil16@gmail.com', 'Hi').subscribe(
+      (response) => {
+        this.showSuccess(response.message);
+      },
+      (error: HttpErrorResponse) => {
+        this.showError(error.message);
+      }
+    );
   }
 }

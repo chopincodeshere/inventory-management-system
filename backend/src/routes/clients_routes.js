@@ -9,7 +9,8 @@ const {
   deleteClient,
   getClientsByName,
   getClientByName,
-  addCreditAmount
+  addCreditAmount,
+  addTotalSales
 } = require("../controllers/client_controller");
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.route("/search").get(getClientByQuery);
 router.route("/autocomplete").get(getClientsByName)
 router.route("/name").get(getClientByName)
 router.route("/:id").get(getClient).patch(updateClient).delete(deleteClient);
-router.route("/credit/:id").patch(addCreditAmount)
+router.route("/credit/:id").patch(addCreditAmount);
+router.route("/sales/:id").patch(addTotalSales)
 
 module.exports = router;

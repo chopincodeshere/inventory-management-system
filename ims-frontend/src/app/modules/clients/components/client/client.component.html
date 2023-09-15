@@ -59,10 +59,37 @@
       </div>
 
       <div class="client-field">
-        <h4>Total sales :</h4>
+        <h4>Total sales (Gross Amount) :</h4>
         <p>
-          {{ client?.baseCurrencyInformation.baseCurrencySymbol }}&nbsp;{{
-            client?.totalSales
+          {{
+            client?.totalSales.grossSales
+              | currency
+                : client?.baseCurrencyInformation.baseCurrencySymbol
+                : "symbol"
+          }}
+        </p>
+      </div>
+
+      <div class="client-field">
+        <h4>Total sales (Net Amount) :</h4>
+        <p>
+          {{
+            client?.totalSales.netSales
+              | currency
+                : client?.baseCurrencyInformation.baseCurrencySymbol
+                : "symbol"
+          }}
+        </p>
+      </div>
+
+      <div class="client-field">
+        <h4>Total Credit :</h4>
+        <p>
+          {{
+            client?.creditDetails.total
+              | currency
+                : client?.baseCurrencyInformation.baseCurrencySymbol
+                : "symbol"
           }}
         </p>
       </div>

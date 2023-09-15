@@ -21,7 +21,7 @@ export class ClientService {
   }
 
   public addClient(client: Client): Observable<Client> {
-    const url = `${this.baseUrl}/clients/`;
+    const url = `${this.baseUrl}clients/`;
     return this.http.post<Client>(url, client);
   }
 
@@ -57,5 +57,18 @@ export class ClientService {
   public addCreditAmount(id: string, creditDetails: any): Observable<Client> {
     const url = `${this.baseUrl}clients/credit/${id}/`;
     return this.http.patch<Client>(url, creditDetails);
+  }
+
+  public addTotalSales(
+    id: string,
+    netAmount: number,
+    grossAmount: number
+  ): Observable<any> {
+    const requestBody = {
+      netAmount: netAmount,
+      grossAmount: grossAmount,
+    };
+
+    return this.http.patch(`${this.baseUrl}clients/sales/${id}`, requestBody);
   }
 }

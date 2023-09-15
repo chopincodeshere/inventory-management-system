@@ -77,7 +77,7 @@ export class ClientComponent {
         },
       },
     });
-    
+
     this.monthly_chart = new Chart('monthly_canvas', {
       type: 'line',
       data: {
@@ -102,7 +102,7 @@ export class ClientComponent {
         },
       },
     });
-    
+
     this.weekly_chart = new Chart('weekly_canvas', {
       type: 'line',
       data: {
@@ -127,7 +127,6 @@ export class ClientComponent {
         },
       },
     });
-    
   }
 
   showError(message: string) {
@@ -139,7 +138,7 @@ export class ClientComponent {
   }
 
   navigateBack() {
-    this.router.navigateByUrl(`/clients/all-clients`)
+    this.router.navigateByUrl(`/clients/all-clients`);
   }
 
   loadClient() {

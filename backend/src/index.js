@@ -6,6 +6,8 @@ const app = express();
 const products = require("./routes/products_routes");
 const clients = require("./routes/clients_routes");
 const orders = require("./routes/orders_routes");
+const email = require("./routes/email_routes");
+
 const connectDB = require("./config/database");
 
 require("dotenv").config();
@@ -30,6 +32,8 @@ app.use("/api/v1/products", products);
 app.use("/api/v1/clients", clients);
 
 app.use("/api/v1/orders", orders);
+
+app.use("/api/v1/mail", email);
 
 const startServer = async () => {
   try {

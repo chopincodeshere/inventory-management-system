@@ -119,7 +119,7 @@ const updateClient = async (req, res) => {
     const client = await Client.findOneAndUpdate({ _id: clientId }, req.body, {
       new: true,
       runValidators: true,
-      overWrite: true
+      overWrite: true,
     });
 
     if (!client) {
@@ -154,6 +154,37 @@ const addCreditAmount = async (req, res) => {
   }
 };
 
+const addTotalSales = async (req, res) => {
+  try {
+    const { id: clientId } = req.params;
+
+    const grossAmount = req.body.grossAmount;
+    const netAmount = req.body.netAmount;
+
+    const client = await Client.findOneAndUpdate(
+      { _id: clientId },
+      {
+        $inc: {
+          'totalSales.grossSales': grossAmount,
+          'totalSales.netSales': netAmount,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!client) {
+      return res.status(404).json({ message: "Client not found." });
+    }
+
+    res.status(201).json({ client, message: "Total Sales has been updated" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 const deleteClient = async (req, res) => {
   try {
     const { id: clientId } = req.params;
@@ -179,4 +210,5 @@ module.exports = {
   getClientsByName,
   getClientByName,
   addCreditAmount,
+  addTotalSales
 };

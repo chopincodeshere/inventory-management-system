@@ -105,6 +105,12 @@ const clientSchema = new mongoose.Schema({
       required: [true, "Must provide a symbol for thousands"],
     },
   },
+  totalSales: {
+    type: {
+      grossSales: Number,
+      netSales: Number,
+    }
+  }
 });
 
 module.exports = mongoose.model("Client", clientSchema);
