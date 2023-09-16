@@ -7,10 +7,13 @@ const _invoiceReducer = createReducer(
   on(setInvoice, (state, payload) => {
     return {
       ...state,
-      invoice: payload.invoice, // Use payload.customerInfo directly
+      invoice: payload.invoice,
+      customerName: payload.customerName,
+      orderId: payload.orderId 
     };
   })
 );
+
 
 export function invoiceReducer(state: any, action: any) {
   return _invoiceReducer(state, action);

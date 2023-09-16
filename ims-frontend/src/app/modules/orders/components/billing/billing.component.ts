@@ -14,7 +14,8 @@ export class BillingComponent {
   isGenerating: boolean = false;
   isError: boolean = false;
   pdfSrc: string;
-  reciepientEmail: string;
+  recipient: any;
+  message: string;
 
   constructor(
     private store: Store<{ invoice: string }>,
@@ -39,9 +40,22 @@ export class BillingComponent {
       this.pdfSrc = link.href;
     });
 
-    this.reciepientEmail = JSON.parse(
-      localStorage.getItem('clientInfo')
-    ).customerEmail;
+    this.recipient = JSON.parse(localStorage.getItem('clientInfo'));
+
+    this.message = `Dear ${this.recipient.customerName},
+
+    Thank you for choosing Kalyan Traders for your recent purchase. We truly appreciate your business and trust in our products/services.
+    
+    Below is your bill of your purchase:
+    
+    If you have any questions or need further assistance regarding your purchase 
+    or our products/services, please don't hesitate to contact us 9998005464.
+    
+    We look forward to serving you again in the future. Your satisfaction is our top priority!
+    
+    Best regards,
+    Lukesh Patel
+    Kalyan Traders`;
   }
 
   showSuccess(message: string) {
@@ -90,14 +104,24 @@ export class BillingComponent {
     }
   }
 
-  sendMail() {
-    this.mailService.sendMail('pateljil16@gmail.com', 'Hi').subscribe(
-      (response) => {
-        this.showSuccess(response.message);
-      },
-      (error: HttpErrorResponse) => {
-        this.showError(error.message);
-      }
-    );
+  sendInvoice() {
+    this.mailService
+      .sendMail(
+        this.recipient.customerEmail,
+        this.message,
+        'Invoice for your purchase',
+        {
+          customerName: this.invoice.customerName,
+          orderId: this.invoice.orderId,
+        }
+      )
+      .subscribe(
+        (response) => {
+          this.showSuccess(response);
+        },
+        (error: HttpErrorResponse) => {
+          this.showError(error.message);
+        }
+      );
   }
 }

@@ -27,6 +27,7 @@ export class EditClientComponent {
     this.edit_client = this.formBuilder.group({
       name: ['', Validators.required],
       mailingName: [''],
+      email: [''],
       address: ['', Validators.required],
       country: ['', Validators.required],
       state: ['', Validators.required],
@@ -55,6 +56,7 @@ export class EditClientComponent {
         this.edit_client.patchValue({
           financialYearFrom: this.client.financialYearFrom,
           booksBeginningFrom: this.client.booksBeginningFrom,
+          email: this.client.email,
           name: this.client.name,
           mailingName: this.client.mailingName,
           address: this.client.address,
@@ -63,7 +65,6 @@ export class EditClientComponent {
           pincode: this.client.pincode,
           phoneNo: this.client.phoneNo,
           mobileNo: this.client.mobileNo,
-          tallyVaultPassword: [''],
           baseCurrencyInformation: this.client.baseCurrencyInformation,
         });
       },

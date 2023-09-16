@@ -13,12 +13,18 @@ export class EmailService {
   public sendMail(
     email: string,
     message: string,
-    attachment?: string
+    subject?: string,
+    fileName?: {
+      // Ensure the variable name here matches your backend
+      customerName?: string;
+      orderId?: string;
+    }
   ): Observable<any> {
     const requestBody = {
-      email: email,
+      recipient: email,
+      subject: subject,
       message: message,
-      attachment: attachment,
+      filename: fileName, // Use 'filename' instead of 'fileName'
     };
 
     return this.http.post<any>(`${this.baseUrl}/`, requestBody);

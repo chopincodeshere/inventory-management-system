@@ -80,9 +80,6 @@ const clientSchema = new mongoose.Schema({
     type: Date,
     required: [true, "Must provide a date for the start of financial records"],
   },
-  tallyVaultPassword: {
-    type: String,
-  },
   baseCurrencyInformation: {
     baseCurrencySymbol: {
       type: String,

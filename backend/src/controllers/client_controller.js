@@ -128,6 +128,7 @@ const updateClient = async (req, res) => {
 
     res.status(201).json({ client, message: "Client Updated successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };

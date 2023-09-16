@@ -5,6 +5,7 @@ const Client = require("../models/client");
 const crypto = require("crypto");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 
 const getAllOrders = async (req, res) => {
   try {
@@ -34,7 +35,8 @@ const getOrderById = async (req, res) => {
 const createOrder = async (req, res) => {
   const { amount, order } = req.body;
   const orderNumber = uuidv4();
-
+  const destinationDirectory =
+    "D:\\MEAN Stack\\inventory-management-system\\backend\\src\\bills";
 
   const newOrder = await Order.create({ ...order, orderNumber });
 
@@ -96,6 +98,11 @@ const createOrder = async (req, res) => {
   };
 
   try {
+    const filePath = path.join(
+      destinationDirectory,
+      `${newOrder.customerName}_${newOrder._id}.pdf`
+    );
+
     if (!order.paymentDetails.credit) {
       const razorpayOrder = await instance.orders.create({
         amount: Number(amount * 100), // The order amount in paise (e.g., 1000 paise = ₹10)
@@ -103,8 +110,14 @@ const createOrder = async (req, res) => {
         receipt: "order_receipt", // A unique order receipt ID
       });
 
-      easyinvoice.createInvoice(data, function (result) {
-        invoice = result.pdf;
+      easyinvoice.createInvoice(data, async function (result) {
+        invoice = await result.pdf;
+
+        try {
+          await fs.writeFileSync(filePath, invoice, "base64");
+        } catch (err) {
+          console.error(`Error writing the file: ${err.message}`);
+        }
 
         res.status(201).json({
           order: razorpayOrder,
@@ -153,6 +166,12 @@ const createOrder = async (req, res) => {
 
       easyinvoice.createInvoice(data, async function (result) {
         invoice = await result.pdf;
+
+        try {
+          fs.writeFileSync(filePath, invoice, "base64");
+        } catch (err) {
+          console.error(`Error writing the file: ${err.message}`);
+        }
 
         res.status(201).json({
           order: newOrder._id,

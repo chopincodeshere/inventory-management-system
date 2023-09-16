@@ -34,7 +34,6 @@ export interface Client {
   };
   financialYearFrom: string; // Changed to string type
   booksBeginningFrom: string; // Changed to string type
-  tallyVaultPassword?: string; // Made it optional
   baseCurrencyInformation: {
     baseCurrencySymbol: string;
     formalName: string;

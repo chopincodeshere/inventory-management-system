@@ -1,3 +1,5 @@
 export const initialState = {
-  invoice: ''
+  invoice: '',
+  customerName: '',
+  orderId: ''
 };

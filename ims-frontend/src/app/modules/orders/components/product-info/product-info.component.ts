@@ -460,14 +460,16 @@ export class ProductInfoComponent {
         }
       );
 
-      this.clientService.addTotalSales(client_id, this.getTotal(), totalAmount).subscribe(
-        (response) => {
-          this.showSuccess('Order has been placed.');
-        },
-        (error: HttpErrorResponse) => {
-          this.showError(error.status + 'Failed to add credit amount');
-        }
-      );
+      this.clientService
+        .addTotalSales(client_id, this.getTotal(), totalAmount)
+        .subscribe(
+          (response) => {
+            this.showSuccess('Total sales has been updated.');
+          },
+          (error: HttpErrorResponse) => {
+            this.showError(error.status + 'Failed to update total sales');
+          }
+        );
     });
 
     localStorage.setItem(
@@ -478,7 +480,13 @@ export class ProductInfoComponent {
     this.orderService
       .createOrder(totalAmount, this.orderForm.value)
       .subscribe((response) => {
-        this.store.dispatch(setInvoice({ invoice: response.invoice }));
+        this.store.dispatch(
+          setInvoice({
+            invoice: response.invoice,
+            customerName: this.orderForm.value.customerName,
+            orderId: response.newOrder._id,
+          })
+        );
         this.router.navigateByUrl('/orders/create-order/billing-info');
       });
   }
@@ -517,7 +525,13 @@ export class ProductInfoComponent {
           order_id: response._id,
           handler: function (response: any) {
             this.showSuccess('Payment Successfull');
-            this.store.dispatch(setInvoice({ invoice: response.invoice }));
+            this.store.dispatch(
+              setInvoice({
+                invoice: response.invoice,
+                customerName: response.customerName,
+                orderId: response.newOrder._id,
+              })
+            );
           },
           prefill: {
             name: this.orderForm.value.customerName,
@@ -533,9 +547,13 @@ export class ProductInfoComponent {
 
         rzp1.open();
 
-        this.showSuccess('Order has been placed.');
-
-        this.store.dispatch(setInvoice({ invoice: response.invoice }));
+        this.store.dispatch(
+          setInvoice({
+            invoice: response.invoice,
+            customerName: response.customerName,
+            orderId: response.newOrder._id,
+          })
+        );
         this.router.navigateByUrl('/orders/create-order/billing-info');
       },
       (error: HttpErrorResponse) => {
