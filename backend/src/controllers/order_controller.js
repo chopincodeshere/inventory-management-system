@@ -222,7 +222,15 @@ const paymentVerification = async (req, res) => {
 
 const updateOrder = async (req, res) => {};
 
-const deleteOrder = async (req, res) => {};
+const deleteOrder = async (req, res) => {
+  try {
+    await Order.findByIdAndDelete(req.params._id);
+
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const searchOrderByQuery = async (req, res) => {
   try {

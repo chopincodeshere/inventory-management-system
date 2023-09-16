@@ -38,4 +38,8 @@ export class OrderService {
   public getRazorApiKey(): Observable<any> {
     return this.http.get<any>(`${this._url}/key`);
   }
+
+  public deleteOrder(id: string): Observable<any> {
+    return this.http.delete(`${this._url}/${id}`);
+  }
 }

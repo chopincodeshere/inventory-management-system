@@ -48,5 +48,9 @@ export class OrdersComponent {
 
   editOrder(order: Order) {}
 
-  deleteOrder(id: number) {}
+  deleteOrder(id: number) {
+    this.orderService.deleteOrder(id).subscribe((response) => {
+     
+    })
+  }
 }
