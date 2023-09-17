@@ -40,6 +40,6 @@ export class OrderService {
   }
 
   public deleteOrder(id: string): Observable<any> {
-    return this.http.delete(`${this._url}/${id}`);
+    return this.http.delete<any>(`${this._url}/${id}`);
   }
 }

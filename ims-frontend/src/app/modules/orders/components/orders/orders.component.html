@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <p-card header="All Orders">
   <div class="card">
     <p-table
@@ -55,10 +56,11 @@
               (onClick)="editOrder(order)"
             ></p-button>
 
+            <p-confirmPopup></p-confirmPopup>
             <p-button
               icon="pi pi-trash"
               styleClass="p-button-rounded p-button-danger p-button-text"
-              (onClick)="deleteOrder(order._id)"
+              (click)="confirm($event, order._id)"
             ></p-button>
           </td>
         </tr>

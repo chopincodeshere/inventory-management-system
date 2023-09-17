@@ -99,7 +99,6 @@ export class AllClientsComponent {
             this.showError(error.status + '' + error.message);
           }
         );
-        this.showSuccess('Item has been deleted successfully.');
       });
     } catch (error) {
       throw error;
@@ -113,6 +112,11 @@ export class AllClientsComponent {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.deleteRecord();
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Deleted',
+          detail: 'The item was deleted successfully',
+        });
       },
       reject: () => {
         this.messageService.add({
