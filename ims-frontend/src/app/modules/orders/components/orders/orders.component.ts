@@ -92,7 +92,9 @@ export class OrdersComponent {
     this.router.navigateByUrl(`/orders/order-details/${id}`);
   }
 
-  editOrder(order: Order) {}
+  editOrder(orderId: string) {
+    this.router.navigateByUrl(`/orders/${orderId}/edit`);
+  }
 
   deleteOrder(id: string) {
     this.orderService.deleteOrder(id).subscribe(

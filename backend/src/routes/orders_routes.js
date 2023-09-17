@@ -4,7 +4,7 @@ const {
   getAllOrders,
   getOrderById,
   createOrder,
-  updateOrder,
+  updateOrderStatus,
   deleteOrder,
   searchOrderByQuery,
   paymentVerification,
@@ -16,7 +16,7 @@ const router = express.Router();
 router.route("/").get(getAllOrders).post(createOrder);
 router.get("/search", searchOrderByQuery);
 router.route("/key").get(getRazorApiKey);
-router.route("/:id").get(getOrderById).patch(updateOrder).delete(deleteOrder);
+router.route("/:id").get(getOrderById).patch(updateOrderStatus).delete(deleteOrder);
 router.post("/payment-verification", paymentVerification);
 
 module.exports = router;

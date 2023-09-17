@@ -11,9 +11,9 @@ const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find();
 
-    res.status(200).json(orders);
+    return res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json({ message: error });
+    return res.status(500).json({ message: error });
   }
 };
 
@@ -23,12 +23,15 @@ const getOrderById = async (req, res) => {
     const order = await Order.findById(id);
 
     if (!order) {
-      res.status(404).json({ message: `Order with id: ${id} not found` });
+      return res
+        .status(404)
+        .json({ message: `Order with id: ${id} not found` }); // Return to stop further execution
     }
 
-    res.status(200).json(order);
+    return res.status(200).json(order); // Also return here
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error(error); // Log the error for debugging
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -119,7 +122,7 @@ const createOrder = async (req, res) => {
           console.error(`Error writing the file: ${err.message}`);
         }
 
-        res.status(201).json({
+        return res.status(201).json({
           order: razorpayOrder,
           newOrder: newOrder,
           message: "Razorpay order and invoice created successfully!",
@@ -173,7 +176,7 @@ const createOrder = async (req, res) => {
           console.error(`Error writing the file: ${err.message}`);
         }
 
-        res.status(201).json({
+        return res.status(201).json({
           order: newOrder._id,
           newOrder: newOrder,
           message: "Amount credited successfully!",
@@ -182,7 +185,7 @@ const createOrder = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ error, message: "Internal server error" });
+    return res.status(500).json({ error, message: "Internal server error" });
   }
 };
 
@@ -220,7 +223,7 @@ const paymentVerification = async (req, res) => {
   }
 };
 
-const updateOrder = async (req, res) => {};
+const updateOrderStatus = async (req, res) => {};
 
 const deleteOrder = async (req, res) => {
   try {
@@ -231,10 +234,12 @@ const deleteOrder = async (req, res) => {
       return res.status(404).json({ message: "Order not found." });
     }
 
-    res.status(200).json({ message: "Order has been removed successfully." });
+    return res
+      .status(200)
+      .json({ message: "Order has been removed successfully." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -245,8 +250,7 @@ const searchOrderByQuery = async (req, res) => {
     if (!keywords) {
       const orders = await Order.find({});
 
-      res.status(200).json(orders); // Updated to return orders
-      return;
+      return res.status(200).json(orders); // Updated to return orders
     }
 
     const keywordArray = keywords.split(",").map((keyword) => keyword.trim());
@@ -265,9 +269,9 @@ const searchOrderByQuery = async (req, res) => {
       ],
     });
 
-    res.status(200).json(orders);
+    return res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json(error);
+    return res.status(500).json(error);
   }
 };
 
@@ -286,7 +290,7 @@ module.exports = {
   getAllOrders,
   getOrderById,
   createOrder,
-  updateOrder,
+  updateOrderStatus,
   deleteOrder,
   searchOrderByQuery,
   paymentVerification,

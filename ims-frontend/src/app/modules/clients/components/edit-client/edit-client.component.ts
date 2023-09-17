@@ -49,6 +49,7 @@ export class EditClientComponent {
 
   ngOnInit() {
     this._id = this.route.snapshot.paramMap.get('id')!;
+    
     this.clientService.getClientById(this._id).subscribe(
       (response) => {
         this.client = response;

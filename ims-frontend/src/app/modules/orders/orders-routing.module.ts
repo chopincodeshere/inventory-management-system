@@ -8,12 +8,16 @@ import { ProductInfoComponent } from './components/product-info/product-info.com
 import { BillingComponent } from './components/billing/billing.component';
 
 const routes: Routes = [
-  { path: 'create-order', component: CreateOrderComponent, children: [
-    { path: '', redirectTo: 'customer-info', pathMatch: 'full' }, 
-    { path: 'customer-info', component: CustomerInfoComponent },
-    { path: 'product-info', component: ProductInfoComponent },
-    { path: 'billing-info', component: BillingComponent },
-  ]},
+  {
+    path: 'create-order',
+    component: CreateOrderComponent,
+    children: [
+      { path: '', redirectTo: 'customer-info', pathMatch: 'full' },
+      { path: 'customer-info', component: CustomerInfoComponent },
+      { path: 'product-info', component: ProductInfoComponent },
+      { path: 'billing-info', component: BillingComponent },
+    ],
+  },
   { path: 'show-orders', component: OrdersComponent },
   { path: 'order-details/:id', component: OrderDetailsComponent },
 ];
