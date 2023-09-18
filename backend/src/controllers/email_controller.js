@@ -2,16 +2,6 @@ const nodemailer = require("nodemailer");
 const path = require("path");
 require("dotenv").config();
 
-function base64ToPDF(base64String) {
-  // Remove the data URI prefix (e.g., "data:application/pdf;base64,")
-  const base64Data = base64String.replace(/^data:application\/pdf;base64,/, "");
-
-  // Create a buffer from the base64 data
-  const pdfBuffer = Buffer.from(base64Data, "base64");
-
-  return pdfBuffer;
-}
-
 const sendMail = async (req, res) => {
   const { recipient, subject, message, filename } = req.body;
   const transporter = nodemailer.createTransport({

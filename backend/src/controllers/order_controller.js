@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
+const notify = require("../controllers/notification_controller")
 
 const getAllOrders = async (req, res) => {
   try {
@@ -41,7 +42,13 @@ const createOrder = async (req, res) => {
   const destinationDirectory =
     "D:\\MEAN Stack\\inventory-management-system\\backend\\src\\bills";
 
-  const newOrder = await Order.create({ ...order, orderNumber });
+  const dueDate = new Date();
+
+  const newOrder = await Order.create({
+    ...order,
+    orderNumber,
+    dueDate: dueDate.setDate(dueDate.getDate() + 30),
+  });
 
   const client = await Client.findOne({
     name: { $regex: new RegExp(order.customerName, "i") },
@@ -49,6 +56,8 @@ const createOrder = async (req, res) => {
 
   const currentDate = new Date();
   let invoice;
+
+  
 
   var data = {
     // Customize enables you to provide your own templates

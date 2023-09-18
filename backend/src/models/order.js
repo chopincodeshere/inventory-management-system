@@ -30,6 +30,7 @@ const orderSchema = new mongoose.Schema({
     credit: Boolean,
     amount: Number,
   },
+  dueDate: Date
 });
 
 module.exports = mongoose.model("Order", orderSchema);
