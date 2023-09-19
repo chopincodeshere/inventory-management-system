@@ -56,16 +56,25 @@ export class NavbarComponent {
         label: 'Orders',
         items: [
           {
-            label: 'Create order',
+            label: 'Create Sales Order',
             icon: 'pi pi-cart-plus',
-            routerLink: '/orders/create-order',
+            routerLink: '/orders/sales/create-order',
           },
           {
-            label: 'All orders',
+            label: 'All Sales Orders',
             icon: 'pi pi-shopping-cart',
-            routerLink: '/orders/show-orders',
+            routerLink: '/orders/sales/show-orders',
           },
-          
+          {
+            label: 'Create Purchase Order',
+            icon: 'pi pi-plus',
+            routerLink: '/orders/purchase/create-order',
+          },
+          {
+            label: 'All Purchase Orders',
+            icon: 'pi pi-list',
+            routerLink: '/orders/purchase/show-orders',
+          },
         ],
       },
     ];

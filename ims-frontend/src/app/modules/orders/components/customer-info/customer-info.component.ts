@@ -81,6 +81,6 @@ export class CustomerInfoComponent {
 
     localStorage.setItem('clientInfo', JSON.stringify(this.customerInfo.value))
 
-    this.router.navigateByUrl('/orders/create-order/product-info');
+    this.router.navigateByUrl('/orders/sales/create-order/product-info');
   }
 }

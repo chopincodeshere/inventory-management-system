@@ -487,7 +487,7 @@ export class ProductInfoComponent {
             orderId: response.newOrder._id,
           })
         );
-        this.router.navigateByUrl('/orders/create-order/billing-info');
+        this.router.navigateByUrl('/orders/sales/create-order/billing-info');
       });
   }
 
@@ -554,7 +554,7 @@ export class ProductInfoComponent {
             orderId: response.newOrder._id,
           })
         );
-        this.router.navigateByUrl('/orders/create-order/billing-info');
+        this.router.navigateByUrl('/orders/sales/create-order/billing-info');
       },
       (error: HttpErrorResponse) => {
         this.showError('Order has not been placed');

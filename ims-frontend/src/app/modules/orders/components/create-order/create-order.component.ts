@@ -37,15 +37,15 @@ export class CreateOrderComponent {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         switch (event.url) {
-          case '/orders/create-order/customer-info':
+          case '/orders/sales/create-order/customer-info':
             this.activeIndex = 0;
             break;
 
-          case '/orders/create-order/product-info':
+          case '/orders/sales/create-order/product-info':
             this.activeIndex = 1;
             break;
 
-          case '/orders/create-order/billing-info':
+          case '/orders/sales/create-order/billing-info':
             this.activeIndex = 2;
             break;
 

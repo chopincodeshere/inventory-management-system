@@ -10,6 +10,7 @@ import { ChipModule } from 'primeng/chip';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { ToastModule } from 'primeng/toast';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -27,6 +28,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { StoreModule } from '@ngrx/store';
 import { invoiceReducer } from './state/order.reducer';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { CreatePurchaseOrderComponent } from './components/create-purchase-order/create-purchase-order.component';
+import { AllPurchaseOrdersComponent } from './components/all-purchase-orders/all-purchase-orders.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     CustomerInfoComponent,
     ProductInfoComponent,
     BillingComponent,
+    CreatePurchaseOrderComponent,
+    AllPurchaseOrdersComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +61,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     AutoCompleteModule,
     ImageModule,
     ButtonModule,
+    VirtualScrollerModule,
     CardModule,
     StoreModule.forFeature('invoice', invoiceReducer),
   ],
