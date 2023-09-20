@@ -23,3 +23,15 @@ body {
     font-size: larger;
     margin: 3px;
 }
+
+.font-bold {
+    font-weight: 700 !important;
+}
+
+.block {
+    display: block !important;
+}
+
+.mb-2 {
+    margin-bottom: .5rem !important;
+}

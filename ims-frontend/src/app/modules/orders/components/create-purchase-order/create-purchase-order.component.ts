@@ -8,9 +8,14 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CreatePurchaseOrderComponent {
   purchaseOrderForm: FormGroup;
+  itemsGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
-    this.createItemFormGroup();
+    this.itemsGroup = this.formBuilder.group({
+      itemName: ['', Validators.required],
+      itemQuantity: [0, Validators.min(0)],
+      itemUnitPrice: [0, Validators.min(0)],
+    });
 
     this.purchaseOrderForm = this.formBuilder.group({
       purchaseOrderNumber: [''], // You can add validators here if needed
@@ -31,8 +36,8 @@ export class CreatePurchaseOrderComponent {
         paymentTerms: [''],
         paymentMethod: [''],
       }),
+      items: this.formBuilder.array([]),
       purchaseRequester: ['', Validators.required],
-      items: this.formBuilder.array([]), // You'll need to handle the dynamic addition of items separately
       termsAndConditions: [''],
       attachments: [''],
       approvalSignatures: this.formBuilder.array([]), // You'll need to handle the dynamic addition of signatures separately
@@ -45,8 +50,7 @@ export class CreatePurchaseOrderComponent {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit() {}
 
@@ -57,24 +61,16 @@ export class CreatePurchaseOrderComponent {
 
   // Function to add a new item to the form array
   addItem() {
-    const items = this.purchaseOrderForm.get('items') as FormArray;
-    items.push(this.createItemFormGroup());
+    let itemsArray = <FormArray> this.purchaseOrderForm.get('items')['controls'];
+    itemsArray.push(this.itemsGroup.value);
+
+    console.log(this.purchaseOrderForm.get('items')['controls']);
+    
+    this.itemsGroup.reset();
   }
 
   // Function to remove an item from the form array
-  removeItem(index: number) {
-    const items = this.purchaseOrderForm.get('items') as FormArray;
-    items.removeAt(index);
-  }
-
-  createItemFormGroup() {
-    return this.formBuilder.group({
-      itemName: ['', Validators.required],
-      itemDescription: [''],
-      itemQuantity: [0, Validators.min(0)],
-      itemUnitPrice: [0, Validators.min(0)],
-    });
-  }
+  removeItem(index: number) {}
 
   handleAttachments(event: any) {}
 }
