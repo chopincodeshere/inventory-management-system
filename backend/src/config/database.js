@@ -5,11 +5,14 @@ const options = {
   useUnifiedTopology: true,
 };
 
-const connectDB = (url, dbName) => {
-  return mongoose
-    .connect(`${url}/${dbName}`, options)
-    .then(() => console.log("Connecton successful"))
-    .catch((error) => console.log(error));
+const connectDB = async (url, dbName) => {
+  try {
+    await mongoose
+      .connect(`${url}/${dbName}`, options);
+    return console.log("Connecton successful");
+  } catch (error) {
+    return console.log(error);
+  }
 };
 
 module.exports = connectDB;

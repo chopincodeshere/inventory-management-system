@@ -39,8 +39,6 @@ const startServer = async () => {
   try {
     await connectDB(CONNECTION_URL, DB);
 
-   
-
     app.listen(PORT, () => {
       console.log(`Server is listening on port ${PORT}`);
     });
