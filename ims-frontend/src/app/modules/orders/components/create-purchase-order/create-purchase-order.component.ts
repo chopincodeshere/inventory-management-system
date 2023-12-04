@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { v4 as uuidv4 } from 'uuid';
 
 @Component({

@@ -253,7 +253,10 @@
       </div>
     </form>
 
-    <div class="card" *ngIf="purchaseOrderForm.get('items')['controls'].length > 0">
+    <div
+      class="card"
+      *ngIf="purchaseOrderForm.get('items')['controls'].length > 0"
+    >
       <p-table
         [value]="purchaseOrderForm.get('items')['controls']"
         [paginator]="true"
@@ -276,7 +279,15 @@
             <td>{{ product.itemName }}</td>
             <td>{{ product.itemQuantity }}</td>
             <td>{{ product.itemUnitPrice }}</td>
-            <td>Delete button here</td>
+            <td>
+              <button
+                pButton
+                class="p-button-danger"
+                pRipple
+                label="Delete"
+                icon="pi pi-trash"
+              ></button>
+            </td>
           </tr>
         </ng-template>
       </p-table>

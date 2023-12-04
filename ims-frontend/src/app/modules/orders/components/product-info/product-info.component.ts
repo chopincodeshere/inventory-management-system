@@ -250,7 +250,7 @@ export class ProductInfoComponent {
     });
   }
 
-  getProductDetails(selectedItem: string) {
+  getProductDetails(selectedItem: any) {
     this.productService.fetchProductDetailsByName(selectedItem).subscribe(
       (response) => {
         let tax_option: { key: string; tax: string };

@@ -5,18 +5,11 @@
       <span class="logo-heading">SAKAI</span>
     </a>
     <div class="nav-icons">
-      <p-button
-      icon="pi pi-user"
-      styleClass="p-button-lg p-button-rounded p-button-secondary p-button-text"
-    ></p-button>
-    <p-button
-      icon="pi pi-cog"
-      styleClass="p-button-lg p-button-rounded p-button-secondary p-button-text"
-    ></p-button>
+      <p-button icon="pi pi-user" [rounded]="true" [text]="true" severity="secondary" size="large"></p-button>
+      <p-button icon="pi pi-cog" [rounded]="true" [text]="true" severity="secondary" size="large"></p-button>
     </div>
   </div>
 </div>
-
 <div class="layout-menu card flex justify-content-center">
   <p-menu [model]="items" [style]="{ border: 'none', width: '100%' }"></p-menu>
 </div>

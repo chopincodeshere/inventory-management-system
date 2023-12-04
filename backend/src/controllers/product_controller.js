@@ -16,7 +16,6 @@ const createProduct = async (req, res) => {
     let product = req.body;
 
     product.taxCategory = product.taxCategory.tax;
-    product.uom = product.uom.uom;
 
     if (product.productCode) {
       // Generate barcode image
@@ -79,6 +78,7 @@ const getProductNames = async (req, res) => {
       { name: { $regex: query, $options: "i" } },
       "name"
     );
+   
     const matchingNames = matchingProducts.map((product) => product.name);
 
     res.status(200).json(matchingNames);

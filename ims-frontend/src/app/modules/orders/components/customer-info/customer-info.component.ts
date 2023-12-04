@@ -61,7 +61,7 @@ export class CustomerInfoComponent {
     this.searchTerms.next(query);
   }
 
-  getClientDetails(selectedItem: string) {
+  getClientDetails(selectedItem: any) {
     this.clientService.getClientByName(selectedItem).subscribe((response) => {
       this.customerInfo.patchValue({
         customerEmail: response.email,
