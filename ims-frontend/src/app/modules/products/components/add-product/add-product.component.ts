@@ -123,7 +123,6 @@ export class AddProductComponent {
   }
 
   onSubmit() {
-    console.log(this.productForm.value);
     if (this.productForm.valid) {
       
       if(this.productForm.value.quantity < 10) {

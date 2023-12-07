@@ -199,12 +199,13 @@
         <td>
           <p-cellEditor>
             <ng-template pTemplate="input">
-              <input
-                pInputText
-                type="text"
+              <p-dropdown
+                [options]="tax_options"
+                appendTo="body"
                 [(ngModel)]="product.taxCategory"
-                required
-              />
+                optionLabel="tax"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
             </ng-template>
             <ng-template pTemplate="output">
               {{ product.taxCategory }}

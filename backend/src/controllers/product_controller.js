@@ -16,7 +16,7 @@ const createProduct = async (req, res) => {
     let product = req.body;
 
     product.taxCategory = product.taxCategory.tax;
-    product.uom = product.uom.uom
+    product.uom = product.uom.uom;
 
     if (product.productCode) {
       // Generate barcode image
@@ -80,7 +80,7 @@ const getProductNames = async (req, res) => {
       { name: { $regex: query, $options: "i" } },
       "name"
     );
-   
+
     const matchingNames = matchingProducts.map((product) => product.name);
 
     res.status(200).json(matchingNames);
@@ -112,7 +112,11 @@ const updateProduct = async (req, res) => {
     const { id: productId } = req.params;
     const product = await Product.findOneAndUpdate(
       { _id: productId },
-      req.body,
+      {
+        ...req.body,
+        uom: req.body.uom.uom,
+        taxCategory: req.body.taxCategory.tax,
+      },
       {
         new: true,
         runValidators: true,
@@ -126,6 +130,7 @@ const updateProduct = async (req, res) => {
 
     res.status(201).json(product);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
