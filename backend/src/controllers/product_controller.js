@@ -16,6 +16,7 @@ const createProduct = async (req, res) => {
     let product = req.body;
 
     product.taxCategory = product.taxCategory.tax;
+    product.uom = product.uom.uom
 
     if (product.productCode) {
       // Generate barcode image
@@ -47,6 +48,7 @@ const createProduct = async (req, res) => {
 
     res.status(201).json({ product: createdProduct });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error });
   }
 };
