@@ -22,6 +22,17 @@ app.use(express.json());
 
 app.use(cors());
 
+// TODO: Change the response format of every api
+/**
+ * 
+ * {
+  "success": false,
+  "error": {
+    "code": 123,
+    "message": "An error occurred!"
+  }
+}
+ */
 // Routes
 app.get("/", (req, res) => {
   res.send("Hello from the server");

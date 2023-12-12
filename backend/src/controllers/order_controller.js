@@ -10,13 +10,27 @@ const notify = require("../controllers/notification_controller")
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
 
-    return res.status(200).json(orders);
+    const totalRecords = await Order.countDocuments();
+    const totalPages = Math.ceil(totalRecords / pageSize);
+
+    const orders = await Order.find()
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    return res.status(200).json({
+      orders,
+      totalRecords,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
-    return res.status(500).json({ message: error });
+    return res.status(500).json({ message: error.message });
   }
 };
+
 
 const getOrderById = async (req, res) => {
   try {

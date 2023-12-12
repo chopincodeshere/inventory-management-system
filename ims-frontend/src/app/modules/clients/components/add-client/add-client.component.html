@@ -12,6 +12,7 @@
           type="text"
           class="p-inputtext"
           pInputText
+          placeholder="Ex. Google Inc."
           formControlName="name"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('name'),
@@ -27,6 +28,7 @@
           type="text"
           class="p-inputtext"
           pInputText
+          placeholder="Ex. Google Inc. "
           formControlName="mailingName"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('mailingName'),
@@ -45,6 +47,7 @@
           type="email"
           class="p-inputtext"
           pInputText
+          placeholder="Ex. abc@gmail.com"
           formControlName="email"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('name'),
@@ -64,6 +67,7 @@
           cols="30"
           class="p-inputtext"
           pInputTextarea
+          placeholder="Ex. ABC Avenue, California, India"
           formControlName="address"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('address'),
@@ -82,6 +86,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. India"
           formControlName="country"
         />
       </div>
@@ -96,6 +101,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. Maharashtra"
           formControlName="state"
         />
       </div>
@@ -110,6 +116,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. Pune"
           formControlName="city"
         />
       </div>
@@ -124,6 +131,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. 310011"
           formControlName="pincode"
         />
       </div>
@@ -138,6 +146,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. +91 12345 67890"
           formControlName="phoneNo"
         />
       </div>
@@ -152,6 +161,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. +91 12345 67890"
           formControlName="mobileNo"
         />
       </div>
@@ -166,6 +176,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. 22AAAAA0000A1Z5"
           formControlName="gstNumber"
         />
       </div>
@@ -180,6 +191,7 @@
           class="p-inputtext"
           type="text"
           pInputText
+          placeholder="Ex. IDIB000K023"
           formControlName="accountNumber"
         />
       </div>
@@ -217,6 +229,7 @@
             type="text"
             pInputText
             class="p-inputtext"
+            placeholder="Ex. INR"
             formControlName="baseCurrencySymbol"
           />
         </div>
@@ -233,6 +246,7 @@
             type="text"
             class="p-inputtext"
             pInputText
+            placeholder="Ex. Indian Rupees"
             formControlName="formalName"
           />
         </div>
@@ -249,6 +263,7 @@
             class="p-inputtext"
             type="number"
             pInputText
+            placeholder="Ex. 2 (places after decimal)"
             formControlName="decimalPlaces"
           />
         </div>
@@ -265,6 +280,7 @@
             type="text"
             class="p-inputtext"
             pInputText
+            placeholder="Ex. . or ,"
             formControlName="symbolForDecimal"
           />
         </div>
@@ -281,11 +297,11 @@
             type="text"
             pInputText
             class="p-inputtext"
+            placeholder="Ex. . or ,"
             formControlName="symbolForThousands"
           />
         </div>
       </div>
-      
 
       <div class="add-button">
         <p-button

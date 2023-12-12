@@ -11,8 +11,23 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  public getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this._url}/`);
+  getOrders(
+    page: number = 1,
+    pageSize: number = 10
+  ): Observable<{
+    orders: Order[];
+    totalRecords: number;
+    totalPages: number;
+    currentPage: number;
+  }> {
+    const url = `${this._url}/?page=${page}&pageSize=${pageSize}`;
+
+    return this.http.get<{
+      orders: Order[];
+      totalPages: number;
+      totalRecords: number;
+      currentPage: number;
+    }>(url);
   }
 
   public getOrderById(id: string): Observable<Order> {

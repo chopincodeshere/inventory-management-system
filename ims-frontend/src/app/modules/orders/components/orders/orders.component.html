@@ -6,28 +6,25 @@
       [tableStyle]="{ 'min-width': '50rem' }"
       [scrollable]="true"
       scrollHeight="400px"
-      [paginator]="true"
-      [rows]="10"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [showCurrentPageReport]="true"
+     
     >
-    <ng-template pTemplate="caption">
-      <div class="search-bar">
-        <h3 class="m-0">Manage Orders</h3>
+      <ng-template pTemplate="caption">
+        <div class="search-bar">
+          <h3 class="m-0">Manage Orders</h3>
 
-        <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input
-            pInputText
-            class="p-inputtext"
-            type="text"
-            placeholder="Search..."
-            [(ngModel)]="searchQuery"
-            (input)="search()"
-          />
-        </span>
-      </div>
-    </ng-template>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              class="p-inputtext"
+              type="text"
+              placeholder="Search..."
+              [(ngModel)]="searchQuery"
+              (input)="search()"
+            />
+          </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th>Order Id</th>
@@ -46,19 +43,24 @@
           <td>
             <p-button
               icon="pi pi-info-circle"
-              styleClass="p-button-rounded p-button-text"
+              [rounded]="true"
+              [text]="true"
+              severity="info "
               (onClick)="showOrder(order._id)"
             ></p-button>
 
             <p-confirmPopup></p-confirmPopup>
             <p-button
               icon="pi pi-trash"
-              styleClass="p-button-rounded p-button-danger p-button-text"
+              [rounded]="true"
+              [text]="true"
+              severity="danger "
               (click)="confirm($event, order._id)"
             ></p-button>
           </td>
         </tr>
       </ng-template>
     </p-table>
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
   </div>
 </p-card>

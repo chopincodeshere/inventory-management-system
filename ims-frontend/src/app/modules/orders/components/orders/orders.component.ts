@@ -6,6 +6,13 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { Order } from 'src/app/core/models/order';
 import { OrderService } from 'src/app/services/order-service/order.service';
 
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -15,6 +22,10 @@ export class OrdersComponent {
   orders!: Order[];
 
   searchQuery: string = '';
+
+  first: number = 0;
+  rows: number = 10;
+  totalRecords: number;
 
   private searchTerms = new Subject<string>();
 
@@ -79,9 +90,12 @@ export class OrdersComponent {
   }
 
   getOrders() {
-    this.orderService.getOrders().subscribe((response) => {
-      this.orders = response;
-    });
+    this.orderService
+      .getOrders(this.first / this.rows + 1, this.rows)
+      .subscribe((response) => {
+        this.orders = response.orders;
+        this.totalRecords = response.totalRecords
+      });
   }
 
   search() {
@@ -105,5 +119,10 @@ export class OrdersComponent {
         this.showError(error.message);
       }
     );
+  }
+
+  onPageChange(event: PageEvent) {
+    this.first = event.first;
+    this.rows = event.rows;    
   }
 }

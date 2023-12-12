@@ -16,6 +16,7 @@
           class="p-inputtext"
           id="name"
           pInputText
+          placeholder="Ex. LED TV"
           formControlName="name"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('name'),
@@ -33,6 +34,7 @@
           class="p-inputtext"
           id="productCode"
           pInputText
+          placeholder="Ex. XEC1223"
           formControlName="productCode"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('productCode'),
@@ -49,6 +51,7 @@
           type="text"
           class="p-inputtext"
           id="productType"
+          placeholder="Ex. Electronics"
           pInputText
           formControlName="productType"
           [ngClass]="{
@@ -66,6 +69,7 @@
           formControlName="uom"
           [options]="uom_options"
           optionLabel="uom"
+          placeholder="Ex. Pieces"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('uom'),
             'ng-dirty': productForm.get('uom')?.dirty
@@ -96,6 +100,7 @@
           type="text"
           class="p-inputtext"
           id="hsnCode"
+          placeholder="Ex. HSN6612"
           pInputText
           formControlName="hsnCode"
           [ngClass]="{
@@ -116,6 +121,7 @@
           [maxFractionDigits]="5"
           formControlName="price"
           currency="INR"
+          placeholder="Ex. 12,000"
           currencySymbol="₹"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('price'),
@@ -143,6 +149,7 @@
           id="description"
           class="p-inputtext"
           pInputTextarea
+          placeholder="Ex. Product description"
           formControlName="description"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('description'),
@@ -167,6 +174,7 @@
           type="text"
           class="p-inputtext"
           id="attributes"
+          placeholder="Ex. Resolution: 4k, Size: 32 inch, etc"
           pInputText
           formControlName="attributes"
           [ngClass]="{
@@ -182,6 +190,7 @@
           class="p-inputtext"
           id="batchNumber"
           pInputText
+          placeholder="Ex. B001"
           formControlName="batchNumber"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('batchNumber'),
@@ -199,6 +208,7 @@
           class="p-inputtext"
           id="manufacturer"
           pInputText
+          placeholder="Ex. Sony"
           formControlName="manufacturer"
           [ngClass]="{
             'ng-invalid': isControlInvalidAndDirty('manufacturer'),

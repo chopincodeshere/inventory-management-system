@@ -38,7 +38,7 @@ export class OrderDetailsComponent {
   }
 
   navigateBack() {
-    this.router.navigateByUrl(`/orders/show-orders`)
+    this.router.navigateByUrl(`/orders/sales/show-orders`)
   }
 
   showSuccess(message: string) {

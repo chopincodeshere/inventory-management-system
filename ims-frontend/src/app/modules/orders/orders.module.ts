@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PaginatorModule } from 'primeng/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersRoutingModule } from './orders-routing.module';
@@ -57,6 +58,7 @@ import { AllPurchaseOrdersComponent } from './components/all-purchase-orders/all
     DividerModule,
     TableModule,
     ToastModule,
+    PaginatorModule,
     PdfViewerModule,
     AutoCompleteModule,
     ImageModule,
