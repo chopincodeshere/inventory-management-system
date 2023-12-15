@@ -1,0 +1,56 @@
+.layout-topbar {
+    position: fixed;
+    height: 4.5rem;
+    z-index: 997;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0 2rem;
+    background-color: #ffffff;
+    transition: left .2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 5px #00000005, 0 0 2px #0000000d, 0 1px 4px #00000014;
+}
+
+.layout-topbar-logo {
+    display: flex;
+    align-items: center;
+    color: #212121;
+    font-size: 1.5rem;
+    font-weight: 500;
+    width: 300px;
+    border-radius: 12px;
+    text-decoration: none;
+}
+
+img {
+    height: 2.2rem;
+    margin-right: .5rem;
+}
+
+.nav-icons {
+    display: flex;
+}
+
+.layout-menu {
+    position: fixed;
+    width: 300px;
+    height: calc(100vh - 9rem);
+    z-index: 999;
+    overflow-y: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    top: 6rem;
+    left: 1.5rem;
+    transition: transform .2s,left .2s;
+    background-color: var(--surface-overlay);
+    border-radius: 12px;
+    padding: .5rem 0rem;
+    box-shadow: 0 3px 5px #00000005, 0 0 2px #0000000d, 0 1px 4px #00000014;
+}
+
+.logo-heading {
+    font-size: 1.2rem;
+}

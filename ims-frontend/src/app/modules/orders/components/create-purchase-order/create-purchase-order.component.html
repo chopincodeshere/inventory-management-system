@@ -1,0 +1,296 @@
+<div class="card">
+  <p-card header="Create Purchase Order">
+    <form [formGroup]="purchaseOrderForm" (ngSubmit)="onSubmit()">
+      <div class="p-field">
+        <div>
+          <label for="name">Vendor Name</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="name"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          placeholder="Vendor Name"
+          formControlName="vendorName"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('vendorName'),
+            'ng-dirty': purchaseOrderForm.get('name')?.dirty
+          }"
+        />
+      </div>
+
+      <!-- Vendor Address -->
+      <div class="p-field">
+        <div>
+          <label for="vendorAddress">Vendor Address</label>
+          <span class="important-field">*</span>
+        </div>
+        <textarea
+          id="vendorAddress"
+          class="p-inputtext"
+          pInputTextarea
+          placeholder="Vendor Address"
+          formControlName="vendorAddress"
+        ></textarea>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Vendor Contact Information -->
+      <div class="p-field">
+        <div>
+          <label>Contact Information</label>
+          <span class="important-field">*</span>
+        </div>
+        <div class="sub-group" formGroupName="vendorContactInformation">
+          <input
+            id="email"
+            type="email"
+            class="p-inputtext"
+            pInputText
+            formControlName="email"
+            placeholder="Email"
+          />
+          <input
+            id="phone"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="phone"
+            placeholder="Phone"
+          />
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Shipping Information -->
+      <div class="p-field">
+        <div>
+          <label>Shipping Information</label>
+          <span class="important-field">*</span>
+        </div>
+        <div class="sub-group" formGroupName="shippingInformation">
+          <textarea
+            id="shippingAddress"
+            class="p-inputtext"
+            pInputTextarea
+            formControlName="shippingAddress"
+            placeholder="Shipping Address"
+          ></textarea>
+          <input
+            id="shippingMethod"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="shippingMethod"
+            placeholder="Shipping Method"
+          />
+          <input
+            id="expectedDeliveryDate"
+            type="date"
+            class="p-inputtext"
+            pInputText
+            formControlName="expectedDeliveryDate"
+            placeholder="Expected Delivery Date"
+          />
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Billing Information -->
+      <div class="p-field">
+        <div>
+          <label>Billing Information</label>
+          <span class="important-field">*</span>
+        </div>
+        <div class="sub-group" formGroupName="billingInformation">
+          <textarea
+            id="billingAddress"
+            class="p-inputtext"
+            pInputTextarea
+            formControlName="billingAddress"
+            placeholder="Billing Address"
+          ></textarea>
+          <input
+            id="paymentTerms"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="paymentTerms"
+            placeholder="Payment Terms"
+          />
+          <input
+            id="paymentMethod"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="paymentMethod"
+            placeholder="Payment Method"
+          />
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Terms and Conditions -->
+      <div class="p-field">
+        <div>
+          <label for="termsAndConditions">Terms and Conditions</label>
+        </div>
+        <textarea
+          id="termsAndConditions"
+          class="p-inputtext"
+          pInputTextarea
+          formControlName="termsAndConditions"
+        ></textarea>
+      </div>
+
+      <!-- Other Fields -->
+      <div class="p-field">
+        <div>
+          <label for="purchaseOrderStatus">Purchase Order Status</label>
+        </div>
+        <input
+          id="purchaseOrderStatus"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          formControlName="purchaseOrderStatus"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="deliveryConfirmation">Delivery Confirmation</label>
+        </div>
+        <input
+          id="deliveryConfirmation"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          formControlName="deliveryConfirmation"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="notesOrComments">Notes or Comments</label>
+        </div>
+        <textarea
+          id="notesOrComments"
+          class="p-inputtext"
+          pInputTextarea
+          formControlName="notesOrComments"
+        ></textarea>
+      </div>
+
+      <!-- Purchase Order Total, Tax and Shipping Total, Grand Total -->
+      <!-- You can add similar fields for these, e.g., purchaseOrderTotal, taxAndShippingTotal, grandTotal -->
+
+      <p-divider></p-divider>
+
+      <div class="add-button">
+        <p-button
+          type="submit"
+          pRipple
+          label="Submit"
+          [style]="{ width: '10rem' }"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>
+
+<div class="card">
+  <p-card header="Items">
+    <form [formGroup]="itemsGroup">
+      <div class="items-group">
+        <div class="flex-auto">
+          <label for="itemName" class="block font-bold mb-2">Item Name</label>
+          <input
+            id="itemName"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            formControlName="itemName"
+            placeholder="Item Name"
+          />
+        </div>
+
+        <div class="flex-auto">
+          <label class="block font-bold mb-2" for="quantity">Quantity</label>
+          <p-inputNumber
+            id="quantity"
+            type="number"
+            formControlName="itemQuantity"
+            placeholder="Quantity"
+          ></p-inputNumber>
+        </div>
+
+        <div class="flex-auto">
+          <label class="block font-bold mb-2" for="price">Unit Price</label>
+          <p-inputNumber
+            id="price"
+            type="number"
+            placeholder="Unit Price"
+            formControlName="itemUnitPrice"
+            [minFractionDigits]="2"
+          ></p-inputNumber>
+        </div>
+
+        <div class="flex-auto">
+          <p-button
+            icon="pi pi-plus"
+            pRipple
+            styleClass="p-button-rounded p-button-text"
+            [style]="{ top: '1.7rem' }"
+            (onClick)="addItem()"
+          ></p-button>
+        </div>
+      </div>
+    </form>
+
+    <div
+      class="card"
+      *ngIf="purchaseOrderForm.get('items')['controls'].length > 0"
+    >
+      <p-table
+        [value]="purchaseOrderForm.get('items')['controls']"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price (per unit)</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{ product.itemName }}</td>
+            <td>{{ product.itemQuantity }}</td>
+            <td>{{ product.itemUnitPrice }}</td>
+            <td>
+              <button
+                pButton
+                class="p-button-danger"
+                pRipple
+                label="Delete"
+                icon="pi pi-trash"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-card>
+</div>

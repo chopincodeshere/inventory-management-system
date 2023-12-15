@@ -1,0 +1,32 @@
+.delete-btn {
+    cursor: pointer;
+    border: 2px solid red;
+    border-radius: 9px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    padding: 0.5rem;
+}
+
+.delete-btn:hover {
+    background-color: #ffcccc;
+    transform: scale(1.1);
+    color: red !important;
+}
+
+.delete-cell {
+    width: 5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.delete-icon {
+    margin: 0 7px 0 0;
+    font-size: large;
+}

@@ -1,0 +1,316 @@
+<p-toast></p-toast>
+<div class="card flex justify-content-center">
+  <p-card header="Add Client">
+    <form [formGroup]="clientForm!" class="client-form" (ngSubmit)="onSubmit()">
+      <div class="p-field">
+        <div>
+          <label for="name">Name</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="name"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          placeholder="Ex. Google Inc."
+          formControlName="name"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('name'),
+            'ng-dirty': clientForm.get('name')?.dirty
+          }"
+        />
+      </div>
+
+      <div class="p-field">
+        <label for="mailingName">Mailing Name</label>
+        <input
+          id="mailingName"
+          type="text"
+          class="p-inputtext"
+          pInputText
+          placeholder="Ex. Google Inc. "
+          formControlName="mailingName"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('mailingName'),
+            'ng-dirty': clientForm.get('mailingName')?.dirty
+          }"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="email">Email</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="email"
+          type="email"
+          class="p-inputtext"
+          pInputText
+          placeholder="Ex. abc@gmail.com"
+          formControlName="email"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('name'),
+            'ng-dirty': clientForm.get('name')?.dirty
+          }"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="address">Address</label>
+          <span class="important-field">*</span>
+        </div>
+        <textarea
+          id="address"
+          rows="5"
+          cols="30"
+          class="p-inputtext"
+          pInputTextarea
+          placeholder="Ex. ABC Avenue, California, India"
+          formControlName="address"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('address'),
+            'ng-dirty': clientForm.get('address')?.dirty
+          }"
+        ></textarea>
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="country">Country</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="country"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. India"
+          formControlName="country"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="state">State</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="state"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. Maharashtra"
+          formControlName="state"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="city">City</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="city"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. Pune"
+          formControlName="city"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="pincode">Pincode</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="pincode"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. 310011"
+          formControlName="pincode"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="phoneNo">Phone No.</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="phoneNo"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. +91 12345 67890"
+          formControlName="phoneNo"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="mobileNo">Mobile Number:</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="mobileNo"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. +91 12345 67890"
+          formControlName="mobileNo"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="gstNumber">GST Number:</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="gstNumber"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. 22AAAAA0000A1Z5"
+          formControlName="gstNumber"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="mobileNo">Account Number:</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          id="accountNumber"
+          class="p-inputtext"
+          type="text"
+          pInputText
+          placeholder="Ex. IDIB000K023"
+          formControlName="accountNumber"
+        />
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="financialYearFrom">Financial Year From:</label>
+          <span class="important-field">*</span>
+        </div>
+        <p-calendar
+          id="financialYearFrom"
+          formControlName="financialYearFrom"
+        ></p-calendar>
+      </div>
+
+      <div class="p-field">
+        <div>
+          <label for="booksBeginningFrom">Books Beginning From:</label>
+          <span class="important-field">*</span>
+        </div>
+        <p-calendar
+          id="booksBeginningFrom"
+          formControlName="booksBeginningFrom"
+        ></p-calendar>
+      </div>
+
+      <div formGroupName="baseCurrencyInformation">
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencySymbol">Base Currency Symbol:</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencySymbol"
+            type="text"
+            pInputText
+            class="p-inputtext"
+            placeholder="Ex. INR"
+            formControlName="baseCurrencySymbol"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyFormalName"
+              >Base Currency Formal Name:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyFormalName"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            placeholder="Ex. Indian Rupees"
+            formControlName="formalName"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyDecimalPlaces"
+              >Base Currency Decimal Places:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyDecimalPlaces"
+            class="p-inputtext"
+            type="number"
+            pInputText
+            placeholder="Ex. 2 (places after decimal)"
+            formControlName="decimalPlaces"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyDecimalSymbol"
+              >Base Currency Decimal Symbol:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyDecimalSymbol"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            placeholder="Ex. . or ,"
+            formControlName="symbolForDecimal"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyThousandSymbol"
+              >Base Currency Thousand Symbol:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyThousandSymbol"
+            type="text"
+            pInputText
+            class="p-inputtext"
+            placeholder="Ex. . or ,"
+            formControlName="symbolForThousands"
+          />
+        </div>
+      </div>
+
+      <div class="add-button">
+        <p-button
+          type="submit"
+          pRipple
+          label="Submit"
+          [style]="{ width: '10rem' }"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>

@@ -1,0 +1,143 @@
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
+<div class="card">
+  <p-progressBar
+    *ngIf="isLoading"
+    mode="indeterminate"
+    [style]="{ height: '4px' }"
+  ></p-progressBar>
+  <p-table
+    [value]="clients"
+    dataKey="_id"
+    [paginator]="true"
+    [selectionMode]="'single'"
+    [resizableColumns]="true"
+    [scrollable]="true"
+    scrollHeight="430px"
+    [(selection)]="selectedClients"
+    [rows]="rows"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="search-bar">
+        <h3 class="m-0">Manage Clients</h3>
+        <p-button
+          label="Delete"
+          pRipple
+          icon="pi pi-trash"
+          (click)="confirm($event)"
+          styleClass="p-button-danger"
+        >
+        </p-button>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            class="p-inputtext"
+            type="text"
+            placeholder="Search..."
+            [(ngModel)]="searchQuery"
+            (input)="search()"
+          />
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pResizableColumn style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pResizableColumn pSortableColumn="_id">
+          Id <p-sortIcon field="_id"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="name">
+          Company Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="address">
+          Address <p-sortIcon field="address"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="country">
+          Country <p-sortIcon field="country"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="state">
+          State <p-sortIcon field="state"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="pincode">
+          Pincode <p-sortIcon field="pincode"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="phoneNo">
+          Phone Number <p-sortIcon field="phoneNo"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="mobileNo">
+          Mobile Number <p-sortIcon field="mobileNo"></p-sortIcon>
+        </th>
+        <th pResizableColumn>Actions</th>
+        <th [style]="{ width: '20%' }"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-client let-ri="rowIndex">
+      <tr [pEditableRow]="client">
+        <td>
+          <p-tableCheckbox [value]="client"></p-tableCheckbox>
+        </td>
+
+        <td>
+          {{ client._id }}
+        </td>
+
+        <td>
+          {{ client.name }}
+        </td>
+
+        <td>
+          <p>
+            {{ client.address }}
+          </p>
+        </td>
+
+        <td>
+          {{ client.country }}
+        </td>
+
+        <td>
+          {{ client.state }}
+        </td>
+
+        <td>
+          {{ client.pincode }}
+        </td>
+
+        <td>
+          {{ client.phoneNo }}
+        </td>
+
+        <td>
+          {{ client.mobileNo }}
+        </td>
+
+        <td>
+          <div
+            class="flex align-items-center justify-content-center gap-2"
+            style="width: 7rem"
+          >
+            <p-button
+              icon="pi pi-info-circle"
+              styleClass="p-button-rounded p-button-text"
+              (onClick)="showClient(client._id)"
+            ></p-button>
+
+            <p-button
+              icon="pi pi-pencil"
+              styleClass="p-button-rounded p-button-warning p-button-text"
+              (onClick)="editClient(client)"
+            ></p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

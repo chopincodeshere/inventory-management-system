@@ -1,0 +1,281 @@
+<p-toast></p-toast>
+<div class="card">
+  <p-card header="Edit Client">
+    <p-button
+      icon="pi pi-arrow-left"
+      label="Back"
+      styleClass="p-button-rounded p-button-text"
+      (onClick)="navigateBack()"
+    ></p-button>
+    <form
+      [formGroup]="edit_client"
+      class="edit-client-form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="basic-info">
+        <div class="p-field">
+          <div>
+            <label for="address">Name</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="name"
+            type="text"
+            class="p-inputtext"
+            [value]="client?.name"
+            pInputText
+            formControlName="name"
+            [ngClass]="{
+              'ng-invalid': isControlInvalidAndDirty('name'),
+              'ng-dirty': edit_client.get('name')?.dirty
+            }"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="address">Mailing Name</label>
+          <input
+            id="mailingName"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            [value]="client?.mailingName"
+            formControlName="mailingName"
+            [ngClass]="{
+              'ng-invalid': isControlInvalidAndDirty('mailingName'),
+              'ng-dirty': edit_client.get('mailingName')?.dirty
+            }"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="address">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="p-inputtext"
+            pInputText
+            [value]="client?.email"
+            formControlName="email"
+            [ngClass]="{
+              'ng-invalid': isControlInvalidAndDirty('email'),
+              'ng-dirty': edit_client.get('email')?.dirty
+            }"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="address">Address</label>
+            <span class="important-field">*</span>
+          </div>
+          <textarea
+            id="address"
+            rows="5"
+            cols="30"
+            class="p-inputtext"
+            pInputTextarea
+            formControlName="address"
+            [value]="client?.address"
+            [ngClass]="{
+              'ng-invalid': isControlInvalidAndDirty('address'),
+              'ng-dirty': edit_client.get('address')?.dirty
+            }"
+          ></textarea>
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="country">Country</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="country"
+            class="p-inputtext"
+            type="text"
+            pInputText
+            [value]="client?.country"
+            formControlName="country"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="state">State</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="state"
+            class="p-inputtext"
+            type="text"
+            pInputText
+            [value]="client?.state"
+            formControlName="state"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="pincode">Pincode</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="pincode"
+            class="p-inputtext"
+            type="text"
+            pInputText
+            [value]="client?.pincode"
+            formControlName="pincode"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="phoneNo">Phone No.</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="phoneNo"
+            class="p-inputtext"
+            type="text"
+            pInputText
+            [value]="client?.phoneNo"
+            formControlName="phoneNo"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="mobileNo">Mobile Number:</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="mobileNo"
+            class="p-inputtext"
+            type="text"
+            pInputText
+            [value]="client?.mobileNo"
+            formControlName="mobileNo"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="financialYearFrom">Financial Year From:</label>
+            <span class="important-field">*</span>
+          </div>
+
+          <p-calendar
+            id="financialYearFrom"
+            formControlName="financialYearFrom"
+          ></p-calendar>
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="booksBeginningFrom">Books Beginning From:</label>
+            <span class="important-field">*</span>
+          </div>
+          <p-calendar
+            id="booksBeginningFrom"
+            formControlName="booksBeginningFrom"
+          ></p-calendar>
+        </div>
+      </div>
+
+      <div formGroupName="baseCurrencyInformation" class="financial-info">
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencySymbol">Base Currency Symbol:</label>
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencySymbol"
+            type="text"
+            pInputText
+            [value]="client?.baseCurrencyInformation.baseCurrencySymbol"
+            class="p-inputtext"
+            formControlName="baseCurrencySymbol"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyFormalName"
+              >Base Currency Formal Name:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyFormalName"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            [value]="client?.baseCurrencyInformation.formalName"
+            formControlName="formalName"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyDecimalPlaces"
+              >Base Currency Decimal Places:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyDecimalPlaces"
+            class="p-inputtext"
+            type="number"
+            pInputText
+            [value]="client?.baseCurrencyInformation.decimalPlaces"
+            formControlName="decimalPlaces"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyDecimalSymbol"
+              >Base Currency Decimal Symbol:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyDecimalSymbol"
+            type="text"
+            class="p-inputtext"
+            pInputText
+            [value]="client?.baseCurrencyInformation.symbolForDecimal"
+            formControlName="symbolForDecimal"
+          />
+        </div>
+
+        <div class="p-field">
+          <div>
+            <label for="baseCurrencyThousandSymbol"
+              >Base Currency Thousand Symbol:</label
+            >
+            <span class="important-field">*</span>
+          </div>
+          <input
+            id="baseCurrencyThousandSymbol"
+            type="text"
+            pInputText
+            class="p-inputtext"
+            [value]="client?.baseCurrencyInformation.symbolForThousands"
+            formControlName="symbolForThousands"
+          />
+        </div>
+      </div>
+
+      <div class="add-button">
+        <p-button
+          type="submit"
+          pRipple
+          label="Submit"
+          [style]="{ width: '10rem' }"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>

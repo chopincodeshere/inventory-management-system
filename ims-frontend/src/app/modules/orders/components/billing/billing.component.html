@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card">
+    <pdf-viewer
+      [src]="pdfSrc"
+      [render-text]="true"
+      [original-size]="false"
+      style="width: 500px; height: 500px"
+    ></pdf-viewer>
+  </div>
+  <div class="button-group">
+    <p-button
+      pRipple
+      label="Generate Invoice"
+      icon="pi pi-print"
+      (click)="generateInvoice()"
+    ></p-button>
+    <p-button
+      pRipple
+      styleClass="p-button-success"
+      label="Send mail"
+      icon="pi pi-send"
+      (click)="sendInvoice()"
+    ></p-button>
+  </div>
+</div>

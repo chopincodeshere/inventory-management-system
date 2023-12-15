@@ -1,0 +1,271 @@
+<p-toast></p-toast>
+<p-confirmPopup></p-confirmPopup>
+<div class="card">
+  <p-progressBar
+    *ngIf="isLoading"
+    mode="indeterminate"
+    [style]="{ height: '4px' }"
+  ></p-progressBar>
+  <p-table
+    #dt
+    [value]="products!"
+    dataKey="_id"
+    [tableStyle]="{ 'min-width': '60rem', 'border-radius': '12px' }"
+    [paginator]="true"
+    [selectionMode]="'single'"
+    [resizableColumns]="true"
+    [scrollable]="true"
+    [(selection)]="selectedProducts"
+    [rows]="rows"
+    editMode="row"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[5, 10, 25, 50]"
+    scrollHeight="430px"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template
+      pTemplate="caption"
+    >
+      <div class="search-bar">
+        <h5 class="m-0">Manage Products</h5>
+        <button
+          type="button"
+          pButton
+          pRipple
+          (click)="confirm($event)"
+          class="p-button-danger"
+        >
+          <span class="pi pi-trash delete-icon"></span>Delete
+        </button>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            placeholder="Search..."
+            [(ngModel)]="searchQuery"
+            (input)="search()"
+          />
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pResizableColumn style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+
+        <th pResizableColumn pSortableColumn="id" style="min-width: 200px">
+          Id <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="name" style="min-width: 200px">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pResizableColumn style="min-width: 200px">HSN Code</th>
+        <th
+          pResizableColumn
+          pSortableColumn="quantity"
+          style="min-width: 200px"
+        >
+          Quantity <p-sortIcon field="quantity"></p-sortIcon>
+        </th>
+        <th pResizableColumn pSortableColumn="price" style="min-width: 200px">
+          Price <p-sortIcon field="price"></p-sortIcon>
+        </th>
+        <th pResizableColumn style="min-width: 200px">Barcode</th>
+        <th
+          pResizableColumn
+          pSortableColumn="manufacturer"
+          style="min-width: 200px"
+        >
+          Manufacturer <p-sortIcon field="manufacturer"></p-sortIcon>
+        </th>
+        <th
+          pResizableColumn
+          pSortableColumn="productCode"
+          style="min-width: 200px"
+        >
+          Product Code <p-sortIcon field="productCode"></p-sortIcon>
+        </th>
+        <th pResizableColumn style="min-width: 200px">Tax</th>
+        <th pResizableColumn pSortableColumn="uom" style="min-width: 200px">
+          UOM <p-sortIcon field="uom"></p-sortIcon>
+        </th>
+        <th pResizableColumn style="width: 200px"></th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-product
+      let-expanded="expanded"
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="product">
+        <td>
+          <p-tableCheckbox [value]="product"></p-tableCheckbox>
+        </td>
+        <!-- <td>
+          <button
+            type="button"
+            pButton
+            pRipple
+            [pRowToggler]="product"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
+        </td> -->
+        <td>
+          {{ product._id }}
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.name" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.name }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.hsnCode" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.hsnCode }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.quantity" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.quantity }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="product.price" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.price | currency : "INR" : "symbol" }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <img
+            [src]="'data:image/png;base64,' + product.barcode"
+            alt="Barcode"
+            width="100"
+          />
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input
+                pInputText
+                type="text"
+                [(ngModel)]="product.manufacturer"
+                required
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.manufacturer }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input
+                pInputText
+                type="text"
+                [(ngModel)]="product.productCode"
+                required
+              />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.productCode }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown
+                [options]="tax_options"
+                appendTo="body"
+                [(ngModel)]="product.taxCategory"
+                optionLabel="tax"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.taxCategory }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown
+                [options]="uom_options"
+                appendTo="body"
+                [(ngModel)]="product.uom"
+                optionLabel="uom"
+                [style]="{ width: '100%' }"
+              ></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ product.uom }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div
+            class="flex align-items-center justify-content-center gap-2"
+            style="width: 7rem"
+          >
+            <button
+              *ngIf="!editing"
+              pButton
+              pRipple
+              type="button"
+              pInitEditableRow
+              icon="pi pi-pencil"
+              (click)="onRowEditInit(product)"
+              class="p-button-rounded p-button-text"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pSaveEditableRow
+              icon="pi pi-check"
+              (click)="onRowEditSave(product)"
+              class="p-button-rounded p-button-text p-button-success mr-2"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              (click)="onRowEditCancel(product, ri)"
+              class="p-button-rounded p-button-text p-button-danger"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

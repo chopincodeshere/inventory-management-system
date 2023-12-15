@@ -1,0 +1,14 @@
+<div class="card">
+  <p-card>
+    <p-steps
+      [model]="items"
+      [readonly]="true"
+      [activeIndex]="activeIndex"
+      (activeIndexChange)="onActiveIndexChange($event)"
+    ></p-steps>
+  </p-card>
+  
+  <p-card [header]="items[activeIndex].label">
+    <router-outlet></router-outlet>
+  </p-card>
+</div>

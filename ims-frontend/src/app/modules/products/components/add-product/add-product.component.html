@@ -1,0 +1,230 @@
+<p-toast></p-toast>
+<div class="card p-fluid flex justify-content-center">
+  <p-card header="Add Product" [style]="{ 'border-radius': '12px' }">
+    <form
+      [formGroup]="productForm!"
+      class="product-form"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="p-field">
+        <div>
+          <label for="name">Product Name</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="name"
+          pInputText
+          placeholder="Ex. LED TV"
+          formControlName="name"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('name'),
+            'ng-dirty': productForm.get('name')?.dirty
+          }"
+        />
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="productCode">Product Code/ID</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="productCode"
+          pInputText
+          placeholder="Ex. XEC1223"
+          formControlName="productCode"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('productCode'),
+            'ng-dirty': productForm.get('productCode')?.dirty
+          }"
+        />
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="productType">Product Type</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="productType"
+          placeholder="Ex. Electronics"
+          pInputText
+          formControlName="productType"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('productType'),
+            'ng-dirty': productForm.get('productType')?.dirty
+          }"
+        />
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="uom">Unit of Measurement (UOM)</label>
+          <span class="important-field">*</span>
+        </div>
+        <p-dropdown
+          formControlName="uom"
+          [options]="uom_options"
+          optionLabel="uom"
+          placeholder="Ex. Pieces"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('uom'),
+            'ng-dirty': productForm.get('uom')?.dirty
+          }"
+        ></p-dropdown>
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="taxCategory">Tax Category</label>
+          <span class="important-field">*</span>
+        </div>
+        <p-dropdown
+          formControlName="taxCategory"
+          [options]="tax_options"
+          optionLabel="tax"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('tax'),
+            'ng-dirty': productForm.get('tax')?.dirty
+          }"
+        ></p-dropdown>
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="hsnCode">HSN/SAC Code</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="hsnCode"
+          placeholder="Ex. HSN6612"
+          pInputText
+          formControlName="hsnCode"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('hsnCode'),
+            'ng-dirty': productForm.get('hsnCode')?.dirty
+          }"
+        />
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="price">Price</label>
+          <span class="important-field">*</span>
+        </div>
+        <p-inputNumber
+          inputId="integeronly"
+          mode="decimal"
+          [minFractionDigits]="2"
+          [maxFractionDigits]="5"
+          formControlName="price"
+          currency="INR"
+          placeholder="Ex. 12,000"
+          currencySymbol="₹"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('price'),
+            'ng-dirty': productForm.get('price')?.dirty
+          }"
+        ></p-inputNumber>
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="quantity">Quantity</label>
+          <span class="important-field">*</span>
+        </div>
+        <p-inputNumber
+          inputId="integeronly"
+          formControlName="quantity"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('quantity'),
+            'ng-dirty': productForm.get('quantity')?.dirty
+          }"
+        ></p-inputNumber>
+      </div>
+      <div class="p-field">
+        <label for="description">Description/Notes</label>
+        <textarea
+          id="description"
+          class="p-inputtext"
+          pInputTextarea
+          placeholder="Ex. Product description"
+          formControlName="description"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('description'),
+            'ng-dirty': productForm.get('description')?.dirty
+          }"
+        ></textarea>
+      </div>
+      <div class="p-field">
+        <label for="image">Image</label>
+        <p-fileUpload
+          mode="basic"
+          chooseLabel="Choose"
+          name="demo[]"
+          accept="image/*"
+          [maxFileSize]="1000000"
+          (onUpload)="onUpload($event)"
+        ></p-fileUpload>
+      </div>
+      <div class="p-field">
+        <label for="attributes">Attributes</label>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="attributes"
+          placeholder="Ex. Resolution: 4k, Size: 32 inch, etc"
+          pInputText
+          formControlName="attributes"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('attributes'),
+            'ng-dirty': productForm.get('attributes')?.dirty
+          }"
+        />
+      </div>
+      <div class="p-field">
+        <label for="batchNumber">Batch/Lot Number</label>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="batchNumber"
+          pInputText
+          placeholder="Ex. B001"
+          formControlName="batchNumber"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('batchNumber'),
+            'ng-dirty': productForm.get('batchNumber')?.dirty
+          }"
+        />
+      </div>
+      <div class="p-field">
+        <div>
+          <label for="manufacturer">Manufacturer/Supplier Details</label>
+          <span class="important-field">*</span>
+        </div>
+        <input
+          type="text"
+          class="p-inputtext"
+          id="manufacturer"
+          pInputText
+          placeholder="Ex. Sony"
+          formControlName="manufacturer"
+          [ngClass]="{
+            'ng-invalid': isControlInvalidAndDirty('manufacturer'),
+            'ng-dirty': productForm.get('manufacturer')?.dirty
+          }"
+        />
+      </div>
+      <div class="add-button">
+        <button pButton pRipple type="submit" class="p-button-primary" [style]="{ width: '10rem' }" label="Add"></button>
+        <!-- <p-button
+          type="submit"
+          pRipple
+          label="Add"
+          [style]="{ width: '10rem' }"
+        ></p-button> -->
+      </div>
+    </form>
+  </p-card>
+</div>

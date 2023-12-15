@@ -1,0 +1,117 @@
+<div class="card">
+  <p-card header="{{ client?.name }}" [style]="{ 'margin-bottom': '1rem' }">
+    <p-button
+      icon="pi pi-arrow-left"
+      label="Back"
+      styleClass="p-button-rounded p-button-text"
+      (onClick)="navigateBack()"
+    ></p-button>
+
+    <div class="client-details">
+      <div class="client-field">
+        <h4>Mailing name :</h4>
+        <p>{{ client?.mailingName }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Address :</h4>
+        <p>{{ client?.address }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Country :</h4>
+        <p>{{ client?.country }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>State :</h4>
+        <p>{{ client?.state }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Pincode :</h4>
+        <p>{{ client?.pincode }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Phone number :</h4>
+        <p>{{ client?.phoneNo }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Mobile number :</h4>
+        <p>{{ client?.mobileNo }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Address :</h4>
+        <p>{{ client?.address }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Financial year starting from :</h4>
+        <p>{{ client?.financialYearFrom | date : "yyyy-MM-dd" }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Books beginning from :</h4>
+        <p>{{ client?.booksBeginningFrom | date : "yyyy-MM-dd" }}</p>
+      </div>
+
+      <div class="client-field">
+        <h4>Total sales (Gross Amount) :</h4>
+        <p>
+          {{
+            client?.totalSales.grossSales
+              | currency
+                : client?.baseCurrencyInformation.baseCurrencySymbol
+                : "symbol"
+          }}
+        </p>
+      </div>
+
+      <div class="client-field">
+        <h4>Total sales (Net Amount) :</h4>
+        <p>
+          {{
+            client?.totalSales.netSales
+              | currency
+                : client?.baseCurrencyInformation.baseCurrencySymbol
+                : "symbol"
+          }}
+        </p>
+      </div>
+
+      <div class="client-field">
+        <h4>Total Credit :</h4>
+        <p>
+          {{
+            client?.creditDetails.total
+              | currency
+                : client?.baseCurrencyInformation.baseCurrencySymbol
+                : "symbol"
+          }}
+        </p>
+      </div>
+    </div>
+  </p-card>
+
+  <div class="client-sales">
+    <p-card header="Yearly Sales" [style]="{ 'margin-bottom': '1rem' }"
+      ><div class="yearly">
+        <canvas id="yearly_canvas"></canvas></div
+    ></p-card>
+
+    <p-card header="Monthly Sales" [style]="{ 'margin-bottom': '1rem' }">
+      <div class="monthly">
+        <canvas id="monthly_canvas"></canvas>
+      </div>
+    </p-card>
+
+    <p-card header="Weekly Sales" [style]="{ 'margin-bottom': '1rem' }">
+      <div class="weekly">
+        <canvas id="weekly_canvas"></canvas>
+      </div>
+    </p-card>
+  </div>
+</div>

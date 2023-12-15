@@ -1,0 +1,16 @@
+.sub-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+}
+
+.items-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+}
+
+.card {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

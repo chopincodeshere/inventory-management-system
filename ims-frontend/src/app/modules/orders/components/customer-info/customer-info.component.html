@@ -1,0 +1,100 @@
+<form
+  class="customer-info-form"
+  [formGroup]="customerInfo"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="p-field">
+    <div>
+      <label for="name">Customer Name</label>
+      <span class="important-field">*</span>
+    </div>
+    <p-autoComplete
+      formControlName="customerName"
+      class="p-autocomplete"
+      [suggestions]="customerNameSuggestions"
+      (completeMethod)="search($event)"
+      (onSelect)="getClientDetails($event)"
+    ></p-autoComplete>
+  </div>
+  <div class="p-field">
+    <div>
+      <label for="phone">Phone</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="tel"
+      id="customerPhone"
+      formControlName="customerPhone"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="email">Email</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="email"
+      id="customerEmail"
+      formControlName="customerEmail"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="address">Address</label>
+      <span class="important-field">*</span>
+    </div>
+    <textarea
+      id="customerAddress"
+      formControlName="customerAddress"
+      class="p-inputtext"
+    ></textarea>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="accountNumber">Account Number</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="text"
+      id="customerAccountNumber"
+      formControlName="customerAccountNumber"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="accountNumber">GST Number</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="text"
+      id="customerGST"
+      formControlName="customerGST"
+      class="p-inputtext"
+    />
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="specialInstructions">Special Instructions or Notes</label>
+    </div>
+    <textarea
+      id="specialInstructions"
+      formControlName="notes"
+      class="p-inputtext"
+    ></textarea>
+  </div>
+
+  <p-button
+    label="Next"
+    styleClass="p-button-outlined"
+    type="submit"
+    [disabled]="customerInfo.invalid"
+  ></p-button>
+</form>

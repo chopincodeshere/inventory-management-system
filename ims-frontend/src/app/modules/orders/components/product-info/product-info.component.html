@@ -1,0 +1,250 @@
+<p-toast></p-toast>
+<form class="product-info-form" [formGroup]="productInfo">
+  <div class="p-field">
+    <div>
+      <label for="name">Product Name</label>
+      <span class="important-field">*</span>
+    </div>
+    <p-autoComplete
+      formControlName="productName"
+      class="p-autocomplete"
+      [suggestions]="productSuggestions"
+      (completeMethod)="search($event)"
+      (onSelect)="getProductDetails($event)"
+    ></p-autoComplete>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="productId">Product ID</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="text"
+      id="productId"
+      pInputText
+      formControlName="productId"
+      class="p-inputtext"
+    />
+  </div>
+
+  <!-- Quantity -->
+  <div class="p-field">
+    <div>
+      <label for="quantity">Product Quantity</label>
+      <span class="important-field">*</span>
+    </div>
+    <p-inputNumber
+      inputId="integeronly"
+      formControlName="quantity"
+    ></p-inputNumber>
+  </div>
+
+  <!-- Price -->
+  <div class="p-field">
+    <div>
+      <label for="price">Product Price</label>
+      <span class="important-field">*</span>
+    </div>
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">₹</span>
+      <p-inputNumber
+        inputId="integeronly"
+        formControlName="price"
+      ></p-inputNumber>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="taxCategory">Tax Category</label>
+      <span class="important-field">*</span>
+    </div>
+    <p-dropdown
+      formControlName="taxCategory"
+      [options]="tax_options"
+      optionLabel="tax"
+      (ngModelChange)="isGSTIncluded()"
+      [ngClass]="{
+        'ng-invalid': isControlInvalidAndDirty('tax'),
+        'ng-dirty': productInfo.get('taxDetails')?.dirty
+      }"
+    ></p-dropdown>
+  </div>
+
+  <div class="card flex justify-content-center p-field" *ngIf="isGst">
+    <div>
+      <label for="gstDetails">GST Type</label>
+      <span class="important-field">*</span>
+    </div>
+    <div class="gst-details" id="gstDetails">
+      <div class="input-radio">
+        <p-radioButton
+          value="SGST"
+          formControlName="gstDetails"
+          inputId="sgst"
+        ></p-radioButton>
+        <label for="sgst" class="ml-2">SGST</label>
+      </div>
+
+      <div class="input-radio">
+        <p-radioButton
+          value="IGST"
+          formControlName="gstDetails"
+          inputId="igst"
+        ></p-radioButton>
+        <label for="igst" class="ml-2">IGST</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="taxAmount">Tax amount</label>
+      <span class="important-field">*</span>
+    </div>
+    <div class="p-inputgroup">
+      <p-inputNumber
+        inputId="integeronly"
+        formControlName="taxAmount"
+      ></p-inputNumber>
+      <span class="p-inputgroup-addon">%</span>
+    </div>
+  </div>
+
+  <div class="p-field">
+    <div>
+      <label for="discount">Discount</label>
+    </div>
+    <div class="p-inputgroup">
+      <p-inputNumber
+        inputId="integeronly"
+        formControlName="discount"
+      ></p-inputNumber>
+      <span class="p-inputgroup-addon">%</span>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="p-field">
+    <div>
+      <label for="description">Product Description</label>
+    </div>
+    <textarea
+      id="description"
+      pInputText
+      formControlName="description"
+      class="p-inputtext"
+    ></textarea>
+  </div>
+
+  <!-- Category -->
+  <div class="p-field">
+    <div>
+      <label for="category">HSN Code</label>
+      <span class="important-field">*</span>
+    </div>
+    <input
+      type="text"
+      id="hsnCode"
+      pInputText
+      formControlName="hsnCode"
+      class="p-inputtext"
+    />
+  </div>
+
+  <p-button
+    type="button"
+    label="Back"
+    styleClass="p-button-secondary p-button-text"
+    (onClick)="navigateBack()"
+  ></p-button>
+
+  <p-button
+    label="Add"
+    [disabled]="checkQuantity()"
+    styleClass="p-button-outlined"
+    (onClick)="addItem()"
+    type="button"
+  ></p-button>
+</form>
+
+<!-- <div class="order-summary"> -->
+<div class="order-summary" *ngIf="orderList.length > 0">
+  <h2>Order Summary</h2>
+  <p-divider></p-divider>
+  <div class="order-content">
+    <p-table [value]="orderList" [tableStyle]="{ 'min-width': '65rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>{{ order.productName }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>
+            {{
+              getPrice(order.quantity, order.price)
+                | currency : "INR" : "symbol"
+            }} / -
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="table-footer">
+          <h3>Total</h3>
+          <span class="billing-values"
+            >{{ getTotal() | currency : "INR" : "symbol" }} / -</span
+          >
+
+          <div class="gst-section" *ngFor="let taxValue of taxValuesArray">
+            <div>
+              <h3>CGST</h3>
+              <span class="billing-values">{{ taxValue.value }}%</span>
+              <span class="billing-values"
+                >{{ getCGST(taxValue.key, taxValue.value) | currency : "INR" : "symbol" }} / -</span
+              >
+            </div>
+          </div>
+
+          <div class="gst-section" *ngFor="let taxValue of taxValuesArray">
+            <div>
+              <h3>SGST</h3>
+              <span class="billing-values">{{ taxValue.value }}%</span>
+              <span class="billing-values"
+                >{{ getSGST(taxValue.key, taxValue.value) | currency : "INR" : "symbol" }} / -</span
+              >
+            </div>
+          </div>
+
+          <h3>Grand Total</h3>
+          <span class="billing-values"
+            >{{ getGrandTotal() | currency : "INR" : "symbol" }} / -</span
+          >
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div class="checkout-section">
+    <p-button
+      class="p-button-success"
+      label="Checkout"
+      (onClick)="proceedToCheckout()"
+      [style]="{ 'margin-top': '1rem' }"
+      [loading]="isLoading && orderForm.get('paymentDetails').value.credit"
+    ></p-button>
+
+    <p-button
+      styleClass="p-button-info p-button-text"
+      label="Credit Amount"
+      (onClick)="addCredit()"
+      [style]="{ 'margin-top': '1rem' }"
+      [loading]="isLoading && orderForm.get('paymentDetails').value.credit"
+    ></p-button>
+  </div>
+</div>

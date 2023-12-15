@@ -1,0 +1,83 @@
+<div class="card">
+  <p-card header="Order Details" [style]="{ 'margin-bottom': '1rem' }">
+    <p-button
+      icon="pi pi-arrow-left"
+      label="Back"
+      styleClass="p-button-rounded p-button-text"
+      (onClick)="navigateBack()"
+    ></p-button>
+    <div class="order-details">
+      <div class="order-field">
+        <h4>Customer name :</h4>
+        <p>{{ order?.customerName }}</p>
+      </div>
+
+      <div class="order-field">
+        <h4>Customer email :</h4>
+        <p>{{ order?.customerEmail }}</p>
+      </div>
+
+      <div class="order-field">
+        <h4>Customer contact :</h4>
+        <p>{{ order?.customerContact }}</p>
+      </div>
+
+      <div class="order-field">
+        <h4>Customer address :</h4>
+        <p>{{ order?.shippingAddress }}</p>
+      </div>
+
+      <div class="order-field">
+        <h4>Date of purchase :</h4>
+        <p>{{ order?.date | date : "yyyy-MM-dd" }}</p>
+      </div>
+
+      <div class="order-field">
+        <h4>Total payable (Including taxes) :</h4>
+        <p>
+          {{ order?.paymentDetails.amount | currency : "INR" : "symbol" }} / -
+        </p>
+      </div>
+
+      <div class="order-field">
+        <h4>Discount (Excluding taxes) :</h4>
+        <p>
+          {{
+            order?.paymentDetails.discount ? order?.paymentDetails.discount : 0
+          }}
+          %
+        </p>
+      </div>
+    </div>
+
+    <div class="products">
+      <div class="card">
+        <p-table
+          [value]="order?.items"
+          styleClass="p-datatable-gridlines"
+          [tableStyle]="{ 'min-width': '50rem' }"
+        >
+          <ng-template pTemplate="caption"> Items </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>HSN Code</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Tax</th>
+              <th>Quantity</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr [pEditableRow]="product">
+              <td>{{ product.hsnCode }}</td>
+              <td>{{ product.productName }}</td>
+              <td>{{ product.price | currency : "INR" : "symbol" }} / -</td>
+              <td>{{ product.taxCategory.tax }}</td>
+              <td>{{ product.quantity }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+</div>
