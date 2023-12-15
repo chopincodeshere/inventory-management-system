@@ -2,7 +2,7 @@ const express = require("express");
 
 const {
   getAllClients,
-  getClient,
+  getClientById,
   getClientByQuery,
   addClient,
   updateClient,
@@ -19,7 +19,7 @@ router.route("/").get(getAllClients).post(addClient);
 router.route("/search").get(getClientByQuery);
 router.route("/autocomplete").get(getClientsByName)
 router.route("/name").get(getClientByName)
-router.route("/:id").get(getClient).patch(updateClient).delete(deleteClient);
+router.route("/:id").get(getClientById).patch(updateClient).delete(deleteClient);
 router.route("/credit/:id").patch(addCreditAmount);
 router.route("/sales/:id").patch(addTotalSales)
 

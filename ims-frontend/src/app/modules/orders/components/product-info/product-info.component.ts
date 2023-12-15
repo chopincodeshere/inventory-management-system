@@ -251,7 +251,7 @@ export class ProductInfoComponent {
   }
 
   getProductDetails(selectedItem: any) {
-    this.productService.fetchProductDetailsByName(selectedItem).subscribe(
+    this.productService.fetchProductDetailsByName(selectedItem.value).subscribe(
       (response) => {
         let tax_option: { key: string; tax: string };
         for (let i in this.tax_options) {

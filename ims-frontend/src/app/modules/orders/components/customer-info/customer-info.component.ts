@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
@@ -27,7 +27,8 @@ export class CustomerInfoComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.customerInfo = this.formBuilder.group({
       customerName: ['', Validators.required],
@@ -62,7 +63,7 @@ export class CustomerInfoComponent {
   }
 
   getClientDetails(selectedItem: any) {
-    this.clientService.getClientByName(selectedItem).subscribe((response) => {
+    this.clientService.getClientByName(selectedItem.value).subscribe((response) => {      
       this.customerInfo.patchValue({
         customerEmail: response.email,
         customerPhone: response.phoneNo,
@@ -70,6 +71,8 @@ export class CustomerInfoComponent {
         customerAccountNumber: response.accountNumber,
         customerGST: response.gstNumber,
       });
+
+      this.changeDetectorRef.detectChanges();
     });
   }
 

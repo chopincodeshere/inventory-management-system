@@ -9,7 +9,7 @@ const getAllClients = async (req, res) => {
   }
 };
 
-const getClient = async (req, res) => {
+const getClientById = async (req, res) => {
   try {
     const clientId = req.params.id;
     const client = await Client.findById(clientId);
@@ -203,7 +203,7 @@ const deleteClient = async (req, res) => {
 
 module.exports = {
   getAllClients,
-  getClient,
+  getClientById,
   getClientByQuery,
   addClient,
   updateClient,
